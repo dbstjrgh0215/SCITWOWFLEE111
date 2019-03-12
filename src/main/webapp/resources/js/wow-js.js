@@ -12,14 +12,16 @@ $(function() {
 	$("#slideBtn").click(function(){     
 	    if($("#sidenav").width() == 0){      
 	        document.getElementById("sidenav").style.width = "35%";
-	        document.getElementById("main-nav").style.paddingRight = "35%";
 	        document.getElementById("slidebtn").style.paddingRight = "35%";
 	    }else{
 	        document.getElementById("sidenav").style.width = "0";
-	        document.getElementById("main-nav").style.paddingRight = "0";
 	        document.getElementById("slidebtn").style.paddingRight = "0";
 	    }
-	  });
+	  }); 
+	
+	$("#btnProposal").click(function(){
+		location.href="goProposal";
+	});
 });
 
 $(document).ready(function(){

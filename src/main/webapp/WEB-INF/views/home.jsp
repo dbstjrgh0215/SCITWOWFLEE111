@@ -45,7 +45,7 @@
 		<div class="sidenav-btn">
 			<button class="slide-btn">계약관리</button>
 			<button class="slide-btn">지원관리</button>
-			<button class="slide-btn">제안서관리</button>
+			<button class="slide-btn" id="btnProposal">제안서관리</button>
 			<button class="slide-btn">내가 쓴 글</button>
 		</div>
 		<a href="#">이용후기</a>

@@ -12,9 +12,18 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping(value="/goHome", method=RequestMethod.GET)
+	public String goHome() {
+		return "home";
+	}
+	
 	@RequestMapping(value="/goLogin", method=RequestMethod.GET)
 	public String goLogin() {
 		return "login";
 	}
 	
+	@RequestMapping(value="/goProposal", method=RequestMethod.GET)
+	public String goProposal() {
+		return "proposal";
+	}
 }
