@@ -61,10 +61,14 @@ html, body {
 	ol ol { 
 		margin-bottom: 0;		
 	}
-
+	 /* 헤더 관련 */
 	.site-header{
 		background-color:white;
-		height:25%;
+		height:90px;
+		width:100%;
+	}
+	.site-header-map{
+		background-color:white;
 		width:100%;
 	}
 	.top-header{
@@ -90,7 +94,7 @@ html, body {
 	}
 	.main-header{ 
 		position:relative;
-		height:15%;
+		height:40px;
 	}
 	.logo{
 		height:100%;
@@ -101,11 +105,24 @@ html, body {
 		width:20px;
 		padding-right:5px; 
 	}
+	.btn-header{
+		float:right;
+		height:100%;  
+	}
+	.btn-header button{
+		height:100%; 
+		background-color:#FFFFFF;
+		border:none;
+		padding:0px 15px;
+	}
+	.btn-header i{
+		font-size:20px; 
+	}
 	.main-header a{
 		font-size:1.8em;
 	}
 	.main-nav{
-		height:15%;
+		height:50px; 
 		color: white;
 		text-align: center;
 	}
@@ -132,42 +149,27 @@ html, body {
 		position:fixed;
 		top:0px;
 	}
-	.nav-btn{
-		display:inline;   
-		float:right;
-	}
-	.nav-btn button{
-		height:100%; 
-		background-color:#FFE650;
-		border:none;
-	}
-	.nav-btn i{
-		font-size:20px;
-		padding:15px;
-	}
-	.sidenav {
-		height:70%;
+	
+	/* 메뉴바 관련 */
+	.sidenav { 
+		width:0;
+		height:525px;
 		position: fixed;
-		z-index: 1;
-		top: 113px;
+		z-index: 3;
 		right: 0;
 		background-color: #FFE650;
 		overflow-x: hidden;
 		transition: 0.5s;
-		padding-top: 60px;
-		border:solid 2px;
 	}
-	
 	.sidenav a {
 		padding: 8px 8px 8px 32px;
 		text-decoration: none;
 		font-size: 25px;
 		color: #818181;
 		display: block;
-		transition: 0.3s;
+		transition: 0.3s; 
 		border:solid 1px;
 	}
-	
 	.slideBtn {
 		transition: .5s;
 		position: fixed;
@@ -177,14 +179,27 @@ html, body {
 		margin-right:10px;
 	}
 	.side-login{
-		height:35%;
+		height:180px;
+		border:solid 1px;
+		text-align:center;
 	} 
+	.side-login i{ 
+		width:150px;
+		height:150px;
+		font-size:11em;  
+	}
+	.side-login button{
+		background-color:inherit;
+		border:none;
+		color:white; 
+		font-size:1.3em;
+	}
 	.sidenav-btn{
 		width:100%;
-		height:20%;  
+		height:100px;  
 		display:inline-block;
 		text-align:center;
-		border:solid 2px;  
+		border:solid 1px;  
 	}
 	.slide-btn{
 		padding:15px;
@@ -193,8 +208,8 @@ html, body {
 	}
 
 	.main-content{
-		width:450px; 
-		margin:8% auto;  
+		width:100%; 
+		height:100%;
 	}
 	.event, .recommend-space, .recommend-seller{
 		display:table;
@@ -214,24 +229,24 @@ html, body {
 	.event-content, .r-space-content, .r-seller-content{
 		margin: 1% 0;
 	}
-	#r-space-table{
+	.r-space-table{
 		text-align:center;
 		margin: 0 auto; 
 	}
-	#r-space-table img{
+	.r-space-table img{
 		width:90%;
 	}
-	#r-space-table td{
+	.r-space-table td{
 		text-align:center;
 	}
-	#r-seller-table{
+	.r-seller-table{
 		text-align:center;
 		margin: 0 auto; 
 	}
-	#r-seller-table img{
+	.r-seller-table img{
 		width:90%;
 	}
-	#r-seller-table td{
+	.r-seller-table td{
 		text-align:center;
 	}
 	.login-logo #logo-login{
@@ -254,18 +269,18 @@ html, body {
 		float:none;
 		text-align:center;
 	}
-	#td-1{
+	.td-1{
 		width:150px;
 		border-right:solid 1px;
 	}
-	#td-2{
+	.td-2{
 		width:300px;
 	} 
-	#td-2 input{
+	.td-2 input{
 		width:200px;
 		border:none;
 	}
-		.member-Type{  
+	.member-Type{  
 	  position: relative;
 	  display: inline-flex;  
 	  width:450px;
@@ -463,4 +478,34 @@ html, body {
 	#tableBasic select, #tableBusi select, #tableProd select {
 		width:80%;
 		text-align:right;
+	}
+	
+	/* 지도 관련 */
+	.map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+	.map_wrap {position:relative;width:100%;height:350px;}
+	.placeinfo_wrap {position:absolute;bottom:28px;left:-150px;width:300px;}
+	.placeinfo {position:relative;width:100%;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;padding-bottom: 10px;background: #fff;}
+	.placeinfo:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+	.placeinfo_wrap .after {content:'';position:relative;margin-left:-12px;left:50%;width:22px;height:12px;background:url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+	.placeinfo a, .placeinfo a:hover, .placeinfo a:active{color:#fff;text-decoration: none;}
+	.placeinfo a, .placeinfo span {display: block;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+	.placeinfo span {margin:5px 5px 0 5px;cursor: default;font-size:13px;}
+	.placeinfo .title {font-weight: bold; font-size:14px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #d95050;background: #d95050 url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+	.placeinfo .tel {color:#0f7833;}
+	.placeinfo .jibun {color:#999;font-size:11px;margin-top:0;}
+	
+	.map_category{
+		position:absolute;
+		top:5%;
+		right:5%; 
+		width:30%;
+		height:30%;  
+		z-index:1; 
+		background-color:white;
+	}
+	
+	.map_category ul{
+		display:inline-flex; 
+		list-style:none;
+		padding:1px;
 	}

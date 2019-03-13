@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 게시판 처리 SQL -->
+<mapper namespace="com.scit.flee2.dao.MemberMapper">
+<select id="searchSpace" parameterType="Space" resultType="Space">
+SELECT * FROM WOW_SPACEINFO
+WHERE SPACENAME=#{spacename}
+</select>
+	
+
+</mapper>

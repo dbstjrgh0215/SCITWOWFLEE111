@@ -26,4 +26,9 @@ public class HomeController {
 	public String goProposal() {
 		return "proposal";
 	}
+	
+	@RequestMapping(value="/goMap", method=RequestMethod.GET)
+	public String goMap() {
+		return "map";
+	}
 }
