@@ -53,7 +53,7 @@
 	</div>
 </header>
      
-    <div class="main-content">
+    <div class="main-content" id="main-content">
     	<div class="event">
     		<div class="event-header">
     			이벤트
@@ -107,7 +107,7 @@
     	</div>
     </div>
 </body>
- 
+ 	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a5ef94da1ecf3b9c86e43db1a1d3957&libraries=services"></script>
 	<script src="resources/js/jquery-3.1.1.min.js"></script>
  	<script src="resources/js/wow-js.js"></script>
 </html>
