@@ -149,17 +149,41 @@ html, body {
 		position:fixed;
 		top:0px;
 	}
+	/* 알림 관련 */
+	.notice { 
+		display:none;
+		height:525px;
+		width:35%;
+		position: fixed;
+		z-index: 3;
+		top: 40px;
+		right: 0;
+		background-color: #FF0000;
+		overflow-y: hidden;
+	}
+	.notice-header{
+		width:100%;
+		display:inline-flex;
+	}
+	.notice-name{
+		width:80%;
+		font-size:1.3em;
+	}
+	.notice-back{
+		width:20%;
+	}
 	
 	/* 메뉴바 관련 */
 	.sidenav { 
-		width:0;
+		display:none;
+		width:35%;
 		height:525px;
 		position: fixed;
 		z-index: 3;
+		top: 40px;
 		right: 0;
 		background-color: #FFE650;
 		overflow-x: hidden;
-		transition: 0.5s;
 	}
 	.sidenav a {
 		padding: 8px 8px 8px 32px;
@@ -178,7 +202,11 @@ html, body {
 		cursor:pointer;
 		margin-right:10px;
 	}
+	.back-menu{
+		float:right;
+	}
 	.side-login{
+		background-color:white;
 		height:180px;
 		border:solid 1px;
 		text-align:center;
@@ -191,7 +219,6 @@ html, body {
 	.side-login button{
 		background-color:inherit;
 		border:none;
-		color:white; 
 		font-size:1.3em;
 	}
 	.sidenav-btn{
@@ -249,116 +276,151 @@ html, body {
 	.r-seller-table td{
 		text-align:center;
 	}
-	.login-logo #logo-login{
-		width:450px;
-		height:450px; 
-		padding-top: 10px;
-		padding-bottom: 10px; 
-	}
-	#tableAccount , #tableMemInfo {
-		border:solid 1px; 
-		text-align:center;
-	} 
-	.signUp-MemAccount, .signUp-MemInfo{
-		padding:10px; 
-	}
-	.signUp-table tr{
-		height:30px; 
-	}
-	.signUp-btn{
-		float:none;
+	
+	.signUp{
 		text-align:center;
 	}
-	.td-1{
-		width:150px;
-		border-right:solid 1px;
+	.signUpProgress{
+		display:inline-grid;
+		width:80%;
+		text-align:left;
+	}
+	.progressTable{
+		margin:40px 0px;
+		text-align:center;
+	}
+	.td-prog{
+		padding:35px 10px;
+		border:solid 1px;
+	}
+	.progressLine{
+		width:100%;
+	}
+	.signUpDiv{
+		display:inline-grid;
+		width:80%;
+	}
+	.extraForm{
+		display:inline-grid;
+	}
+	.td-1{ 
+		width:200px;
 	}
 	.td-2{
-		width:300px;
+		width:300px; 
+		text-align:left;
+	}
+	.inputNorm{
+		border:solid 1px;
+		padding:10px;
 	} 
+	.inputCen{
+		border:solid 1px;
+		padding:10px;
+	}
+	.inputtel input{
+		text-align:center;
+	}
 	.td-2 input{
-		width:200px;
-		border:none;
-	}
-	.member-Type{  
-	  position: relative;
-	  display: inline-flex;  
-	  width:450px;
-	  margin: 0 auto; 
-	  background: rgba(255,255,255,.1); 
-	}    
-	.member-Type input[type=radio]{
-	  display: none; 
-	}  
-	.member-Type label{
-	  display: inline-block;  
-	  width: 200px;
-	  height: 50px;
-	  text-align: center; 
-	  background: orange;  
-	} 
-	.toggle_option_slider{  
-	  background: red;
-	  width: 195px;
-	  height: 50px;
-	  position: absolute; 
-	  top: -2px; 
-	  border: solid 2px #FF3232;  
-	}
-	#first_toggle:checked ~ .toggle_option_slider{
-	  background: rgba(255,255,255,.3);
-	  left: 26px;
-	}
-	#second_toggle:checked ~ .toggle_option_slider{
-	  background: rgba(255,255,255,.3); 
-	  left: 229px; 
-	}
-	#btn-Member-Type input {
-		text-align:center;
-	}
-	
-	
-	#tableAccount , #tableMemInfo {
-		border:solid 1px; 
-		text-align:center;
-	} 
-	.signUp-MemAccount, .signUp-MemInfo{
-		padding:10px; 
-	}
-	.signUp-table tr{
-		height:30px; 
-	}
-	.signUp-btn{
-		float:right;
-	}
-	#td-1{
-		width:150px;
-		border-right:solid 1px;
-	}
-	#td-2{
 		width:300px;
-		 
-	}  
-	
-	.memType-Comment{
-	
-	}
-	.memType-Select {
-		margin-top:3em;
-	} 
-	#memType-Table {
-		width:450px;
-		height:450px; 
-	}
-	#td_seller, #td_spacer {
-		width:225px;
-		height:225px;
-	}
-	#td_seller button, #td_spacer button {
+		font-size:1.4em;
 		border:none;
+	}
+	.td-2 select{
+		border:none;
+	}
+	.td-tel{
+		width:300px; 
+		text-align:left;
+	}
+	.td-tel input{
+		width:100px;
+		font-size:1.4em;
+		border:none;
+	}
+	.signUpbtn{
+		padding:30px;
+	}
+	.signUpbtn button{
+		width:50%;  
+	}
+	.imgs_wrap{
+		display:inline-flex;
+	}
+	.imgs_wrap0{
+		width:150px;
+		height:150px; 
+		border:solid 1px;
+	}
+	.imgs_wrap1{
+		width:150px;
+		height:150px; 
+		border:solid 1px;
+	}
+	.imgs_wrap2{
+		width:150px;
+		height:150px; 
+		border:solid 1px;
+	}
+	.imgs_wrap0 img{ 
+		width:150px;
+		height:150px;
+	}
+	.imgs_wrap1 img{ 
+		width:150px;
+		height:150px;
+	}
+	.imgs_wrap2 img{ 
+		width:150px;
+		height:150px;
+	}
+	
+	.signEnd{
+		text-align:center; 
+	}
+	
+	
+	/*제안서 관리*/
+	.proposal{
+		text-align:center;
+		margin-top:30px;
+	}
+	.proposal-header{
+		width:80%;
+		display:inline-grid;
+		text-align:left;
+	}
+	.proposal-explain{
+		background-color:#ffa07a;
+	}
+	.proposalList{
+		width:80%;
+		display:inline-grid;
+		margin-top:50px;
+	}
+	.btnRegistProposal{
+		width:100px;
+		position:absolute;
+		right:10%;
+	}
+	.proposalDiv{
+	    position: relative;
+	    top: 25px;
+	    margin-top: 15px;
+	}
+	.proposalTable{
 		width:100%;
-		height:100%;
-		background-color:yellow;
+	    border-collapse: collapse;
+	    border-spacing: 0;
+	    empty-cells: show;
+	}
+	.proposalTable th{
+		border-top: solid 2px;
+    	border-bottom: solid 1px;
+    	padding: 0;
+	}
+	.td-control{
+		display: inline-grid;
 	}
 	
 	.login-logo #logo-login{
@@ -402,17 +464,25 @@ html, body {
 	  left: 229px; 
 	}
 	.login-Form{
+		text-align:center;
 		padding: 10px 10px; 
 	}
 	.login-Form input{
 		border: none;
 		background-color:inherit;
 	}
+	.login-logo #logo-login{
+		width:300px;
+		height:300px; 
+		padding-top: 10px;
+		padding-bottom: 10px; 
+	}
 	.login-Check{
 		width:300px; 
 		margin: 0 auto;
 	}
 	.login-Form #login-Table{
+		display: inline-flex;
 		border: solid 1px #14148C;
 		margin: 1em 0em;
 	}
@@ -456,9 +526,9 @@ html, body {
 		padding: 0px 10px;
 		font-size:15px;  
 	}
-	.login-Menu a{
-		text-decoration: none;
-		color:black; 
+	.login-Menu button{
+		border:none;
+		background-color:inherit;
 	}
 	#tableBasic, #tableBusi, #tableProd {
 		border-style: solid 1px;

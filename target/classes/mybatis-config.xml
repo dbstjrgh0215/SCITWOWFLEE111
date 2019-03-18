@@ -4,8 +4,10 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.scit.flee2.vo.Space" alias="Space" />
+		<typeAlias type="com.scit.flee2.vo.Member" alias="Member" />
 		<typeAlias type="com.scit.flee2.vo.Product" alias="Product" />
+		<typeAlias type="com.scit.flee2.vo.Seller" alias="Seller" />
+		<typeAlias type="com.scit.flee2.vo.Space" alias="Space" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mapper/MemberMapper.xml" />

@@ -1,11 +1,11 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+ <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>로그인페이지</title>
+<title>회원가입</title>
 	<link rel="stylesheet" href="resources/css/wow-css.css"> 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
@@ -68,37 +68,33 @@
 	</div>
 </header>
      
-    <div class="main-content">
-    	<div class="login-Form">
-    		<div class="login-logo">
-				<img alt="logo" id="logo-login" src="resources/images/gallery-image-5.jpg">
+    <div class="main-content" id="main-content">
+	    <div class="signUp">
+	    	<div class="signUpProgress">
+	   			<table class="progressTable">
+	   				<tr>
+	   					<td class="td-prog">기본정보입력</td>
+	   					<td class="td-prog">추가정보입력</td>
+	   					<td class="td-prog" style="background-color:yellow">회원가입완료</td>
+	   				</tr>
+	   			</table>
+	   			<h3>회원가입완료</h3><hr class="progressLine">
+	   		</div>
+			<div class="signEnd">
+				<h3>회원가입이 완료되었습니다!</h3>
+				<h3>WOWFLEE를 통해 계약을 진행하려면 제안서가 필요합니다!</h3>
+				<h3>지금 제안서를 쓰러가시겠습니까?</h3>
+				<button id="btnGoProposal">제안서쓰러가기</button>
 			</div>
-			<table id="login-Table">     
-				<tr>
-					<td id="td-id" ><input type="text" id="loginId" placeholder="아이디 " autofocus="autofocus" tabindex="1"></td> 
-					<td id="td-btnLogin" rowspan="2"><input type="button" id="btnLogin" tabindex="3" value="로그인" ></td>
-				</tr>
-				<tr>
-					<td id="td-pw"><input type="password" id="loginPw" placeholder="비밀번호" tabindex="2"></td>
-				</tr>
-			</table>
-			<p id="loginIdFail"></p><p id="loginPwFail"></p>
-			<div class="login-Menu">
-				<ul>
-					<li><button id="btnGoSignUp">회원가입</button></li>
-					<li><button id="findId">아이디 찾기</button></li>
-					<li><button id="findPw">비밀번호 찾기</button></li>
-				</ul>
-			</div>
-    	</div>
-	    
-   		
-   		
-   		
-    	
-    </div>
+		</div>
+	</div>	
 </body>
-	
+ 
 	<script src="resources/js/jquery-3.1.1.min.js"></script>
  	<script src="resources/js/wow-js.js"></script>
+ 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a5ef94da1ecf3b9c86e43db1a1d3957&libraries=services"></script>
+ 	
 </html>
+
+

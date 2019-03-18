@@ -18,7 +18,7 @@
 		</div>
 		<div class="btn-header">
 	        <button id="btnSearchM"><i class="fas fa-search"></i></button>
-	        <button><i class="fas fa-bell"></i></button>
+	        <button id="btnNotice"><i class="fas fa-bell"></i></button>
 	        <button id="btnSlide"><i class="fas fa-bars"></i></button> 
         </div>
 	</div>
@@ -35,13 +35,20 @@
 	
 	<div id="sidenav" class="sidenav">
 		<div class="side-login">
-			<i class="fas fa-user-circle"></i><br>   
-			<button class="login-btn" id="btnLogin">로그인해주세요!</button>
+			<i class="fas fa-user-circle"></i>
+			<button class="back-menu" id="btnBackMenu">X</button><br>   
+			<c:if test="${sessionMember==null}">
+				<button class="login-btn" id="btnGoLogin">로그인해주세요!</button>
+			</c:if>   
+			<c:if test="${sessionMember!=null}">
+				${sessionMember.id}님
+				<button class="login-btn" id="btnLogout">로그아웃</button>
+			</c:if>
 		</div>
 		<div class="sidenav-btn">
 			<button class="slide-btn">계약관리</button>
 			<button class="slide-btn">지원관리</button>
-			<button class="slide-btn" id="btnProposal">제안서관리</button>
+			<button class="slide-btn" id="btnGoProposal">제안서관리</button>
 			<button class="slide-btn">내가 쓴 글</button>
 		</div>
 		<a href="#">이용후기</a>
@@ -50,6 +57,14 @@
 		<a href="#">FAQ</a>
 		<a href="#">공지사항</a>
 		<a href="#">서비스정보</a>
+	</div>
+	
+	<div id="notice" class="notice">
+		<div class="notice-header">
+			<font class="notice-name">알림</font>
+			<button class="notice-back" id="btnBackNotice">X</button>
+		</div>
+		
 	</div>
 </header>
      
@@ -88,7 +103,7 @@
     		</div> 
     		
     		<div class="r-seller-content">
-    			<div class="r-seller-image">
+    			<div class="r-seller-image"> 
     				<table class="r-space-table">
     				<tr>
 	    				<td class="r-seller-image"><img alt="logo" id="logo-login" src="resources/images/gallery-image-2.jpg"></td>

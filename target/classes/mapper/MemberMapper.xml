@@ -10,5 +10,42 @@ SELECT * FROM WOW_SPACEINFO
 WHERE SPACENAME=#{spacename}
 </select>
 	
+	<insert id="insertMember" parameterType="Member">
+	INSERT INTO WOW_MEMBERINFO
+	(ID, PW, NAME, NICKNAME, PHONE, EMAIL, BIRTHDATE, GENDER, ADDRESS1, ADDRESS2, MEMBERTYPE)
+	VALUES
+	(#{id}, #{pw}, #{name}, #{nickname}, #{phone}, #{email}, #{birthdate}, #{gender}, #{address1}, #{address2}, #{membertype})
+	</insert>
+	
+	<select id="loginMember" parameterType="Member" resultType="Member">
+	SELECT * FROM WOW_MEMBERINFO
+	WHERE ID=#{id} AND PW=#{pw}
+	</select>
+	
+	<delete id="deleteMember" parameterType="String">
+	DELETE FROM WOW_MEMBERINFO
+	WHERE ID=#{id}
+	</delete>
+	
+	<insert id="insertSpace" parameterType="Space">
+	INSERT INTO WOW_SPACEINFO
+	(SPACENUM, ID, SPACENAME, SPACE_TYPE1, SPACE_TYPE2, SPACE_TYPE3, KEYWORD, IMAGE, TEL, COMMENTS, LATITUDE, LONGITUDE)
+	VALUES
+	(WOW_SPACENUM_SEQ.NEXTVAL, #{id}, #{spacename}, #{space_type1}, #{space_type2}, #{space_type3}, #{keyword}, #{image}, #{tel}, #{comments}, #{latitude}, #{longitude})
+	</insert>
+	
+	<insert id="insertSeller" parameterType="Seller">
+	INSERT INTO WOW_SELLERINFO
+	(SELLERNUM, ID, SELLERNAME, TEL, COMMENTS)
+	VALUES
+	(WOW_SELLERNUM_SEQ.NEXTVAL, #{id}, #{sellername}, #{tel}, #{comments})
+	</insert>
+	
+	<insert id="insertProduct" parameterType="Product">
+	INSERT INTO WOW_PRODUCTINFO
+	(PRODUCTNUM, SELLERNUM, ID, PRODUCTNAME, PROD_TYPE1, PROD_TYPE2, PROD_TYPE3, KEYWORD, IMAGE)
+	VALUES
+	(WOW_PRODUCTNUM_SEQ.NEXTVAL, (SELECT SELLERNUM FROM WOW_SELLERINFO WHERE ID = #{id}), #{id}, #{productname}, #{prod_type1}, #{prod_type2}, #{prod_type3}, #{keyword}, #{image})
+	</insert>
 
 </mapper>
