@@ -74,7 +74,7 @@ public class MemberController {
 	public String logout(HttpSession hs) {
 		hs.invalidate();
 		
-		return "home";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="/insertExtraInfo", method=RequestMethod.POST)

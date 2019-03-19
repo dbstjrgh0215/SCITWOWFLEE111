@@ -8,8 +8,10 @@
 		<typeAlias type="com.scit.flee2.vo.Product" alias="Product" />
 		<typeAlias type="com.scit.flee2.vo.Seller" alias="Seller" />
 		<typeAlias type="com.scit.flee2.vo.Space" alias="Space" />
+		<typeAlias type="com.scit.flee2.vo.Proposal" alias="Proposal" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mapper/MemberMapper.xml" />
+		<mapper resource="mapper/BoardMapper.xml" />
 	</mappers>
 </configuration>

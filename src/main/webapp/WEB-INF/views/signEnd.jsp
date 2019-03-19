@@ -13,7 +13,7 @@
 <header class="site-header">
 	<div class="main-header">
 		<div class="logo">
-			<img src="resources/images/gallery-image-1.jpg">
+			<img src="resources/images/logo.png">
 			<a href="goHome">WOWFLEE</a>
 		</div>
 		<div class="btn-header">
@@ -35,34 +35,34 @@
 	
 	<div id="sidenav" class="sidenav">
 		<div class="side-login">
-			<i class="fas fa-user-circle"></i>
-			<button class="back-menu" id="btnBackMenu">X</button><br>   
+			<i class="fas fa-user-circle"></i><br>
 			<c:if test="${sessionMember==null}">
-				<button class="login-btn" id="btnGoLogin">로그인해주세요!</button>
+				<a class="login-btn" href="goLogin">로그인해주세요!</a>
 			</c:if>   
 			<c:if test="${sessionMember!=null}">
 				${sessionMember.id}님
-				<button class="login-btn" id="btnLogout">로그아웃</button>
+				<button class="logout-btn" id="btnLogout">로그아웃</button>
 			</c:if>
 		</div>
 		<div class="sidenav-btn">
-			<button class="slide-btn">계약관리</button>
-			<button class="slide-btn">지원관리</button>
-			<button class="slide-btn" id="btnGoProposal">제안서관리</button>
-			<button class="slide-btn">내가 쓴 글</button>
+			<a class="slide-btn" href="#">계약관리</a>
+			<a class="slide-btn" href="#">지원관리</a>
+			<a class="slide-btn" href="goProposal">제안서관리</a>
+			<a class="slide-btn" href="#">내가쓴글</a>
 		</div>
-		<a href="#">이용후기</a>
-		<a href="#">찜목록</a>
-		<a href="#">1:1문의</a>
-		<a href="#">FAQ</a>
-		<a href="#">공지사항</a>
-		<a href="#">서비스정보</a>
+		<div class="sidenav-menu">
+			<a href="#">이용후기</a>
+			<a href="#">찜목록</a>
+			<a href="#">1:1문의</a>
+			<a href="#">FAQ</a>
+			<a href="#">공지사항</a>
+			<a href="#">서비스정보</a>
+		</div>
 	</div>
 	
 	<div id="notice" class="notice">
 		<div class="notice-header">
 			<font class="notice-name">알림</font>
-			<button class="notice-back" id="btnBackNotice">X</button>
 		</div>
 		
 	</div>
@@ -73,9 +73,24 @@
 	    	<div class="signUpProgress">
 	   			<table class="progressTable">
 	   				<tr>
-	   					<td class="td-prog">기본정보입력</td>
-	   					<td class="td-prog">추가정보입력</td>
-	   					<td class="td-prog" style="background-color:yellow">회원가입완료</td>
+	   					<td class="td-prog">
+						<ul class="ul-progress">
+	    					<li><img class="img-progress" src="resources/images/signUp/signUp1.png"></li>
+	   						<li><h4>기본정보입력</h4></li>
+    					</ul>
+						</td>
+	   					<td class="td-prog">
+   						<ul class="ul-progress">
+	    					<li><img class="img-progress" src="resources/images/signUp/signUp2.png"></li>
+	   						<li><h4>추가정보입력</h4></li>
+    					</ul>
+	   					</td>
+	   					<td class="td-prog" style="background-color:yellow">
+	   					<ul class="ul-progress">
+	    					<li><img class="img-progress" src="resources/images/signUp/signUp3.png"></li>
+	   						<li><h4>회원가입완료</h4></li>
+    					</ul>
+	   					</td>
 	   				</tr>
 	   			</table>
 	   			<h3>회원가입완료</h3><hr class="progressLine">

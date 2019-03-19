@@ -13,7 +13,7 @@
 <header class="site-header">
 	<div class="main-header">
 		<div class="logo">
-			<img src="resources/images/gallery-image-1.jpg">
+			<img src="resources/images/logo.png">
 			<a href="goHome">WOWFLEE</a>
 		</div>
 		<div class="btn-header">
@@ -35,41 +35,174 @@
 	
 	<div id="sidenav" class="sidenav">
 		<div class="side-login">
-			<i class="fas fa-user-circle"></i>
-			<button class="back-menu" id="btnBackMenu">X</button><br>   
+			<i class="fas fa-user-circle"></i><br>
 			<c:if test="${sessionMember==null}">
-				<button class="login-btn" id="btnGoLogin">로그인해주세요!</button>
+				<a class="login-btn" href="goLogin">로그인해주세요!</a>
 			</c:if>   
 			<c:if test="${sessionMember!=null}">
 				${sessionMember.id}님
-				<button class="login-btn" id="btnLogout">로그아웃</button>
+				<button class="logout-btn" id="btnLogout">로그아웃</button>
 			</c:if>
 		</div>
 		<div class="sidenav-btn">
-			<button class="slide-btn">계약관리</button>
-			<button class="slide-btn">지원관리</button>
-			<button class="slide-btn" id="btnGoProposal">제안서관리</button>
-			<button class="slide-btn">내가 쓴 글</button>
+			<a class="slide-btn" href="#">계약관리</a>
+			<a class="slide-btn" href="#">지원관리</a>
+			<a class="slide-btn" href="goProposal">제안서관리</a>
+			<a class="slide-btn" href="#">내가쓴글</a>
 		</div>
-		<a href="#">이용후기</a>
-		<a href="#">찜목록</a>
-		<a href="#">1:1문의</a>
-		<a href="#">FAQ</a>
-		<a href="#">공지사항</a>
-		<a href="#">서비스정보</a>
+		<div class="sidenav-menu">
+			<a href="#">이용후기</a>
+			<a href="#">찜목록</a>
+			<a href="#">1:1문의</a>
+			<a href="#">FAQ</a>
+			<a href="#">공지사항</a>
+			<a href="#">서비스정보</a>
+		</div>
 	</div>
 	
 	<div id="notice" class="notice">
 		<div class="notice-header">
 			<font class="notice-name">알림</font>
-			<button class="notice-back" id="btnBackNotice">X</button>
 		</div>
 		
 	</div>
 </header>
      
     <div class="main-content" id="main-content">
-    
+    	<div class="proposalWrite">
+    		<div class="memberInfoDiv">
+    			<div class="divHeader">
+	    			<h3>기본정보</h3><hr>
+    			</div>
+    			<input type="hidden" id="id" value="${sessionMember.id}">
+    			<input type="hidden" id="membertype" value="${sessionMember.membertype}">
+   				<table class="memberInfoDivTable">
+   					<tr>
+   						<td class="td-1"><h4>닉네임</h4></td>
+   						<td class="td-2"><h5>${sessionMember.nickname}</h5></td>
+   					</tr>
+   					<tr>
+   						<td class="td-1"><h4>전화번호</h4></td>
+   						<td class="td-2"><h5>${sessionMember.phone}</h5></td>
+   					</tr>
+   					<tr>
+   						<td class="td-1"><h4>E-MAIL</h4></td>
+   						<td class="td-2"><h5>${sessionMember.email}</h5></td>
+   					</tr>
+   					<tr>
+   						<td class="td-1"><h4>멤버구분</h4></td>
+   						<td class="td-2"><h5>${sessionMember.membertype}</h5></td>
+   					</tr>
+   				</table><hr>
+    		</div>
+   			<div class="proposalWriteDiv">
+   				<div class="divHeader">
+   					<h3>제안서작성</h3><hr>
+   				</div>
+   				<form id="proposalForm" action="insertProposal" method="post" enctype="multipart/form-data">
+	   				<input type="hidden" id="form_id" name="id">
+	   				<input type="hidden" id="form_title" name="title">
+	   				<input type="hidden" id="form_membertype" name="membertype">
+	   				<input type="hidden" id="form_keyword" name="keyword">
+	   				<input type="hidden" id="form_comments" name="comments">
+	   				<input type="hidden" id="form_name" name="name">
+	   				<input type="hidden" id="form_type1" name="type1">
+	   				<input type="hidden" id="form_type2" name="type2">
+	   				<input type="hidden" id="form_type3" name="type3">
+	   				<input type="hidden" id="form_price" name="price">
+	   				<input type="hidden" id="form_stock" name="stock">
+   				<table class="proposalWriteTable">
+   					<tr>
+   						<td class="td-1"><h4>제안서 제목</h4></td>
+   						<td class="td-2"><span class="inputNorm"><input type="text" id="title"></span></td>
+   					</tr>
+   					<tr>
+   						<td class="td-1"><h4>사진</h4></td>
+   						<td class="td-2"><span class="inputNorm"><input type="file" name="uploadFile" id="images" multiple/><br>
+				 		</span></td>
+					</tr>
+					<tr>
+						<td class="td-1"></td>
+						<td class="td-2"><div class="imgs_wrap">
+							<div class="imgs_wrap0"></div>
+							<div class="imgs_wrap1"></div>
+							<div class="imgs_wrap2"></div>
+						</div></td>
+   					</tr>
+   					<tr>
+   						<td class="td-1"><h4>키워드</h4></td>
+   						<td class="td-2"><span class="inputNorm"><input type="text" id="keyword"></span></td>
+   					</tr>
+   					<tr>
+   						<td class="td-1"><h4>간략한 소개</h4></td>
+						<td class="td-2"><textarea rows="10" cols="50" id="comments"></textarea></td>
+					</tr>
+   				</table><hr>
+	   			</form>
+   			</div>
+   			<c:if test="${sessionMember.membertype=='셀러'}">
+   			<div class="seller-ProposalDiv">
+   				<div class="divHeader">
+   					<h3>셀러 추가 정보</h3><hr>
+   				</div>
+   				<table>
+   					<tr>
+   						<td class="td-1"><h4>물품이름</h4></td>
+   						<td class="td-2"><span class="inputNorm"><input type="text" id="name"></span></td>
+   					</tr>
+   					<tr>
+   						<td class="td-1"><h4>물품분류</h4></td>
+						<td class="td-2"><span class="inputNorm"><select id="type1"><option value="type1">대분류</option></select>
+				  		<select id="type2"><option value="type2">중분류</option></select>
+				  		<select id="type3"><option value="type3">소분류</option></select></span></td>
+					</tr>
+   					<tr>
+   						<td class="td-1"><h4>기대가격</h4></td>
+   						<td class="td-2"><span class="inputNorm"><input type="number" id="price"></span></td>
+   					</tr>
+   					<tr>
+   						<td class="td-1"><h4>현재재고</h4></td>
+   						<td class="td-2"><span class="inputNorm"><input type="number" id="stock">개</span></td>
+   					</tr>
+   				</table><hr>
+   			</div>
+   			</c:if>
+   			<c:if test="${sessionMember.membertype=='공간제공자'}">
+   			<div class="seller-ProposalDiv">
+   				<div class="divHeader">
+   					<h3>공간제공자 추가 정보</h3><hr>
+   				</div>
+   				<table>
+   					<tr>
+   						<td class="td-1"><h4>운영시간</h4></td>
+   						<td class="td-2"><span class="inputNorm"><input type="text" id="optime"></span></td>
+   					</tr>
+   					<tr>
+   						<td class="td-1"><h4>공간분류</h4></td>
+						<td class="td-2"><span class="inputNorm"><select id="type1"><option value="type1">대분류</option></select>
+				  		<select id="type2"><option value="type2">중분류</option></select>
+				  		<select id="type3"><option value="type3">소분류</option></select></span></td>
+					</tr>
+   					<tr>
+   						<td class="td-1"><h4>규모</h4></td>
+   						<td class="td-2"><span class="inputNorm"><input type="text" id="scale"></span></td>
+   					</tr>
+   					<tr>
+						<td class="td-1"><h4>주소</h4></td>
+						<td class="td-2"><span class="inputNorm"><input type="text" id="address" placeholder="주소"></span><button onclick="execDaumPostcode()">주소검색</button></td>
+					</tr>
+					<tr>
+						<td class="td-1"><h4>상세주소</h4></td>
+						<td class="td-2"><span class="inputNorm"><input type="text" id="detailAddress" placeholder="상세주소"></span><input type="hidden" id="latitude"><input type="hidden" id="longitude"></td>
+					</tr>
+   				</table><hr>
+   			</div>
+   			</c:if>
+   			<div class="signUpbtn">
+   				<button id="btnSaveProposal">임시저장</button>
+				<button id="btnWriteProposal">작성완료</button>
+			</div>
+    	</div>
     
 	</div>
 </body>

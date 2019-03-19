@@ -13,7 +13,7 @@
 <header class="site-header">
 	<div class="main-header">
 		<div class="logo">
-			<img src="resources/images/gallery-image-1.jpg">
+			<img src="resources/images/logo.png">
 			<a href="goHome">WOWFLEE</a>
 		</div>
 		<div class="btn-header">
@@ -35,34 +35,34 @@
 	
 	<div id="sidenav" class="sidenav">
 		<div class="side-login">
-			<i class="fas fa-user-circle"></i>
-			<button class="back-menu" id="btnBackMenu">X</button><br>   
+			<i class="fas fa-user-circle"></i><br>
 			<c:if test="${sessionMember==null}">
-				<button class="login-btn" id="btnGoLogin">로그인해주세요!</button>
+				<a class="login-btn" href="goLogin">로그인해주세요!</a>
 			</c:if>   
 			<c:if test="${sessionMember!=null}">
 				${sessionMember.id}님
-				<button class="login-btn" id="btnLogout">로그아웃</button>
+				<button class="logout-btn" id="btnLogout">로그아웃</button>
 			</c:if>
 		</div>
 		<div class="sidenav-btn">
-			<button class="slide-btn">계약관리</button>
-			<button class="slide-btn">지원관리</button>
-			<button class="slide-btn" id="btnGoProposal">제안서관리</button>
-			<button class="slide-btn">내가 쓴 글</button>
+			<a class="slide-btn" href="#">계약관리</a>
+			<a class="slide-btn" href="#">지원관리</a>
+			<a class="slide-btn" href="goProposal">제안서관리</a>
+			<a class="slide-btn" href="#">내가쓴글</a>
 		</div>
-		<a href="#">이용후기</a>
-		<a href="#">찜목록</a>
-		<a href="#">1:1문의</a>
-		<a href="#">FAQ</a>
-		<a href="#">공지사항</a>
-		<a href="#">서비스정보</a>
+		<div class="sidenav-menu">
+			<a href="#">이용후기</a>
+			<a href="#">찜목록</a>
+			<a href="#">1:1문의</a>
+			<a href="#">FAQ</a>
+			<a href="#">공지사항</a>
+			<a href="#">서비스정보</a>
+		</div>
 	</div>
 	
 	<div id="notice" class="notice">
 		<div class="notice-header">
 			<font class="notice-name">알림</font>
-			<button class="notice-back" id="btnBackNotice">X</button>
 		</div>
 		
 	</div>
@@ -71,15 +71,15 @@
     <div class="main-content">
     	<div class="login-Form">
     		<div class="login-logo">
-				<img alt="logo" id="logo-login" src="resources/images/gallery-image-5.jpg">
+				<img alt="logo" id="logo-login" src="resources/images/logo.png">
 			</div>
 			<table id="login-Table">     
 				<tr>
-					<td id="td-id" ><input type="text" id="loginId" placeholder="아이디 " autofocus="autofocus" tabindex="1"></td> 
-					<td id="td-btnLogin" rowspan="2"><input type="button" id="btnLogin" tabindex="3" value="로그인" ></td>
+					<td id="td-id" ><span class="inputLogin"><input type="text" id="loginId" placeholder="아이디 " autofocus="autofocus" tabindex="1"></span></td> 
+					<td id="td-btnLogin" rowspan="2"><input type="submit" id="btnLogin" tabindex="3" value="로그인" ></td>
 				</tr>
 				<tr>
-					<td id="td-pw"><input type="password" id="loginPw" placeholder="비밀번호" tabindex="2"></td>
+					<td id="td-pw"><span class="inputLogin"><input type="password" id="loginPw" placeholder="비밀번호" tabindex="2"></span></td>
 				</tr>
 			</table>
 			<p id="loginIdFail"></p><p id="loginPwFail"></p>

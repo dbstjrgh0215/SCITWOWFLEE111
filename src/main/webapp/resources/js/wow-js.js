@@ -46,10 +46,21 @@ $(function() {
 	$("#btnBackNotice").on("click",function(){
 		barclose();
 	});
-	  
+	
+	$("#loginId,#loginPw").keydown(function(key) {
+		if (key.keyCode == 13) {
+			login();
+		}
+	});
+
 	$("#btnLogin").on("click", function(){
+		login();
+	});
+	
+	function login(){
 		var id = $("#loginId").val();
 		var pw = $("#loginPw").val();
+		
 		$.ajax({
 			url:"login",
 			data:{id:id,
@@ -60,19 +71,22 @@ $(function() {
 					location.href="goHome";
 				} else {
 					if(id==""){
-						$("#loginIdFail").html("아이디를 입력해주세요!");
+						$("#loginIdFail").html("<h4>아이디를 입력해주세요!</h4>");
+						$("#loginIdFail h4").css("color","red");
 						$("#loginpwFail").html("");
 					} else if(pw==""){
 						$("#loginIdFail").html("");
-						$("#loginPwFail").html("비밀번호를 입력해주세요!");
+						$("#loginPwFail").html("<h4>비밀번호를 입력해주세요!</h4>");
+						$("#loginPwFail h4").css("color","red");
 					} else {
 						$("#loginIdFail").html("");
-						$("#loginPwFail").html("아이디 또는 비밀번호를 확인해주세요!");
+						$("#loginPwFail").html("<h4>아이디 또는 비밀번호를 확인해주세요!</h4>");
+						$("#loginPwFail h4").css("color","red");
 					}
 				}
 			}
 		});
-	});
+	}
 	
 	$("#btnGoLogin").on("click",function(){
 		location.href="goLogin";
@@ -193,7 +207,7 @@ $(function() {
 		
 		$("#imgForm").submit();
 		
-		var seller = {
+		/*var seller = {
 			'id':id,
 			'membertype':membertype,
 			'sellername':name,
@@ -228,7 +242,7 @@ $(function() {
 			extra = space;
 		}
 		
-		$.ajax({
+		$.ajaxForm({
 			url:"insertExtraInfo",
 			data:extra,
 			type:"post",
@@ -237,11 +251,7 @@ $(function() {
 					location.href="goSignEnd";
 				}
 			}
-		});
-	});
-	
-	$("#btnGoProposal").on('click', function(){
-		location.href="goProposal"; 
+		});*/
 	});
 	
 	$("#btnLogout").on("click", function(){
@@ -255,10 +265,10 @@ $(function() {
 function uploadImg(){
 	var sel_files = [];
 	
-	$("#input_imgs").on("change", handleImgFileSelect);
+	$("#images").on("change", handleImgFileSelect);
 	
 	function fileUploadAction(){
-		$("#input_imgs").trigger('click');
+		$("#images").trigger('click');
 	}
 	
 	function handleImgFileSelect(e){
@@ -447,6 +457,63 @@ function proposal(){
 	$('#btnRegistProposal').on('click',function(){
 		location.href="goProposalWrite";
 	});
+	
+	$('#btnWriteProposal').on('click',function(){
+		var id=$('#id').val();
+		var title=$('#title').val();
+		var image=$('#images').val();
+		var membertype=$('#membertype').val();
+		var keyword=$('#keyword').val();
+		var comments=$('#comments').val();
+		var name=$('#name').val();
+		var type1=$('#type1').val();
+		var type2=$('#type2').val();
+		var type3=$('#type3').val();
+		var price=$('#price').val();
+		var stock=$('#stock').val();
+
+		$('#form_id').val(id);
+		$('#form_title').val(title);
+		$('#form_image').val(image);
+		$('#form_membertype').val(membertype);
+		$('#form_keyword').val(keyword);
+		$('#form_comments').val(comments);
+		$('#form_name').val(name);
+		$('#form_type1').val(type1);
+		$('#form_type2').val(type2);
+		$('#form_type3').val(type3);
+		$('#form_price').val(price);
+		$('#form_stock').val(stock);
+		
+		$('#proposalForm').submit();
+		/*
+		var proposal = {
+				id:id,
+				title:title,
+				image:image,
+				membertype:membertype,
+				keyword:keyword,
+				comments:comments,
+				name:name,
+				type1:type1,
+				type2:type2,
+				type3:type3,
+				price:price,
+				stock:stock
+		}
+		
+		$.ajaxForm({
+			url:"insertProposal",
+			enctype : "multipart/form-data",
+			data:proposal,
+			type:"get",
+			success:function(serverData){
+				location.href="goProposal";
+			}
+		});*/
+		
+	});
+	
 	
 	
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 게시판 처리 SQL -->
+<mapper namespace="com.scit.flee2.dao.BoardMapper">
+	<insert id="insertProposal" parameterType="Proposal">
+	INSERT INTO WOW_PROPOSAL
+	<if test="membertype=='셀러'">
+	(PROPOSALNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, NAME, TYPE1, TYPE2, TYPE3, PRICE, STOCK)
+	VALUES
+	(WOW_PROPOSAL_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{name}, #{type1}, #{type2}, #{type3}, #{price}, #{stock})
+	</if>
+	<if test="membertype=='공간제공자'">
+	(PROPOSALNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, NAME, TYPE1, TYPE2, TYPE3, OPTIME, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE)
+	VALUES
+	(WOW_PROPOSAL_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{name}, #{type1}, #{type2}, #{type3}, #{optime}, #{scale}, #{spaceaddr1}, #{spaceaddr2}, #{latitude}, #{longitude})
+	</if>
+	</insert>
+
+</mapper>

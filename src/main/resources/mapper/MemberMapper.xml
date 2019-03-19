@@ -18,7 +18,9 @@ WHERE SPACENAME=#{spacename}
 	</insert>
 	
 	<select id="loginMember" parameterType="Member" resultType="Member">
-	SELECT * FROM WOW_MEMBERINFO
+	SELECT
+	ID, PW, NAME, NICKNAME, PHONE, EMAIL, BIRTHDATE, GENDER, ADDRESS1, ADDRESS2, DECODE(MEMBERTYPE,'seller','셀러','space','공간제공자','user','일반사용자') AS MEMBERTYPE
+	FROM WOW_MEMBERINFO
 	WHERE ID=#{id} AND PW=#{pw}
 	</select>
 	
