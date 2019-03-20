@@ -45,11 +45,6 @@ public class HomeController {
 		return "signEnd";
 	}
 	
-	@RequestMapping(value="/goProposal", method=RequestMethod.GET)
-	public String goProposal() {
-		return "proposal";
-	}
-	
 	@RequestMapping(value="/goProposalWrite", method=RequestMethod.GET)
 	public String goProposalWrite() {
 		return "proposalWrite";

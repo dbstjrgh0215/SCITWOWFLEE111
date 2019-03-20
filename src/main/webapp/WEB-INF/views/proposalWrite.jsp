@@ -99,7 +99,7 @@
    				<div class="divHeader">
    					<h3>제안서작성</h3><hr>
    				</div>
-   				<form id="proposalForm" action="insertProposal" method="post" enctype="multipart/form-data">
+   				<form id="proposalForm" class="proposalForm" action="insertProposal" method="post" enctype="multipart/form-data">
 	   				<input type="hidden" id="form_id" name="id">
 	   				<input type="hidden" id="form_title" name="title">
 	   				<input type="hidden" id="form_membertype" name="membertype">
@@ -109,33 +109,47 @@
 	   				<input type="hidden" id="form_type1" name="type1">
 	   				<input type="hidden" id="form_type2" name="type2">
 	   				<input type="hidden" id="form_type3" name="type3">
-	   				<input type="hidden" id="form_price" name="price">
-	   				<input type="hidden" id="form_stock" name="stock">
+	   				<c:if test="${sessionMember.membertype=='셀러'}">
+		   				<input type="hidden" id="form_price" name="price">
+		   				<input type="hidden" id="form_stock" name="stock">
+	   				</c:if>
+	   				<c:if test="${sessionMember.membertype=='공간제공자'}">
+		   				<input type="hidden" id="form_optime" name="optime">
+		   				<input type="hidden" id="form_scale" name="scale">
+		   				<input type="hidden" id="form_spaceaddr1" name="spaceaddr1">
+		   				<input type="hidden" id="form_spaceaddr2" name="spaceaddr2">
+		   				<input type="hidden" id="form_latitude" name="latitude">
+		   				<input type="hidden" id="form_longitude" name="longitude">
+	   				</c:if>
    				<table class="proposalWriteTable">
    					<tr>
    						<td class="td-1"><h4>제안서 제목</h4></td>
-   						<td class="td-2"><span class="inputNorm"><input type="text" id="title"></span></td>
+   						<td class="td-2"><span class="inputNorm"><input type="text" id="title" value="${udtProposal.title}"></span></td>
    					</tr>
-   					<tr>
-   						<td class="td-1"><h4>사진</h4></td>
-   						<td class="td-2"><span class="inputNorm"><input type="file" name="uploadFile" id="images" multiple/><br>
-				 		</span></td>
-					</tr>
 					<tr>
-						<td class="td-1"></td>
-						<td class="td-2"><div class="imgs_wrap">
-							<div class="imgs_wrap0"></div>
-							<div class="imgs_wrap1"></div>
-							<div class="imgs_wrap2"></div>
-						</div></td>
+						<td class="td-1"><h4>사진</h4></td>
+						<td class="td-2"><div>
+				        <div class="input_wrap">
+				            <a id="fileUpload" class="my_button">파일업로드</a>
+				            <input type="file" id="image" name="uploadFile" multiple/>
+				        </div> 
+				    </div>
+				    <div>
+				        <div class="imgs_wrap">
+				            <img id="img1" src="${fileList[0]}"/>
+				            <img id="img2" src="${fileList[1]}" />
+				            <img id="img3" src="${fileList[2]}" />
+				        </div>
+				        <h5>사진파일은 3개까지 등록가능합니다.</h5>
+				    </div></td>
    					</tr>
    					<tr>
    						<td class="td-1"><h4>키워드</h4></td>
-   						<td class="td-2"><span class="inputNorm"><input type="text" id="keyword"></span></td>
+   						<td class="td-2"><span class="inputNorm"><input type="text" id="keyword" value="${udtProposal.keyword}"></span></td>
    					</tr>
    					<tr>
    						<td class="td-1"><h4>간략한 소개</h4></td>
-						<td class="td-2"><textarea rows="10" cols="50" id="comments"></textarea></td>
+						<td class="td-2"><textarea rows="10" cols="50" id="comments">${udtProposal.comments}</textarea></td>
 					</tr>
    				</table><hr>
 	   			</form>
@@ -148,21 +162,21 @@
    				<table>
    					<tr>
    						<td class="td-1"><h4>물품이름</h4></td>
-   						<td class="td-2"><span class="inputNorm"><input type="text" id="name"></span></td>
+   						<td class="td-2"><span class="inputNorm"><input type="text" id="name" value="${udtProposal.name}"></span></td>
    					</tr>
    					<tr>
    						<td class="td-1"><h4>물품분류</h4></td>
-						<td class="td-2"><span class="inputNorm"><select id="type1"><option value="type1">대분류</option></select>
-				  		<select id="type2"><option value="type2">중분류</option></select>
-				  		<select id="type3"><option value="type3">소분류</option></select></span></td>
+						<td class="td-2"><span class="inputNorm"><select id="type1" value="${udtProposal.type1}"><option value="type1">대분류</option></select>
+				  		<select id="type2" value="${udtProposal.type2}"><option value="type2">중분류</option></select>
+				  		<select id="type3" value="${udtProposal.type3}"><option value="type3">소분류</option></select></span></td>
 					</tr>
    					<tr>
    						<td class="td-1"><h4>기대가격</h4></td>
-   						<td class="td-2"><span class="inputNorm"><input type="number" id="price"></span></td>
+   						<td class="td-2"><span class="inputNorm"><input type="number" id="price" value="${udtProposal.price}"></span></td>
    					</tr>
    					<tr>
    						<td class="td-1"><h4>현재재고</h4></td>
-   						<td class="td-2"><span class="inputNorm"><input type="number" id="stock">개</span></td>
+   						<td class="td-2"><span class="inputNorm"><input type="number" id="stock" value="${udtProposal.stock}">개</span></td>
    					</tr>
    				</table><hr>
    			</div>
@@ -175,25 +189,25 @@
    				<table>
    					<tr>
    						<td class="td-1"><h4>운영시간</h4></td>
-   						<td class="td-2"><span class="inputNorm"><input type="text" id="optime"></span></td>
+   						<td class="td-2"><span class="inputNorm"><input type="text" id="optime" value="${udtProposal.optime}"></span></td>
    					</tr>
    					<tr>
    						<td class="td-1"><h4>공간분류</h4></td>
-						<td class="td-2"><span class="inputNorm"><select id="type1"><option value="type1">대분류</option></select>
-				  		<select id="type2"><option value="type2">중분류</option></select>
-				  		<select id="type3"><option value="type3">소분류</option></select></span></td>
+						<td class="td-2"><span class="inputNorm"><select id="type1" value="${udtProposal.type1}"><option value="type1">대분류</option></select>
+				  		<select id="type2" value="${udtProposal.type2}"><option value="type2">중분류</option></select>
+				  		<select id="type3" value="${udtProposal.type3}"><option value="type3">소분류</option></select></span></td>
 					</tr>
    					<tr>
    						<td class="td-1"><h4>규모</h4></td>
-   						<td class="td-2"><span class="inputNorm"><input type="text" id="scale"></span></td>
+   						<td class="td-2"><span class="inputNorm"><input type="number" id="scale" value="${udtProposal.scale}"></span></td>
    					</tr>
    					<tr>
 						<td class="td-1"><h4>주소</h4></td>
-						<td class="td-2"><span class="inputNorm"><input type="text" id="address" placeholder="주소"></span><button onclick="execDaumPostcode()">주소검색</button></td>
+						<td class="td-2"><span class="inputNorm"><input type="text" id="address" placeholder="주소" value="${udtProposal.spaceaddr1}"></span><button onclick="execDaumPostcode()">주소검색</button></td>
 					</tr>
 					<tr>
 						<td class="td-1"><h4>상세주소</h4></td>
-						<td class="td-2"><span class="inputNorm"><input type="text" id="detailAddress" placeholder="상세주소"></span><input type="hidden" id="latitude"><input type="hidden" id="longitude"></td>
+						<td class="td-2"><span class="inputNorm"><input type="text" id="detailAddress" placeholder="상세주소" value="${udtProposal.spaceaddr2}"></span><input type="hidden" id="latitude"><input type="hidden" id="longitude"></td>
 					</tr>
    				</table><hr>
    			</div>

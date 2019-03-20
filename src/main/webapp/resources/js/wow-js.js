@@ -1,4 +1,3 @@
-
 $(function() { 
 	var menu = $(".site-header").offset();
 	$(window).scroll( function() {
@@ -187,7 +186,6 @@ $(function() {
 		});
 	});
 	
-	uploadImg();
 	
 	$("#btnExtraInsert").on('click', function(){
 		var id = $("#id").val();
@@ -259,8 +257,64 @@ $(function() {
 	});
 	
 	proposal();
+	
+	img();
 });
 
+function udt(){
+	alert("udt");
+}
+
+function img(){
+var sel_files = [];
+	
+	$("#image").on("change", handleImgFileSelect);
+	
+	$("#fileUpload").on('click',function(){
+        $("#image").trigger('click');
+		
+	});
+	
+	function handleImgFileSelect(e) {
+        sel_files = [];
+        $(".imgs_wrap").empty();
+
+        var files = e.target.files;
+        var filesArr = Array.prototype.slice.call(files);
+
+        var index = 0;
+        filesArr.forEach(function(f) {
+            if(!f.type.match("image.*")) {
+                return;
+            }
+
+            sel_files.push(f);
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var html = "<a id=img_id_"+index+"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+                $(".imgs_wrap").append(html);
+                index++;
+                $("#img_id_0").on('click', function(){
+                	sel_files.splice(0, 1);
+                	$('#img_id_0').remove(); 
+                });
+                $("#img_id_1").on('click', function(){
+                	sel_files.splice(1, 1);
+                	$('#img_id_1').remove(); 
+                });
+                $("#img_id_2").on('click', function(){
+                	sel_files.splice(2, 1);
+                	$('#img_id_2').remove(); 
+                });
+            }
+            reader.readAsDataURL(f);
+            
+        });
+        
+        
+    }
+}
 
 function uploadImg(){
 	var sel_files = [];
@@ -469,8 +523,17 @@ function proposal(){
 		var type1=$('#type1').val();
 		var type2=$('#type2').val();
 		var type3=$('#type3').val();
-		var price=$('#price').val();
-		var stock=$('#stock').val();
+		if(membertype=='셀러'){
+			var price=$('#price').val();
+			var stock=$('#stock').val();
+		} else {
+			var optime=$('#optime').val();
+			var scale=$('#scale').val();
+			var spaceaddr1=$('#address').val();
+			var spaceaddr2=$('#detailAddress').val();
+			var latitude=$('#latitude').val();
+			var longitude=$('#longitude').val();
+		}
 
 		$('#form_id').val(id);
 		$('#form_title').val(title);
@@ -482,8 +545,18 @@ function proposal(){
 		$('#form_type1').val(type1);
 		$('#form_type2').val(type2);
 		$('#form_type3').val(type3);
-		$('#form_price').val(price);
-		$('#form_stock').val(stock);
+		if(membertype=='셀러'){
+			$('#form_price').val(price);
+			$('#form_stock').val(stock);
+		} else {
+			$('#form_optime').val(optime);
+			$('#form_scale').val(scale);
+			$('#form_spaceaddr1').val(spaceaddr1);
+			$('#form_spaceaddr2').val(spaceaddr2);
+			$('#form_latitude').val(latitude);
+			$('#form_longitude').val(longitude);
+		}
+		
 		
 		$('#proposalForm').submit();
 		/*
@@ -514,8 +587,48 @@ function proposal(){
 		
 	});
 	
+	$(".udtProposal").on('click',function(){
+		var clickNo = $(this).attr('data-sno');
+		$.ajax({
+			url:"goProposal2",
+			data:{clickNo:clickNo},
+			type:"get",
+			success:function(serverData){
+				location.href="goUpdateProposal?clickNo="+clickNo;
+			}
+		});
+	}); 
 	
+	$(".delProposal").on('click',function(){
+		var clickNo = $(this).attr('data-sno');
+		$.ajax({
+			url:"delProposal",
+			data:{clickNo:clickNo},
+			type:"get",
+			success:function(serverData){
+				location.href="goProposal";
+			}
+		});
+	}); 
 	
+	$(".proposalDetail").on('click',function(){
+		var clickNo = $(this).attr('data-sno');
+		$.ajax({
+			url:"goProposalDetail",
+			data:{clickNo:clickNo},
+			type:"get",
+			success:function(serverData){
+				barclose();
+				$("#modal-proposalContent").html(serverData);
+				document.getElementById("modal-proposal").style.display = "block";
+			}
+		}); 
+	});
+	
+	$(".close").on('click',function(){
+		document.getElementById("modal-proposal").style.display="none";
+	})
 }
+
 
 

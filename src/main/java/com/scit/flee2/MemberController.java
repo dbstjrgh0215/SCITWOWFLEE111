@@ -23,7 +23,7 @@ import com.scit.flee2.vo.Space;
 
 @Controller
 public class MemberController {
-	private static final String UPLOADPATH="C:/upload/";
+	private static final String UPLOADPATH="C:\\Users\\kita\\Documents\\workspace-sts-3.9.6.RELEASE\\WowFlee2\\src\\main\\webapp\\resources\\images\\userImage\\";
 	
 	@Autowired
 	MemberDAO memberDAO;
@@ -80,18 +80,27 @@ public class MemberController {
 	@RequestMapping(value="/insertExtraInfo", method=RequestMethod.POST)
 	public String fileUpload(String id, String membertype, Product prod, Seller seller, Space space, MultipartFile uploadFile, MultipartHttpServletRequest request, HttpSession hs) {
 		
-		String fileName;
+		String fileName, originalFileName;
 		
 		List<MultipartFile> fileList = request.getFiles("uploadFile");
 
 		String files = "";
+
+		Member mem = (Member) hs.getAttribute("sessionMember");
 		
 		try {
 			Iterator<MultipartFile> it = fileList.iterator();
+			int index = 0;
 			while (it.hasNext()) {
+				index++;
 				MultipartFile file = (MultipartFile) it.next();
-				fileName = file.getOriginalFilename();
-				file.transferTo(new File(UPLOADPATH+fileName));	// 파일의 내용을 가져오고 업로드 저장되는 이름은 (+fileName)으로 저장
+				originalFileName = file.getOriginalFilename();
+				fileName = mem.getId()+"_mem"+"_image"+index+originalFileName.substring(originalFileName.indexOf("."));
+				File f = new File(UPLOADPATH+mem.getId()+"\\"+fileName);
+				if(!f.exists()) { //폴더가 없으면 생성
+				   f.mkdirs();
+				}
+				file.transferTo(f);	// 파일의 내용을 가져오고 업로드 저장되는 이름은 (+fileName)으로 저장
 				files=files+"&"+fileName;
 			}
 			if(files.indexOf("&")==0) {

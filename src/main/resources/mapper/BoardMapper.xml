@@ -18,5 +18,25 @@
 	(WOW_PROPOSAL_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{name}, #{type1}, #{type2}, #{type3}, #{optime}, #{scale}, #{spaceaddr1}, #{spaceaddr2}, #{latitude}, #{longitude})
 	</if>
 	</insert>
+	
+	<select id="listProposal" parameterType="Member" resultType="Proposal">
+	SELECT
+	PROPOSALNUM, ID, TITLE, IMAGE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, COMMENTS, NAME, TYPE1, TYPE2, TYPE3, PRICE, STOCK, OPTIME, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE
+	FROM WOW_PROPOSAL
+	WHERE ID=#{id}
+	ORDER BY PROPOSALNUM DESC
+	</select>
+	
+	<select id="selectProposal" parameterType="Integer" resultType="Proposal">
+	SELECT
+	PROPOSALNUM, ID, TITLE, IMAGE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, COMMENTS, NAME, TYPE1, TYPE2, TYPE3, PRICE, STOCK, OPTIME, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE
+	FROM WOW_PROPOSAL
+	WHERE PROPOSALNUM=#{clickNo}
+	</select>
 
+	<delete id="deleteProposal" parameterType="Integer">
+	DELETE
+	FROM WOW_PROPOSAL
+	WHERE PROPOSALNUM=#{clickNo}
+	</delete>
 </mapper>

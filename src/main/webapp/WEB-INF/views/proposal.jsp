@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
+<title>제안서 관리</title>
 	<link rel="stylesheet" href="resources/css/wow-css.css"> 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
@@ -88,17 +88,23 @@
 						<th>최종 수정일</th>
 						<th>관리</th>
 					</tr>
-					<tr>
-						<td>카와이한 쿠션이 많아요</td>
-						<td>2019-03-18</td>
-						<td class="td-control"><button>수정</button><button>삭제</button></td>
-					</tr>
-					<tr>
-						<td>가방은 역시 사방팔방가방</td>
-						<td>2019-03-18</td>
-						<td class="td-control"><button>수정</button><button>삭제</button></td>
-					</tr>
+					<c:forEach var="list" items="${listProposal}">
+						<tr>
+							<td><a data-sno="${list.proposalnum}" id="proposal${list.proposalnum}" class="proposalDetail" href="#goProposalDetail?proposalnum=${list.proposalnum}">${list.title}</a></td>
+							<td>${list.indate}</td>
+							<td class="td-control"><button data-sno="${list.proposalnum}" class="udtProposal" id="udtProposal${list.proposalnum}">수정</button><button data-sno="${list.proposalnum}" class="delProposal" id="deleteProposal${list.proposalnum}">삭제</button></td>
+						</tr>
+					</c:forEach>
 				</table>
+				</div>
+			</div>
+		</div>
+		
+		<div id="modal-proposal" class="modal">
+    		<div class="modal-content">
+			<span class="close">&times;</span> 
+				<div id="modal-proposalContent" class="modal-proposalContent">
+					
 				</div>
 			</div>
 		</div>

@@ -440,6 +440,52 @@ html, body {
 	.td-control{
 		display: inline-grid;
 	}
+	/* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; /* 15% from the top and centered */ 
+            padding: 20px; 
+            border: 1px solid #888; 
+            width: 80%; /* Could be more or less, depending on screen size */                          
+        }
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .propsalBtn{
+        	padding: 30px;
+		    position: relative;
+		    left: 350px;
+        }
+        .modal-proposalContent{
+        	text-align:center;
+        }
+        .proposalDetailTable, .seller-ProposalDetail, .space-ProposalDetail{
+        	text-align:left;
+        }
 	
 	/*제안서 작성*/
 	.proposalWrite{
@@ -454,7 +500,41 @@ html, body {
 	.divHeader{
 		text-align:left;
 	}	
+	.proposalForm{
+		display:inline-grid;
+	}
+	.proposalWriteTable .td-1{
+		width:294px;
+	}
+	
+	input[type=file] {
+        display: none;
+    }
 
+    .my_button {
+        display: inline-block;
+        width: 100px;
+        text-align: center;
+        padding: 10px;
+        background-color: #006BCC;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    .imgs_wrap {
+        border: 2px solid #A8A8A8;
+        margin-top: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 360px;
+        height: 100px;
+    }
+    .imgs_wrap img {
+        width: 100px;
+        height: 100px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 
 	.member-Type{  
 	  position: relative;

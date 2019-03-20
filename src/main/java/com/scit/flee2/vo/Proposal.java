@@ -1,7 +1,7 @@
 package com.scit.flee2.vo;
 
 public class Proposal {
-	private int boardnum;
+	private int proposalnum;
 	private String id;
 	private String title;
 	private String image;
@@ -19,13 +19,14 @@ public class Proposal {
 	private int scale;
 	private String spaceaddr1;
 	private String spaceaddr2;
-	private int latitude;
-	private int longitude;
-	public Proposal(int boardnum, String id, String title, String image, String indate, String membertype,
+	private double latitude;
+	private double longitude;
+	public Proposal(int proposalnum, String id, String title, String image, String indate, String membertype,
 			String keyword, String comments, String name, String type1, String type2, String type3, int price,
-			int stock, String optime, int scale, String spaceaddr1, String spaceaddr2, int latitude, int longitude) {
+			int stock, String optime, int scale, String spaceaddr1, String spaceaddr2, double latitude,
+			double longitude) {
 		super();
-		this.boardnum = boardnum;
+		this.proposalnum = proposalnum;
 		this.id = id;
 		this.title = title;
 		this.image = image;
@@ -49,11 +50,11 @@ public class Proposal {
 	public Proposal() {
 		super();
 	}
-	public int getBoardnum() {
-		return boardnum;
+	public int getProposalnum() {
+		return proposalnum;
 	}
-	public void setBoardnum(int boardnum) {
-		this.boardnum = boardnum;
+	public void setProposalnum(int proposalnum) {
+		this.proposalnum = proposalnum;
 	}
 	public String getId() {
 		return id;
@@ -157,27 +158,26 @@ public class Proposal {
 	public void setSpaceaddr2(String spaceaddr2) {
 		this.spaceaddr2 = spaceaddr2;
 	}
-	public int getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(int latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
-	public int getLongitude() {
+	public double getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(int longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 	@Override
 	public String toString() {
-		return "Proposal [boardnum=" + boardnum + ", id=" + id + ", title=" + title + ", image=" + image + ", indate="
-				+ indate + ", membertype=" + membertype + ", keyword=" + keyword + ", comments=" + comments + ", name="
-				+ name + ", type1=" + type1 + ", type2=" + type2 + ", type3=" + type3 + ", price=" + price + ", stock="
-				+ stock + ", optime=" + optime + ", scale=" + scale + ", spaceaddr1=" + spaceaddr1 + ", spaceaddr2="
-				+ spaceaddr2 + ", latitude=" + latitude + ", longitude=" + longitude + "]";
+		return "Proposal [proposalnum=" + proposalnum + ", id=" + id + ", title=" + title + ", image=" + image
+				+ ", indate=" + indate + ", membertype=" + membertype + ", keyword=" + keyword + ", comments="
+				+ comments + ", name=" + name + ", type1=" + type1 + ", type2=" + type2 + ", type3=" + type3
+				+ ", price=" + price + ", stock=" + stock + ", optime=" + optime + ", scale=" + scale + ", spaceaddr1="
+				+ spaceaddr1 + ", spaceaddr2=" + spaceaddr2 + ", latitude=" + latitude + ", longitude=" + longitude
+				+ "]";
 	}
-
 	
-
 }

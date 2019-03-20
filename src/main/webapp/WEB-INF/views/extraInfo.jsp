@@ -125,17 +125,21 @@
 					</tr>
 					<tr>
 						<td class="td-1"><h4>사진</h4></td>
-						<td class="td-2"><span class="inputNorm"><input type="file" name="uploadFile" id="images" multiple/><br>
-				 		</span></td>
-					</tr>
-					<tr>
-						<td class="td-1"></td>
-						<td class="td-2"><div class="imgs_wrap">
-							<div class="imgs_wrap0"></div>
-							<div class="imgs_wrap1"></div>
-							<div class="imgs_wrap2"></div>
-						</div></td>
-					</tr>
+						<td class="td-2"><div>
+				        <div class="input_wrap">
+				            <a id="fileUpload" class="my_button">파일업로드</a>
+				            <input type="file" id="image" name="uploadFile" multiple/>
+				        </div>
+				    </div>
+				
+				    <div>
+				        <div class="imgs_wrap">
+				            <img id="img1" />
+				            <img id="img2" />
+				            <img id="img3" />
+				        </div>
+				    </div></td>
+   					</tr>
 					<tr>
 						<td class="td-1"><h4>간략한 소개</h4></td>
 						<td class="td-2"><textarea rows="10" cols="50" name="comments"></textarea></td>
@@ -164,19 +168,21 @@
 					</tr>
 					<tr>
 						<td class="td-1"><h4>사진</h4></td>
-						<td class="td-2"><span class="inputNorm"><input type="file" name="uploadFile" id="images" multiple/><br>
-				 		</span></td>
-					</tr>
-				  	<tr>
-						<td class="td-1"></td>
-						<td class="td-2">
-						<div class="imgs_wrap">
-							<div class="imgs_wrap0"></div>
-							<div class="imgs_wrap1"></div>
-							<div class="imgs_wrap2"></div>
-						</div></td>
-						
-					</tr>
+						<td class="td-2"><div>
+				        <div class="input_wrap">
+				            <a id="fileUpload" class="my_button">파일업로드</a>
+				            <input type="file" id="image" name="uploadFile" multiple/>
+				        </div>
+				    </div>
+				
+				    <div>
+				        <div class="imgs_wrap">
+				            <img id="img1" />
+				            <img id="img2" />
+				            <img id="img3" />
+				        </div>
+				    </div></td>
+   					</tr>
 					<tr>
 						<td class="td-1"><h4>간략한 소개</h4></td>
 						<td class="td-2"><textarea rows="10" cols="50" name="comments"></textarea></td>
