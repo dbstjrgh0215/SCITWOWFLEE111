@@ -22,8 +22,8 @@
 	</div></td>
 	</tr>
 	<tr>
-		<td class="td-1"><h4>키워드</h4></td>
-		<td class="td-2"><h4>${udtProposal.keyword}</h4></td>
+		<td class="td-1"><h4>키워드</h4><input id="keyword" type="hidden" value="${udtProposal.keyword}"></td>
+		<td class="td-2" id="keywordDetail"></td>
 			</tr>
 			<tr>
 				<td class="td-1"><h4>간략한 소개</h4></td>

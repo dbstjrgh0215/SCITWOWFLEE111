@@ -1,5 +1,5 @@
 @charset "UTF-8";
-
+@font-face { font-family: 'BMJUA'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff'); font-weight: normal; font-style: normal; }
 html, body {
 		font-size: 100%;
 		width: 100%;
@@ -8,19 +8,28 @@ html, body {
 		vertical-align: baseline;
 	}
 	body {
-		font: 13px/21px "Open Sans", Arial, sans-serif;
+		font: 13px/21px  "맑은고딕", "Malgun Gothic",Dotum, "돋움", sans-serif;
 		color: #777777;
 		background-color: white;
 		overflow-x: hidden;
 		font-style: normal;
 	}
-	
+	i{
+		color: #F05E22;
+	}
 	a {
 		color: #F05E22;
 		text-decoration: none !important;
 	}
 	a:hover{
 		color: #FFAF0A;
+	}
+	button{
+		background-color:white;
+	    padding: 0 10px;
+    	border: 1px solid #c6c6c6;
+    	border-radius:2px;
+    	margin-bottom: 5px;
 	}
 	h1, h2, h3, h4, h5, h6 {
 		font-family: "Open Sans", Arial, sans-serif;
@@ -104,7 +113,6 @@ html, body {
 	.logo img{
 		width:37px;
 		height:30px;
-		padding-right:5px; 
 	}
 	.logo a{
 		margin-top:4px;
@@ -121,10 +129,11 @@ html, body {
 	}
 	.btn-header i{
 		font-size:20px; 
+		color:black;
 	}
 	.main-header a{
 		font-size:1.8em;
-		font-weight:bold;
+		font-family: 'BMJUA';
 	}
 	.main-nav{
 		height:50px; 
@@ -218,6 +227,7 @@ html, body {
 		width:150px;
 		height:150px;
 		font-size:11em;  
+		color:gray;
 	}
 	.side-login a{
 		background-color:inherit;
@@ -248,19 +258,43 @@ html, body {
 	.event, .recommend-space, .recommend-seller{
 		display:table;
 		text-align:center; 
-		margin: 3% auto; 
+		margin: 0 auto; 
 	}
 	.event{  
+		width:100%;
 		height:30%;
+		position:relative;
 	}
 	.event-content img{
 		width:100%;
 		height:100%;
 	}
 	.recommend-space, .recommend-seller{
+		width:80%;
 		height:40%;
 	}
-	.event-content, .r-space-content, .r-seller-content{
+	.event-content{
+		width:100%;
+		height:350px;
+	}
+	.event-slider a{
+		position: absolute;
+	    height: 100%;
+	    width: 50px;
+	    top: 0;
+	}
+	.event-slider #event-slider-left{
+		left:0;
+	}
+	.event-slider #event-slider-right{
+		right:0;
+	}
+	.event-slider i{
+		font-size:2.6em;
+		position: relative;
+    	top: 150px;
+	}
+	.r-space-content, .r-seller-content{
 		margin: 1% 0;
 	}
 	.r-space-table{
@@ -322,12 +356,76 @@ html, body {
 		display:inline-grid;
 	}
 	.td-1{ 
-		width:200px;
+		width:180px;
 	}
 	.td-2{
 		width:300px; 
 		text-align:left;
 	}
+	/*키워드*/
+	.td-keyword1{
+		width:180px;
+	    padding: 10px 0 210px 0;
+	}
+	.td-keyword2{
+		width:300px; 
+	    padding: 10px 0 50px 0;
+	}
+	.ul-keyword{
+		list-style:none;
+		display: contents;
+	}
+	.li-keyword{
+		float: left;
+	    width: 150px;
+	    padding: 10px 50px 10px 1px;
+	    text-align: center;
+	}
+	.span-keyword{
+	    border: solid 1px;
+        padding: 5px 10px;
+	    border-radius: 3px;
+	    display: block;
+	    width: 150px;
+	    height: 45px;
+	    line-height: 45px;
+	}
+	.span-keyword i{
+		color:gray;
+	}
+	.span-keyword a{
+	    padding: 15px 20px;
+	    color:gray;
+	}
+	#keywordRegist{
+		margin-left:5px;
+		margin-right:10px;
+	}
+	#keywordSelected .td-2 button{
+		margin-right:10px;
+	}
+	#keywordSelected .td-2 a{
+		color:gray;
+	}
+	#keywordDetail{
+		display:inline-flex;
+		margin-top: 15px;
+		width:500px;
+	}
+	.keywordSpan{
+       	height: 25px;
+	    border: solid 1px #F05E22;
+	    padding: 0px 20px;
+	    margin: 5px 5px;
+	    border-radius: 5px;
+	    background-color:#F05E22;
+	    
+	}
+	.keywordSpan a{
+		color:white;
+		font-weight:bold;
+	}
+	
 	.inputNorm{
 		border:solid 1px;
 		padding:10px;
@@ -357,7 +455,7 @@ html, body {
 		border:none;
 	}
 	.signUpbtn{
-		padding:30px;
+    	width: 80%;
 	}
 	.signUpbtn button{
 		width:50%;  
@@ -416,10 +514,11 @@ html, body {
 		display:inline-grid;
 		margin-top:50px;
 	}
-	.btnRegistProposal{
-		width:100px;
+	.btnRegistProposal {
+		width:110px;
 		position:absolute;
 		right:10%;
+		padding:3px 10px;
 	}
 	.proposalDiv{
 	    position: relative;
@@ -437,55 +536,72 @@ html, body {
     	border-bottom: solid 1px;
     	padding: 0;
 	}
+	.proposal-tr{
+		border-bottom: solid 1px gray;
+	}
+	.proposal-td-1{
+		width:40%;
+	}
+	.proposal-td-2{
+		width:30%;
+	}
+	.proposal-td-3{
+		width:20%;
+	}
 	.td-control{
 		display: inline-grid;
+		padding: 5px;
+	}
+	.registbtn{
+		padding: 30px;
+	    display: inline-flex;
+	    width: 80%;
 	}
 	/* The Modal (background) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        }
-    
-        /* Modal Content/Box */
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto; /* 15% from the top and centered */ 
-            padding: 20px; 
-            border: 1px solid #888; 
-            width: 80%; /* Could be more or less, depending on screen size */                          
-        }
-        /* The Close Button */
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .propsalBtn{
-        	padding: 30px;
-		    position: relative;
-		    left: 350px;
-        }
-        .modal-proposalContent{
-        	text-align:center;
-        }
-        .proposalDetailTable, .seller-ProposalDetail, .space-ProposalDetail{
-        	text-align:left;
-        }
+.modal {
+    display: none; /* Hidden by default */
+ position: fixed; /* Stay in place */
+ z-index: 1; /* Sit on top */
+ left: 0;
+ top: 0;
+ width: 100%; /* Full width */
+ height: 100%; /* Full height */
+ overflow: auto; /* Enable scroll if needed */
+ background-color: rgb(0,0,0); /* Fallback color */
+ background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+	/* Modal Content/Box */
+	.modal-content {
+		background-color: #fefefe;
+		margin: 5% auto; /* 15% from the top and centered */ 
+		padding: 30px; 
+		border: 1px solid #888; 
+		width: 80%; /* Could be more or less, depending on screen size */                          
+	}
+	/* The Close Button */
+	.close {
+	    color: #aaa;
+	    float: right;
+	    font-size: 28px;
+	    font-weight: bold;
+	}
+	.close:hover,
+	.close:focus {
+	    color: black;
+	    text-decoration: none;
+	    cursor: pointer;
+	}
+	.propsalBtn{
+		position: relative;
+		text-align:right;
+	}
+	.modal-proposalContent{
+		text-align:center;
+	}
+	.proposalDetailTable, .seller-ProposalDetail, .space-ProposalDetail{
+		text-align:left;
+	}
 	
 	/*제안서 작성*/
 	.proposalWrite{
@@ -503,9 +619,6 @@ html, body {
 	.proposalForm{
 		display:inline-grid;
 	}
-	.proposalWriteTable .td-1{
-		width:294px;
-	}
 	
 	input[type=file] {
         display: none;
@@ -516,7 +629,7 @@ html, body {
         width: 100px;
         text-align: center;
         padding: 10px;
-        background-color: #006BCC;
+        background-color: #F05E22;
         color: #fff;
         text-decoration: none;
         border-radius: 5px;

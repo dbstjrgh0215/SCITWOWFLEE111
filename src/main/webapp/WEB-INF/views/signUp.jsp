@@ -40,7 +40,7 @@
 				<a class="login-btn" href="goLogin">로그인해주세요!</a>
 			</c:if>   
 			<c:if test="${sessionMember!=null}">
-				${sessionMember.id}님
+				${sessionMember.nickname}님
 				<button class="logout-btn" id="btnLogout">로그아웃</button>
 			</c:if>
 		</div>
@@ -104,6 +104,10 @@
 					<tr>
 						<td class="td-1"><h4>비밀번호</h4></td>
 						<td class="td-2"><span class="inputNorm"><input type="password" id="signPw"></span></td>
+					</tr>
+					<tr>
+						<td class="td-1"><h4>비밀번호확인</h4></td>
+						<td class="td-2"><span class="inputNorm"><input type="password" id="passwordCheck"></span></td>
 					</tr>
 					<tr>
 						<td class="td-1"><h4>이름</h4></td>

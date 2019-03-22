@@ -93,7 +93,7 @@ $(function() {
 	
 	$("#btnGoSignUp").on("click",function(){
 		location.href="goSignUp";
-		execDaumPostcode();
+		keyword();
 	});
 	
 	function readURL(input) {
@@ -314,7 +314,27 @@ var sel_files = [];
         
         
     }
+	
+	
+
 }
+
+jQuery.jQueryAlert = function (title, msg) {
+    var $messageBox = $.parseHTML('<div id="alertBox"></div>');
+    $("body").append($messageBox);
+
+    $($messageBox).dialog({
+        open: $($messageBox).append(msg),
+        title: title,
+        autoOpen: true,
+        modal: true,
+        buttons: {
+            OK: function alert() {
+                $("#alertBox").dialog("close");
+            }
+        }
+    });
+};
 
 function uploadImg(){
 	var sel_files = [];
@@ -507,9 +527,23 @@ function execDaumPostcode() {
     }).open();
 }
 
+function jqueryUI(){
+	$("#btnRegistProposal").button();
+	$(".udtProposal").button();
+	$(".delProposal").button();
+	$("#btnSaveProposal").button();
+	$("#btnWriteProposal").button();
+}
+
 function proposal(){
+	keyword();
+	
 	$('#btnRegistProposal').on('click',function(){
-		location.href="goProposalWrite";
+		if($('#proposalTable tr').length>5){
+			$.jQueryAlert("제안서 등록개수 초과","5개까지가능");
+		} else{
+			location.href="goProposalWrite";
+		}
 	});
 	
 	$('#btnWriteProposal').on('click',function(){
@@ -517,7 +551,12 @@ function proposal(){
 		var title=$('#title').val();
 		var image=$('#images').val();
 		var membertype=$('#membertype').val();
-		var keyword=$('#keyword').val();
+		var keyword = "";
+		for(var i=1; i<=5; i++){
+			if($('#keywordContent'+i).val!=""){
+				keyword += "&"+$('#keywordContent'+i).val();
+			}
+		}
 		var comments=$('#comments').val();
 		var name=$('#name').val();
 		var type1=$('#type1').val();
@@ -620,6 +659,16 @@ function proposal(){
 			success:function(serverData){
 				barclose();
 				$("#modal-proposalContent").html(serverData);
+				var keyword = $("#keyword").val();
+				var keywordSplit = keyword.split("&");
+				var data = "";
+				for(var i=1; i<6; i++){
+					if(keywordSplit[i].length==0){
+						break;
+					}
+					data += "<span class='keywordSpan'><a href='javascript:void(0);'>#"+keywordSplit[i]+"</a></span>";
+				}
+				$("#keywordDetail").html(data);
 				document.getElementById("modal-proposal").style.display = "block";
 			}
 		}); 
@@ -630,5 +679,152 @@ function proposal(){
 	})
 }
 
-
+function keyword(){
+	var index = 30;
+	var count = 0;
+	
+	$("#keywordRegist").on('click',function(){
+		var membertype=$('#membertype').val();
+		var keyword = $('#keyword').val();
+		if(count>4){
+			alert("5개이상선택할수없습니다.");
+		} else{
+			$.ajax({
+				url:"keyword",
+				data:{membertype:membertype},
+				type:"get",
+				success:function(serverData){
+					$('#keywordSelected .td-2').append("<button type='button' id='selectedKeyword"+index+"'>"+keyword
+							+"<a href='javascript:void(0);' data-sno='"+index+"' key='"+keyword+"' id='deleteKeyword"+index+"' class='keyword-del'>　X</a></button>");
+					index++;
+					$('#keyword').val("");
+					for(var a=1; a<=5;a++){
+						if($('#keywordContent'+a).val()==""){
+							$('#keywordContent'+a).val(keyword);
+							break;
+						}
+					}
+					count++;
+					$('#keywordCount').html(count);
+					if(count==5){
+						$('#keywordCount').css('color','red');
+					} else {
+						$('#keywordCount').css('color','#2a3f52')
+					}
+					keywordDel();
+				}
+			});
+		}
+	});
+	
+	$('#selectKeyword').on('click',function(){
+		var membertype=$('#membertype').val();
+		if($('#keyword1').length==0){		// 키워드 선택창 열기
+			$.ajax({
+				url:"keyword",
+				data:{membertype:membertype},
+				type:"get",
+				success:function(serverData){
+					$('#keywordFilter').html(serverData);
+					keywordFilter();
+					for(var i=1; i<=15; i++){
+						var status = $("#selectedKeyword"+i).length;
+						if(status!=0) {
+							$('#keyword'+i).css('color','#F05E22');
+							$('#keyword-icon'+i).css('color','#F05E22');
+						}
+					}
+					$("#selectKeyword i").attr('class','fas fa-chevron-up');
+				}
+			});
+		} else {			// 키워드 선택창 닫기
+			$.ajax({
+				url:"keyword",
+				data:{membertype:membertype},
+				type:"get",
+				success:function(serverData){
+					$('#keywordFilter').html("");
+					keywordFilter();
+					$("#selectKeyword i").attr('class','fas fa-chevron-down');
+				}
+			});
+		}
+	});
+	
+	function keywordFilter(){
+		$(".keyword-a").on('click',function(){
+			var clickNo = $(this).attr('data-sno');
+			var status = document.getElementById("keyword"+clickNo).style.color;
+			if(status=='rgb(240, 94, 34)'){
+				$('#keyword'+clickNo).css('color','gray');
+				$('#keyword-icon'+clickNo).css('color','gray');
+				var keyword = $('#keyword'+clickNo).text();
+				$('#selectedKeyword'+clickNo).remove();
+				var keyword = $('#keyword'+clickNo).text();
+				for(var a=1; a<=5;a++){
+					if($('#keywordContent'+a).val()==keyword.substring(1)){
+						$('#keywordContent'+a).val("");
+						break;
+					}
+				}
+				count--;
+				$('#keywordCount').html(count);
+				if(count==5){
+					$('#keywordCount').css('color','red');
+				} else {
+					$('#keywordCount').css('color','#2a3f52')
+				}
+			} else {
+				if(count>4){
+					alert("5개이상선택할수없습니다.");
+				} else{
+					$('#keyword'+clickNo).css('color','#F05E22');
+					$('#keyword-icon'+clickNo).css('color','#F05E22');
+					var keyword = $('#keyword'+clickNo).text();
+					$('#keywordSelected .td-2').append("<button type='button' id='selectedKeyword"+clickNo+"'>"+keyword.substring(1)
+							+"<a href='javascript:void(0);' data-sno='"+clickNo+"' key='"+keyword.substring(1)+"' id='deleteKeyword"+clickNo+"' class='keyword-del'>　X</a></button>");
+					for(var a=1; a<=5;a++){
+						if($('#keywordContent'+a).val()==""){
+							$('#keywordContent'+a).val(keyword.substring(1));
+							break;
+						}
+					}
+					count++;
+					$('#keywordCount').html(count);
+					if(count==5){
+						$('#keywordCount').css('color','red');
+					} else {
+						$('#keywordCount').css('color','#2a3f52')
+					}
+				}
+			}
+			keywordDel();
+		}); 
+	}
+	
+	function keywordDel(){
+		$('.keyword-del').off('click');
+		$('.keyword-del').on('click',function(){
+			var delNo = $(this).attr('data-sno');
+			$('#keyword'+delNo).css('color','gray');
+			$('#keyword-icon'+delNo).css('color','gray');
+			var keyword = $('#keyword'+delNo).text();
+			$('#selectedKeyword'+delNo).remove();
+			var delKeyword = $(this).attr('key');
+			for(var a=1; a<=5;a++){
+				if($('#keywordContent'+a).val()==delKeyword){
+					$('#keywordContent'+a).val("");
+					break;
+				}
+			}
+			count--;
+			$('#keywordCount').html(count);
+			if(count==5){
+				$('#keywordCount').css('color','red');
+			} else {
+				$('#keywordCount').css('color','#2a3f52')
+			}
+		});
+	}
+}
 

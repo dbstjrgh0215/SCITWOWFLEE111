@@ -40,7 +40,7 @@
 				<a class="login-btn" href="goLogin">로그인해주세요!</a>
 			</c:if>   
 			<c:if test="${sessionMember!=null}">
-				${sessionMember.id}님
+				${sessionMember.nickname}님
 				<button class="logout-btn" id="btnLogout">로그아웃</button>
 			</c:if>
 		</div>
@@ -70,11 +70,12 @@
      
     <div class="main-content" id="main-content">
     	<div class="event">
-    		<div class="event-header">
-    			이벤트
-    		</div>
     		<div class="event-content">
-    			<img alt="logo" id="logo-login" src="resources/images/tm-170x80-1.jpg">
+    			<img alt="logo" id="logo-login" src="resources/images/eventbanner.jpg">
+    		</div>
+    		<div class="event-slider">
+    			<a href="#" id="event-slider-left"><i class="fas fa-chevron-left"></i></a>
+    			<a href="#" id="event-slider-right"><i class="fas fa-chevron-right"></i></a>
     		</div>
     	</div>
     	<div class="recommend-space">

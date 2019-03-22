@@ -6,8 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>제안서 관리</title>
-	<link rel="stylesheet" href="resources/css/wow-css.css"> 
+	<link rel="stylesheet" href="resources/jqueryui/jquery-ui.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	<link rel="stylesheet" href="resources/css/wow-css.css"> 
 </head>
 <body>
 <header class="site-header">
@@ -40,7 +41,7 @@
 				<a class="login-btn" href="goLogin">로그인해주세요!</a>
 			</c:if>   
 			<c:if test="${sessionMember!=null}">
-				${sessionMember.id}님
+				${sessionMember.nickname}님
 				<button class="logout-btn" id="btnLogout">로그아웃</button>
 			</c:if>
 		</div>
@@ -80,18 +81,18 @@
 	   			</div>
 	   		</div>
 			<div class="proposalList">
-				<button class="btnRegistProposal" id="btnRegistProposal">제안서 작성</button>
+				<button class="btnRegistProposal" id="btnRegistProposal">제안서 작성 <i class="fas fa-chevron-right"></i></button>
 				<div class="proposalDiv"> 
-				<table class="proposalTable"> 
+				<table id="proposalTable" class="proposalTable"> 
 					<tr>
-						<th>제안서 제목</th>
-						<th>최종 수정일</th>
-						<th>관리</th>
+						<th class="proposal-td-1">제안서 제목</th>
+						<th class="proposal-td-2">최종 수정일</th>
+						<th class="proposal-td-3">관리</th>
 					</tr>
 					<c:forEach var="list" items="${listProposal}">
-						<tr>
-							<td><a data-sno="${list.proposalnum}" id="proposal${list.proposalnum}" class="proposalDetail" href="#goProposalDetail?proposalnum=${list.proposalnum}">${list.title}</a></td>
-							<td>${list.indate}</td>
+						<tr class="proposal-tr">
+							<td class="proposal-td-1"><a data-sno="${list.proposalnum}" id="proposal${list.proposalnum}" class="proposalDetail" href="#goProposalDetail?proposalnum=${list.proposalnum}">${list.title}</a></td>
+							<td class="proposal-td-1">${list.indate}</td>
 							<td class="td-control"><button data-sno="${list.proposalnum}" class="udtProposal" id="udtProposal${list.proposalnum}">수정</button><button data-sno="${list.proposalnum}" class="delProposal" id="deleteProposal${list.proposalnum}">삭제</button></td>
 						</tr>
 					</c:forEach>
@@ -112,6 +113,7 @@
 </body>
  
 	<script src="resources/js/jquery-3.1.1.min.js"></script>
+	<script src="resources/jqueryui/jquery-ui.js"></script>
  	<script src="resources/js/wow-js.js"></script>
  	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a5ef94da1ecf3b9c86e43db1a1d3957&libraries=services"></script>

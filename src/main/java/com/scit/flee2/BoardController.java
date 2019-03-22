@@ -141,7 +141,12 @@ public class BoardController {
 			fileList.add(path);
 		}
 		model.addAttribute("fileList", fileList);
-		System.out.println(result);
 		return "proposalDetail";
+	}
+	
+	@RequestMapping(value="/keyword", method=RequestMethod.GET)
+	public String keyword(String membertype) {
+		
+		return "keyword";
 	}
 }

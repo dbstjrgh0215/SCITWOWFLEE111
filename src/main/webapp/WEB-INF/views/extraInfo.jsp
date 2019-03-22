@@ -40,7 +40,7 @@
 				<a class="login-btn" href="goLogin">로그인해주세요!</a>
 			</c:if>   
 			<c:if test="${sessionMember!=null}">
-				${sessionMember.id}님
+				${sessionMember.nickname}님
 				<button class="logout-btn" id="btnLogout">로그아웃</button>
 			</c:if>
 		</div>
@@ -124,23 +124,6 @@
 						<td class="td-2"><span class="inputNorm"><input type="text" name="keyword" placeholder="검색시 활용할 키워드를 넣어주세요"></span></td>
 					</tr>
 					<tr>
-						<td class="td-1"><h4>사진</h4></td>
-						<td class="td-2"><div>
-				        <div class="input_wrap">
-				            <a id="fileUpload" class="my_button">파일업로드</a>
-				            <input type="file" id="image" name="uploadFile" multiple/>
-				        </div>
-				    </div>
-				
-				    <div>
-				        <div class="imgs_wrap">
-				            <img id="img1" />
-				            <img id="img2" />
-				            <img id="img3" />
-				        </div>
-				    </div></td>
-   					</tr>
-					<tr>
 						<td class="td-1"><h4>간략한 소개</h4></td>
 						<td class="td-2"><textarea rows="10" cols="50" name="comments"></textarea></td>
 					</tr>
@@ -163,25 +146,18 @@
 				  		<select name="space_type3"><option value="type3">소분류</option></select></span></td>
 					</tr>
 					<tr>
-						<td class="td-1"><h4>키워드</h4></td>
-						<td class="td-2"><span class="inputNorm"><input type="text" name="keyword" placeholder="검색시 활용할 키워드를 넣어주세요"></span></td>
-					</tr>
-					<tr>
-						<td class="td-1"><h4>사진</h4></td>
-						<td class="td-2"><div>
-				        <div class="input_wrap">
-				            <a id="fileUpload" class="my_button">파일업로드</a>
-				            <input type="file" id="image" name="uploadFile" multiple/>
-				        </div>
-				    </div>
-				
-				    <div>
-				        <div class="imgs_wrap">
-				            <img id="img1" />
-				            <img id="img2" />
-				            <img id="img3" />
-				        </div>
-				    </div></td>
+   						<td class="td-1"><h4>키워드</h4></td>
+   						<td class="td-2"><span class="inputNorm"><input type="text" id="keyword" value="${udtProposal.keyword}"></span>
+   						<button id="keywordRegist" type="button">등록</button><button id="selectKeyword" type="button">추천키워드에서선택 <i class="fas fa-chevron-down"></i></button></td>
+   					</tr>
+   					<tr id="keywordFilter">
+   						
+   					</tr>
+   					<tr id="keywordSelected">
+   						<td class="td-1"><h4>나의 키워드</h4><h5>(<font id="keywordCount">0</font> / 5)</h5></td>
+   						<td class="td-2"><input type="hidden" id="keywordContent1" value="">
+   						<input type="hidden" id="keywordContent2" value=""><input type="hidden" id="keywordContent4" value="">
+   						<input type="hidden" id="keywordContent3" value=""><input type="hidden" id="keywordContent5" value=""></td>
    					</tr>
 					<tr>
 						<td class="td-1"><h4>간략한 소개</h4></td>

@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>제안서 작성</title>
+	<link rel="stylesheet" href="resources/jqueryui/jquery-ui.css">
 	<link rel="stylesheet" href="resources/css/wow-css.css"> 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
@@ -40,7 +41,7 @@
 				<a class="login-btn" href="goLogin">로그인해주세요!</a>
 			</c:if>   
 			<c:if test="${sessionMember!=null}">
-				${sessionMember.id}님
+				${sessionMember.nickname}님
 				<button class="logout-btn" id="btnLogout">로그아웃</button>
 			</c:if>
 		</div>
@@ -130,7 +131,7 @@
 						<td class="td-1"><h4>사진</h4></td>
 						<td class="td-2"><div>
 				        <div class="input_wrap">
-				            <a id="fileUpload" class="my_button">파일업로드</a>
+				            <a href="javascript:void(0);" id="fileUpload" class="my_button">파일업로드</a>
 				            <input type="file" id="image" name="uploadFile" multiple/>
 				        </div> 
 				    </div>
@@ -145,7 +146,17 @@
    					</tr>
    					<tr>
    						<td class="td-1"><h4>키워드</h4></td>
-   						<td class="td-2"><span class="inputNorm"><input type="text" id="keyword" value="${udtProposal.keyword}"></span></td>
+   						<td class="td-2"><span class="inputNorm"><input type="text" id="keyword" value="${udtProposal.keyword}"></span>
+   						<button id="keywordRegist" type="button">등록</button><button id="selectKeyword" type="button">추천키워드에서선택 <i class="fas fa-chevron-down"></i></button></td>
+   					</tr>
+   					<tr id="keywordFilter">
+   						
+   					</tr>
+   					<tr id="keywordSelected">
+   						<td class="td-1"><h4>나의 키워드</h4><p>(<font id="keywordCount">0</font> / 5)</p></td>
+   						<td class="td-2"><input type="hidden" id="keywordContent1" value="">
+   						<input type="hidden" id="keywordContent2" value=""><input type="hidden" id="keywordContent4" value="">
+   						<input type="hidden" id="keywordContent3" value=""><input type="hidden" id="keywordContent5" value=""></td>
    					</tr>
    					<tr>
    						<td class="td-1"><h4>간략한 소개</h4></td>
@@ -212,7 +223,7 @@
    				</table><hr>
    			</div>
    			</c:if>
-   			<div class="signUpbtn">
+   			<div class="registbtn">
    				<button id="btnSaveProposal">임시저장</button>
 				<button id="btnWriteProposal">작성완료</button>
 			</div>
@@ -222,6 +233,7 @@
 </body>
  
 	<script src="resources/js/jquery-3.1.1.min.js"></script>
+	<script src="resources/jqueryui/jquery-ui.js"></script>
  	<script src="resources/js/wow-js.js"></script>
  	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a5ef94da1ecf3b9c86e43db1a1d3957&libraries=services"></script>
