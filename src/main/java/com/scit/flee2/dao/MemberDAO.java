@@ -113,4 +113,45 @@ public class MemberDAO {
 		return result;
 	}
 
+	public String checkId(String id) {
+		String result = "";
+		
+		MemberMapper mm = sqlSession.getMapper(MemberMapper.class);
+		
+		try {
+			result = mm.checkId(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public String findId(Member mem) {
+		String result ="";
+		
+		MemberMapper mm = sqlSession.getMapper(MemberMapper.class);
+		
+		try {
+			result = mm.findId(mem);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	public String findPw(Member mem) {
+		String result ="";
+		
+		MemberMapper mm = sqlSession.getMapper(MemberMapper.class);
+		
+		try {
+			result = mm.findPw(mem);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

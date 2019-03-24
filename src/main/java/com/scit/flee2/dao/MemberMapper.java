@@ -15,4 +15,7 @@ public interface MemberMapper {
 	public int insertSpace(Space space);
 	public int insertSeller(Seller seller);
 	public int insertProduct(Product product);
+	public String checkId(String id);
+	public String findId(Member mem);
+	public String findPw(Member mem);
 }

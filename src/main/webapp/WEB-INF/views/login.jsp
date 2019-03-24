@@ -85,16 +85,13 @@
 			<p id="loginIdFail"></p><p id="loginPwFail"></p>
 			<div class="login-Menu">
 				<ul>
-					<li><button id="btnGoSignUp">회원가입</button></li>
-					<li><button id="findId">아이디 찾기</button></li>
-					<li><button id="findPw">비밀번호 찾기</button></li>
+					<li><a href="javascript:void(0);" id="btnGoSignUp">회원가입</a></li>
+					<li><a href="javascript:void(0);" id="findId">아이디 찾기</a></li>
+					<li><a href="javascript:void(0);" id="findPw">비밀번호 찾기</a></li>
 				</ul>
 			</div>
     	</div>
 	    
-   		
-   		
-   		
     	
     </div>
 </body>

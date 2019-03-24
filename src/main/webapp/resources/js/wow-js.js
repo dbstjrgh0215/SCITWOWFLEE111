@@ -46,6 +46,42 @@ $(function() {
 		barclose();
 	});
 	
+	$("#goSeller").on("click",function(){
+		$.ajax({
+			url:"goBoardSeller",
+			data:{},
+			type:"get",
+			success:function(serverData){
+				barclose();
+				$("#main-content").html(serverData);
+			}
+		});
+	});
+	
+	$("#goSpace").on("click",function(){
+		$.ajax({
+			url:"goBoardSpace",
+			data:{},
+			type:"get",
+			success:function(serverData){
+				barclose();
+				$("#main-content").html(serverData);
+			}
+		});
+	});
+	
+	$("#goProduct").on("click",function(){
+		$.ajax({
+			url:"goBoardProduct",
+			data:{},
+			type:"get",
+			success:function(serverData){
+				barclose();
+				$("#main-content").html(serverData);
+			}
+		});
+	});
+	
 	$("#loginId,#loginPw").keydown(function(key) {
 		if (key.keyCode == 13) {
 			login();
@@ -94,6 +130,105 @@ $(function() {
 	$("#btnGoSignUp").on("click",function(){
 		location.href="goSignUp";
 		keyword();
+	});
+	
+	$("#findId").click(function () {
+		window.open('goSearchIdPw?type=id','window','width=400px, height=400px');
+		
+    });
+	
+	$('#btnFindId').on('click',function(){
+		var name = $('#searchIdName').val();
+		var email = $('#signEmail').val()+"@"+$('#signMailaddr').val();
+		
+		$.ajax({
+			url:"findId",
+			data:{name:name,
+				email:email},
+				type:"get",
+				success:function(serverData){
+					var result = "아이디는 "+serverData+" 입니다.";
+					$('#searchIdPwResult').html("<h4>"+result+"</h4>");
+				}
+		});
+	});
+	
+	$("#findPw").click(function () {
+		window.open('goSearchIdPw?type=pw','window','width=400px, height=400px');
+    });
+	
+	$('#btnFindPw').on('click',function(){
+		var id = $('#searchPwId').val();
+		var name = $('#searchPwName').val();
+		var email = $('#signEmail').val()+"@"+$('#signMailaddr').val();
+		
+		$.ajax({
+			url:"findPw",
+			data:{id:id,
+				name:name,
+				email:email},
+				type:"get",
+				success:function(serverData){
+					var result = "비밀번호는 "+serverData+" 입니다.";
+					$('#searchIdPwResult').html("<h4>"+result+"</h4>");
+				}
+		});
+	});
+	
+	$('#checkId').on('click',function(){
+		var signId = $('#signId').val();
+		$.ajax({
+			url:"checkId",
+			data:{id:signId},
+			type:"get",
+			success:function(serverData){
+				if(serverData==""){
+					$('#idFail').html("ID 사용이 가능합니다.");
+					$('#idFail').css("color","green");
+				} else {
+					$('#idFail').html("중복된 ID가 있습니다.");
+					$('#idFail').css("color","red");
+				}
+			}
+		});
+	});
+	
+	$('#signPw').on('keyup',function(){
+		var signPw = $('#signPw').val();
+		var passwordCheck = $('#passwordCheck').val();
+		$.ajax({
+			url:"checkPw",
+			data:{},
+			type:"get",
+			success:function(serverData){
+				if(signPw.length>16||signPw.length<8){
+					$('#img-pw').attr("src", "resources/images/signUp/m_icon_not_use.png");
+					$('#pwFail').html("8~16자를 사용하세요.");
+				} else{
+					$('#img-pw').attr("src", "resources/images/signUp/m_icon_safe.png");
+					$('#pwFail').html("사용가능합니다.");
+				}
+			}
+		});
+	});
+	
+	$('#passwordCheck').on('keyup',function(){
+		var signPw = $('#signPw').val();
+		var passwordCheck = $('#passwordCheck').val();
+		$.ajax({
+			url:"checkPw",
+			data:{},
+			type:"get",
+			success:function(serverData){
+				if(signPw==passwordCheck){
+					$('#img-pwcheck').attr("src", "resources/images/signUp/m_icon_check_enable.png");
+					$('#pwCheckFail').html("");
+				} else{
+					$('#img-pwcheck').attr("src", "resources/images/signUp/m_icon_check_disable.png");
+					$('#pwCheckFail').html("비밀번호가 일치하지 않습니다.");
+				}
+			}
+		});
 	});
 	
 	function readURL(input) {

@@ -49,5 +49,19 @@ WHERE SPACENAME=#{spacename}
 	VALUES
 	(WOW_PRODUCTNUM_SEQ.NEXTVAL, (SELECT SELLERNUM FROM WOW_SELLERINFO WHERE ID = #{id}), #{id}, #{productname}, #{prod_type1}, #{prod_type2}, #{prod_type3}, #{keyword}, #{image})
 	</insert>
+	
+	<select id="checkId" parameterType="String" resultType="String">
+	SELECT ID FROM WOW_MEMBERINFO
+	WHERE ID=#{id}
+	</select>
+	
+	<select id="findId" parameterType="Member" resultType="String">
+	SELECT ID FROM WOW_MEMBERINFO
+	WHERE NAME=#{name} AND email=#{email}
+	</select>
 
+	<select id="findPw" parameterType="Member" resultType="String">
+	SELECT PW FROM WOW_MEMBERINFO
+	WHERE ID=#{id} AND NAME=#{name} AND email=#{email}
+	</select>
 </mapper>

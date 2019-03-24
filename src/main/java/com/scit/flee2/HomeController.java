@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class HomeController {
@@ -26,6 +27,12 @@ public class HomeController {
 		return "login";
 	} 
 	
+	@RequestMapping(value="/goSearchIdPw", method=RequestMethod.GET)
+	public String goSearchIdPw(String type, Model model) {
+		model.addAttribute("type", type);
+		return "searchIdPw";
+	}
+	
 	@RequestMapping(value="/goSignUp", method=RequestMethod.GET)
 	public String goSignUp() {
 		return "signUp";
@@ -43,6 +50,21 @@ public class HomeController {
 	@RequestMapping(value="/goSignEnd", method=RequestMethod.GET)
 	public String goSignEnd() {
 		return "signEnd";
+	}
+	
+	@RequestMapping(value="/goBoardSeller", method=RequestMethod.GET)
+	public String goBoardSeller() { 
+		return "boardSeller"; 
+	}
+	
+	@RequestMapping(value="/goBoardSpace", method=RequestMethod.GET)
+	public String goBoardSpace() { 
+		return "boardSpace"; 
+	}
+	
+	@RequestMapping(value="/goBoardProduct", method=RequestMethod.GET)
+	public String goBoardProduct() { 
+		return "boardProduct"; 
 	}
 	
 	@RequestMapping(value="/goProposalWrite", method=RequestMethod.GET)

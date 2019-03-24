@@ -25,9 +25,9 @@
 	<div class="main-nav">
         <div class="list-menu">
             <ul>
-                <li><a href="goBoardSpace">공간보기</a></li>
-                <li><a href="goBoardSeller">셀러보기</a></li>
-                <li><a href="">판매상품</a></li>
+                <li><a href="javascript:void(0);" id="goSpace">공간보기</a></li>
+                <li><a href="javascript:void(0);" id="goSeller">셀러보기</a></li>
+                <li><a href="javascript:void(0);" id="goProduct">판매상품</a></li>
             </ul>
             
         </div> <!-- /.list-menu -->

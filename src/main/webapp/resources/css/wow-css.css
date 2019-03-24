@@ -426,6 +426,13 @@ html, body {
 		font-weight:bold;
 	}
 	
+	
+	.signUpMsg{
+		margin:5px;
+	}
+	.img-pw{
+		width:20px;
+	}
 	.inputNorm{
 		border:solid 1px;
 		padding:10px;
@@ -648,6 +655,43 @@ html, body {
         margin-left: 10px;
         margin-right: 10px;
     }
+    
+    
+    /*게시판*/
+    .r-bSeller, .r-bSpace, .r-bProduct,
+    .bSeller, .bSpace, .bProduct{
+    	width:80%;
+    	height:auto;
+		margin: 10px 5%;
+		text-align: center;
+    }
+    .r-bSeller-header, .r-bSpace-header, .r-bProduct-header,
+    .bSeller-header, .bSpace-header, .bProduct-header{
+    	width:100%;
+    	margin-left: 10%;
+    }
+    .r-bSeller-content, .r-bSpace-content, .r-bProduct-content{
+    	width:100%;
+    	display:inline-flex;
+    }
+    .bSeller-content, .bSpace-content, .bProduct-content{
+    	width:100%;
+    	display:inline-flex;
+    }
+	.box_seller, .box_space, .box_product{
+		width:30%;
+		padding:3%;
+	}    
+    .img_area_image{
+    	width:250px;
+    	height:150px;
+    }
+    
+    
+    
+    
+    
+    
 
 	.member-Type{  
 	  position: relative;

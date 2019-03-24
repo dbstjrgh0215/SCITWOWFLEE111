@@ -99,15 +99,18 @@
 				<table class="signUpTable"> 
 					<tr> 
 						<td class="td-1"><h4>아이디</h4></td>
-						<td class="td-2"><span class="inputNorm"><input type="text" id="signId"></span></td>
+						<td class="td-2"><span class="inputNorm"><input type="text" id="signId"></span><button id="checkId">중복확인</button>
+						<p class="signUpMsg" id="idFail"></p></td>
 					</tr>
 					<tr>
 						<td class="td-1"><h4>비밀번호</h4></td>
-						<td class="td-2"><span class="inputNorm"><input type="password" id="signPw"></span></td>
+						<td class="td-2"><span class="inputNorm"><input type="password" id="signPw"><img class="img-pw" id="img-pw" src="resources/images/signUp/m_icon_pass.png"></span>
+						<p class="signUpMsg" id="pwFail"></p></td>
 					</tr>
 					<tr>
 						<td class="td-1"><h4>비밀번호확인</h4></td>
-						<td class="td-2"><span class="inputNorm"><input type="password" id="passwordCheck"></span></td>
+						<td class="td-2"><span class="inputNorm"><input type="password" id="passwordCheck"><img class="img-pw" id="img-pwcheck" src="resources/images/signUp/m_icon_check_disable.png"></span>
+						<p class="signUpMsg" id="pwCheckFail"></p></td>
 					</tr>
 					<tr>
 						<td class="td-1"><h4>이름</h4></td>

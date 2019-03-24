@@ -70,6 +70,49 @@ public class MemberController {
 		return result;
 	}
 	
+	@RequestMapping(value="/checkId", method=RequestMethod.GET)
+	public @ResponseBody String checkId(String id) {
+		String result ="";
+		
+		try {
+			result = memberDAO.checkId(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/checkPw", method=RequestMethod.GET)
+	public @ResponseBody String checkPw() {
+		return "success";
+	}
+	
+	@RequestMapping(value="/findId", method=RequestMethod.GET)
+	public @ResponseBody String findId(Member mem){
+		String result="";
+		
+		try {
+			result = memberDAO.findId(mem);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping(value="/findPw", method=RequestMethod.GET)
+	public @ResponseBody String findPw(Member mem){
+		String result="";
+		
+		try {
+			result = memberDAO.findPw(mem);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public String logout(HttpSession hs) {
 		hs.invalidate();
