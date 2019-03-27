@@ -8,6 +8,8 @@ $(function() {
 		}
 	});	 
 	
+	board_image();
+	
 	$("#btnSearchM").on("click", function(){
 		$.ajax({
 			url:"goMap",
@@ -54,6 +56,7 @@ $(function() {
 			success:function(serverData){
 				barclose();
 				$("#main-content").html(serverData);
+				board_image();
 			}
 		});
 	});
@@ -81,6 +84,7 @@ $(function() {
 			}
 		});
 	});
+	
 	
 	$("#loginId,#loginPw").keydown(function(key) {
 		if (key.keyCode == 13) {
@@ -129,12 +133,11 @@ $(function() {
 	
 	$("#btnGoSignUp").on("click",function(){
 		location.href="goSignUp";
-		keyword();
+		keywordSet();
 	});
 	
 	$("#findId").click(function () {
 		window.open('goSearchIdPw?type=id','window','width=400px, height=400px');
-		
     });
 	
 	$('#btnFindId').on('click',function(){
@@ -391,9 +394,9 @@ $(function() {
 		location.href="logout";
 	});
 	
+	event();
 	proposal();
-	
-	img();
+	userBoard();
 });
 
 function udt(){
@@ -401,7 +404,7 @@ function udt(){
 }
 
 function img(){
-var sel_files = [];
+	var sel_files = [];
 	
 	$("#image").on("change", handleImgFileSelect);
 	
@@ -410,24 +413,40 @@ var sel_files = [];
 		
 	});
 	
-	function handleImgFileSelect(e) {
-        sel_files = [];
+	$('#imageClear').on('click',function(){
+		sel_files = [];
         $(".imgs_wrap").empty();
+	});
+	
+	function handleImgFileSelect(e) {
+        /*sel_files = [];
+        $(".imgs_wrap").empty();*/
 
         var files = e.target.files;
         var filesArr = Array.prototype.slice.call(files);
 
         var index = 0;
+        
         filesArr.forEach(function(f) {
             if(!f.type.match("image.*")) {
                 return;
             }
 
             sel_files.push(f);
-
+            
             var reader = new FileReader();
             reader.onload = function(e) {
-                var html = "<a id=img_id_"+index+"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+            	var html;
+                if($('#img_id_0').length==0){
+                	$(".imgs_wrap").empty();
+                	html = "<a id=img_id_"+0+"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+                } else if($('#img_id_1').length==0){
+                	html = "<a id=img_id_"+1+"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+                } else if($('#img_id_2').length==0){
+                	html = "<a id=img_id_"+2+"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+                } else {
+                	alert("3개까지등록가능합니다!");
+                }
                 $(".imgs_wrap").append(html);
                 index++;
                 $("#img_id_0").on('click', function(){
@@ -442,6 +461,7 @@ var sel_files = [];
                 	sel_files.splice(2, 1);
                 	$('#img_id_2').remove(); 
                 });
+                
             }
             reader.readAsDataURL(f);
             
@@ -548,7 +568,6 @@ function map(){
 					//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 					var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption),
 					markerPosition = new daum.maps.LatLng(item.latitude, item.longitude); // 마커가 표시될 위치입니다
-					
 					//마커를 생성합니다
 					marker = new daum.maps.Marker({
 					position: markerPosition,
@@ -671,7 +690,7 @@ function jqueryUI(){
 }
 
 function proposal(){
-	keyword();
+	keywordSet();
 	
 	$('#btnRegistProposal').on('click',function(){
 		if($('#proposalTable tr').length>5){
@@ -811,10 +830,162 @@ function proposal(){
 	
 	$(".close").on('click',function(){
 		document.getElementById("modal-proposal").style.display="none";
-	})
+	});
 }
 
-function keyword(){
+function userBoard(){
+	$("#btnRegistBoard").on('click',function(){
+		document.getElementById("modal-userBoard-proposalList").style.display = "block";
+	});
+	
+	$(".close2").on('click',function(){
+		location.href="goUserBoard";
+	});
+	
+	$("input:radio[name=selectProposal]").change(function(){
+		var checked_radio = $(this).val();
+		$.ajax({
+	    	url:"selectProposal",
+	    	data:{proposalnum:checked_radio},
+	    	type:"get",
+	    	success:function(serverData){
+	    		$('#userBoardWrite').html(serverData);
+	    	}
+	    });
+		
+	});
+	
+	$('#btnGoBoardWrite').on('click',function(){
+		var checked_radio_check = $("input:radio[name=selectProposal]").prop("checked");
+		var checked_radio = $("input:radio[name=selectProposal]:checked").val();
+		if(checked_radio==false){
+			alert('선택해주세요!');
+			return false;
+		} 
+		$.ajax({
+			url:"goBoardWrite",
+			data:{proposalnum:checked_radio},
+			type:"post",
+			success:function(serverData){
+				$('#userBoard-proposalListDiv').html(serverData);
+				offdaySet();
+				keywordSet();
+				img();
+				
+				$('#btnBoardWrite').on('click',function(){
+					var membertype=$('#form_membertype').val();
+					var title=$('#title').val();
+					var keyword = "";
+					for(var i=1; i<=5; i++){
+						if($('#keywordContent'+i).val!=""){
+							keyword += "&"+$('#keywordContent'+i).val();
+						}
+					}
+					var comments=$('#comments').val();
+					var precaution=$('#precaution').val();
+					var offday = "";
+					for(var i=1; i<=4; i++){
+						if($('#offday'+i).val!=""){
+							optime += "&"+$('#offday'+i).val();
+						}
+					}
+					if(membertype=='셀러'){
+						var price=$('#price').val();
+						var stock=$('#stock').val();
+					} else {
+						var optime = "";
+						for(var i=1; i<=4; i++){
+							if($('#optime'+i).val!=""){
+								optime += "&"+$('#optime'+i).val();
+							}
+						}
+						var scale = "";
+						for(var i=1; i<=4; i++){
+							if($('#scale'+i).val!=""){
+								scale += "&"+$('#scale'+i).val();
+							}
+						}
+					}
+
+					$('#form_title').val(title);
+					$('#form_keyword').val(keyword);
+					$('#form_comments').val(comments);
+					$('#form_precaution').val(precaution);
+					$('#form_offday').val(offday);
+					if(membertype=='셀러'){
+						$('#form_price').val(price);
+						$('#form_stock').val(stock);
+						$('#form_optime').val("");
+						$('#form_scale').val(0);
+					} else {
+						$('#form_price').val(0);
+						$('#form_stock').val(0);
+						$('#form_optime').val(optime);
+						$('#form_scale').val(scale);
+					}
+					
+				});
+			}
+		});
+		
+	});
+	
+}
+
+function offdaySet(){
+	offdayFilter();
+	
+	function offdayFilter(){
+		$(".offday-a").on('click',function(){
+			var clickNo = $(this).attr('data-sno');
+			var status = document.getElementById("offday"+clickNo).style.color;
+			if(status=='rgb(240, 94, 34)'){
+				$('#offday'+clickNo).css('color','gray');
+				$('#offday-icon'+clickNo).css('color','gray');
+				var offday = $('#offday'+clickNo).text();
+				$('#selectedoffday'+clickNo).remove();
+				var offday = $('#offday'+clickNo).text();
+				for(var a=1; a<=5;a++){
+					if($('#offdayContent'+a).val()==offday.substring(1)){
+						$('#offdayContent'+a).val("");
+						break;
+					}
+				}
+			} else {
+				$('#offday'+clickNo).css('color','#F05E22');
+				$('#offday-icon'+clickNo).css('color','#F05E22');
+				var offday = $('#offday'+clickNo).text();
+				for(var a=1; a<=5;a++){
+					if($('#offdayContent'+a).val()==""){
+						$('#offdayContent'+a).val(offday.substring(1));
+						break;
+					}
+				}
+			}
+			offdayDel();
+		}); 
+	}
+	
+	function offdayDel(){
+		$('.offday-del').off('click');
+		$('.offday-del').on('click',function(){
+			var delNo = $(this).attr('data-sno');
+			$('#offday'+delNo).css('color','gray');
+			$('#offday-icon'+delNo).css('color','gray');
+			var offday = $('#offday'+delNo).text();
+			$('#selectedoffday'+delNo).remove();
+			var deloffday = $(this).attr('key');
+			for(var a=1; a<=5;a++){
+				if($('#offdayContent'+a).val()==deloffday){
+					$('#offdayContent'+a).val("");
+					break;
+				}
+			}
+		});
+	}
+}
+
+function keywordSet(){
 	var index = 30;
 	var count = 0;
 	
@@ -962,4 +1133,118 @@ function keyword(){
 		});
 	}
 }
+
+
+
+function event(){
+	var imgs;
+	var img_count;
+	var img_position = 1;
+	
+	imgs = $(".event ul");
+	img_count = imgs.children().length;
+	
+	$('#event-slider-left').click(function(){
+		back();
+	});
+	
+	$('#event-slider-right').click(function(){
+		next();
+	});
+	
+	function back() {
+		if(1<img_position){
+			imgs.animate({
+				left:'+=100%'
+			});
+			img_position--;
+		}
+	}
+	
+	function next() {
+		if(img_count>img_position){
+			imgs.animate({
+				left:'-=100%'
+			});
+			img_position++;
+		}
+	}
+}
+
+
+function board_image(){
+	var imgs;
+	var img_count;
+	var img_position = 1;
+	
+	$('.img_area').on('mouseenter',function(){
+		var clickImg = $(this).attr('data-sno');
+		document.getElementById('board-img-slider'+clickImg).style.display='block';
+		$('#img_area'+clickImg).addClass('aaa');
+	});
+	
+	$('.inner').on('mouseleave',function(){
+		var clickImg = $(this).attr('data-sno');
+		document.getElementById('board-img-slider'+clickImg).style.display='none';
+		$('#img_area'+clickImg).removeClass('aaa');
+	});
+	
+	$('.board-img-slider-left').click(function(){
+		var clickNo = $(this).attr('data-sno');
+		imgs = $(".inner #board-ul"+clickNo);
+		var status = document.getElementById("board-ul"+clickNo).style.left;
+		img_count = imgs.children().length;
+		if(status==''){
+			img_position=1;
+		} else if(status=='-100%'){
+			img_position=2;
+		} else if(status=='-200%'){
+			img_position=3;
+		}
+		
+		if(img_position==1){
+			imgs.animate({
+				left:'-=200%'
+			});
+			img_position=3;
+		} else {
+			if(1<img_position){
+				imgs.animate({
+					left:'+=100%'
+				});
+				img_position--;
+			}
+		}
+	});
+	
+	$('.board-img-slider-right').click(function(){
+		var clickNo = $(this).attr('data-sno');
+		imgs = $(".inner #board-ul"+clickNo);
+		var status = document.getElementById("board-ul"+clickNo).style.left;
+		img_count = imgs.children().length;
+		if(status==''){
+			img_position=1;
+		} else if(status=='-100%'){
+			img_position=2;
+		} else if(status=='-200%'){
+			img_position=3;
+		}
+		
+		if(img_position==3){
+			imgs.animate({
+				left:'+=200%'
+			});
+			img_position=1;
+		} else {
+			if(img_count>img_position){
+				imgs.animate({
+					left:'-=100%'
+				});
+				img_position++;
+			}
+		}
+	});
+	
+}
+
 

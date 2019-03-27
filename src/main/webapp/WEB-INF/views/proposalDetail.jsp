@@ -85,7 +85,7 @@
 			</table><hr>
 		</div>
 		</c:if>
-	<div class="propsalBtn">
+	<div class="proposalBtn">
 		<button data-sno="${udtProposal.proposalnum}" class="udtProposal" id="udtProposal${udtProposal.proposalnum}">수정</button>
 		<button data-sno="${udtProposal.proposalnum}" class="delProposal" id="udtProposal${udtProposal.proposalnum}">삭제</button>
 	</div>

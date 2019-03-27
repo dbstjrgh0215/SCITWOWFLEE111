@@ -1,27 +1,17 @@
 package com.scit.flee2;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.scit.flee2.dao.BoardDAO;
+import com.scit.flee2.vo.Board;
 import com.scit.flee2.vo.Member;
 import com.scit.flee2.vo.Proposal;
 
@@ -88,6 +79,17 @@ public class BoardController {
 		return "proposal";
 	}
 	
+	@RequestMapping(value="/goUserBoard", method=RequestMethod.GET)
+	public String goUserBoard(Model model, HttpSession hs) {
+		Member mem = (Member) hs.getAttribute("sessionMember");
+		ArrayList<Proposal> list = boardDAO.listProposal(mem);
+		ArrayList<Board> result = boardDAO.listUserBoard(mem);
+		model.addAttribute("listProposal", list);
+		model.addAttribute("listUserBoard", result);
+		
+		return "userBoard";
+	}
+	
 	@RequestMapping(value="/goProposal2", method=RequestMethod.GET)
 	public @ResponseBody Proposal goProposal2(int clickNo){
 		Proposal result = new Proposal();
@@ -144,9 +146,151 @@ public class BoardController {
 		return "proposalDetail";
 	}
 	
+	@RequestMapping(value="/selectProposal", method=RequestMethod.GET)
+	public String selectProposal(int proposalnum, Model model){
+		Proposal result = goProposal2(proposalnum);
+		
+		model.addAttribute("selectProposal", result);
+		
+		return "selectProposal";
+	}
+	
+	@RequestMapping(value="/goBoardWrite", method=RequestMethod.POST)
+	public String goBoardWrite(int proposalnum, Model model) {
+		Proposal result = goProposal2(proposalnum);
+		
+		model.addAttribute("selectProposal", result);
+		return "boardWrite";
+	}
+	
 	@RequestMapping(value="/keyword", method=RequestMethod.GET)
 	public String keyword(String membertype) {
 		
 		return "keyword";
+	}
+	
+	@RequestMapping(value="/goBoardSeller", method=RequestMethod.GET)
+	public String goBoardSeller(Model model) { 
+		ArrayList<Board> list = boardDAO.listRecommendSeller();
+		ArrayList<Board> seller = boardDAO.listBoard("셀러");
+		ArrayList<HashMap<String,String>> recommendList = new ArrayList<HashMap<String,String>>();
+		ArrayList<HashMap<String,String>> sellerList = new ArrayList<HashMap<String,String>>();
+		
+		for(int i=0; i<list.size(); i++) {		// keyword 자르는 구문
+			HashMap<String,String> recommendMap = new HashMap<String,String>();
+			String keyword = list.get(i).getKeyword();
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				keyword = keyword.substring(cnt+1);
+				cnt = keyword.indexOf("&");
+				if(cnt==-1) {
+					break;
+				}
+				recommendMap.put("keyword"+(j+1), keyword.substring(0, cnt));
+				keyword = keyword.substring(cnt);
+			}
+			
+			String image = list.get(i).getImage();
+			for(int j=0; j<3; j++) {		// image 자르는 구문
+				int cnt = 0;
+				cnt = image.indexOf("&");
+				if(cnt==-1) {
+					recommendMap.put("image"+(j+1), image);
+					break;
+				}
+				recommendMap.put("image"+(j+1), image.substring(0, cnt));
+				image = image.substring(cnt+1);
+			}
+			recommendMap.put("recommendNum","rs"+Integer.toString(i+1));
+			recommendMap.put("id",list.get(i).getId());
+			recommendMap.put("title",list.get(i).getTitle());
+			recommendList.add(recommendMap);
+		}
+		
+		for(int i=0; i<seller.size(); i++) {		// keyword 자르는 구문
+			HashMap<String,String> sellerMap = new HashMap<String,String>();
+			String keyword = seller.get(i).getKeyword();
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				keyword = keyword.substring(cnt+1);
+				cnt = keyword.indexOf("&");
+				if(cnt==-1) {
+					break;
+				}
+				sellerMap.put("keyword"+(j+1), keyword.substring(0, cnt));
+				keyword = keyword.substring(cnt);
+			}
+			
+			String image = seller.get(i).getImage();
+			for(int j=0; j<3; j++) {		// image 자르는 구문
+				int cnt = 0;
+				cnt = image.indexOf("&");
+				if(cnt==-1) {
+					sellerMap.put("image"+(j+1), image);
+					break;
+				}
+				sellerMap.put("image"+(j+1), image.substring(0, cnt));
+				image = image.substring(cnt+1);
+			}
+			sellerMap.put("sellerNum","s"+Integer.toString(i+1));
+			sellerMap.put("id",seller.get(i).getId());
+			sellerMap.put("title",seller.get(i).getTitle());
+			sellerList.add(sellerMap);
+		}
+		
+		
+		model.addAttribute("recommendList", recommendList);
+		model.addAttribute("sellerList", sellerList);
+		return "boardSeller"; 
+	}
+	
+	@RequestMapping(value="/goBoardSpace", method=RequestMethod.GET)
+	public String goBoardSpace() { 
+		return "boardSpace"; 
+	}
+	
+	@RequestMapping(value="/goBoardProduct", method=RequestMethod.GET)
+	public String goBoardProduct() { 
+		return "boardProduct"; 
+	}
+	
+	@RequestMapping(value="/insertBoard", method=RequestMethod.POST)
+	public String insertBoard(Board board, MultipartFile uploadFile, MultipartHttpServletRequest request, HttpSession hs) {
+
+		String fileName, originalFileName;
+		
+		List<MultipartFile> fileList = request.getFiles("uploadFile");
+		String files = "";
+		
+		Member mem = (Member) hs.getAttribute("sessionMember");
+		
+		try {
+			Iterator<MultipartFile> it = fileList.iterator();
+			int index = 0;
+			while (it.hasNext()) {
+				index++;
+				MultipartFile file = (MultipartFile) it.next();
+				originalFileName = file.getOriginalFilename();
+				fileName = mem.getId()+"_board_"+board.getTitle()+"_image"+index+originalFileName.substring(originalFileName.indexOf("."));
+				File f = new File(UPLOADPATH+mem.getId()+"\\"+fileName);
+				if(!f.exists()) { //폴더가 없으면 생성
+				   f.mkdirs();
+				}
+				file.transferTo(f);	// 파일의 내용을 가져오고 업로드 저장되는 이름은 (+fileName)으로 저장
+				files=files+"&"+fileName;
+			}
+			if(files.indexOf("&")==0) {
+				files = files.substring(1);
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		board.setImage(files);
+		
+		boardDAO.insertBoard(board);
+		
+		return "redirect:/goUserBoard";
 	}
 }

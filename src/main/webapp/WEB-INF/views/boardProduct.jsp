@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <div class="r-bSeller">
   		<div class="r-bSeller-header">
-  			추천상품
+  			<h4>추천상품</h4><hr>
   		</div>
   		<div class="r-bSeller-content">
   			<article class="box_seller">
@@ -49,7 +49,7 @@
     	<div class="bSeller">
     		
     		<div class="bSeller-header"> 
-    			상품목록
+    			<h4>상품목록</h4><hr>
     		</div> 
     		
     		<div class="bSeller-content">

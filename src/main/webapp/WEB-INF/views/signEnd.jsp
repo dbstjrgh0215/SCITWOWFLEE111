@@ -22,16 +22,6 @@
 	        <button id="btnSlide"><i class="fas fa-bars"></i></button> 
         </div>
 	</div>
-	<div class="main-nav">
-        <div class="list-menu">
-            <ul>
-                <li><a href="goBoardSpace">공간보기</a></li>
-                <li><a href="goBoardSeller">셀러보기</a></li>
-                <li><a href="">판매상품</a></li>
-            </ul>
-            
-        </div> <!-- /.list-menu -->
-	</div>
 	
 	<div id="sidenav" class="sidenav">
 		<div class="side-login">
@@ -48,7 +38,7 @@
 			<a class="slide-btn" href="#">계약관리</a>
 			<a class="slide-btn" href="#">지원관리</a>
 			<a class="slide-btn" href="goProposal">제안서관리</a>
-			<a class="slide-btn" href="#">내가쓴글</a>
+			<a class="slide-btn" href="goUserBoard">내가쓴글</a>
 		</div>
 		<div class="sidenav-menu">
 			<a href="#">이용후기</a>
@@ -67,7 +57,7 @@
 		
 	</div>
 </header>
-     
+<div class="wrap">     
     <div class="main-content" id="main-content">
 	    <div class="signUp">
 	    	<div class="signUpProgress">
@@ -103,6 +93,12 @@
 			</div>
 		</div>
 	</div>	
+	<footer class="site-footer">
+		<div class="main-footer">
+			푸터
+		</div>
+	</footer>
+</div>
 </body>
  
 	<script src="resources/js/jquery-3.1.1.min.js"></script>

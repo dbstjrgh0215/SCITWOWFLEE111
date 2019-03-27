@@ -23,16 +23,6 @@
 	        <button id="btnSlide"><i class="fas fa-bars"></i></button> 
         </div>
 	</div>
-	<div class="main-nav">
-        <div class="list-menu">
-            <ul>
-                <li><a href="goBoardSpace">공간보기</a></li>
-                <li><a href="goBoardSeller">셀러보기</a></li>
-                <li><a href="">판매상품</a></li>
-            </ul>
-            
-        </div> <!-- /.list-menu -->
-	</div>
 	
 	<div id="sidenav" class="sidenav">
 		<div class="side-login">
@@ -49,7 +39,7 @@
 			<a class="slide-btn" href="#">계약관리</a>
 			<a class="slide-btn" href="#">지원관리</a>
 			<a class="slide-btn" href="goProposal">제안서관리</a>
-			<a class="slide-btn" href="#">내가쓴글</a>
+			<a class="slide-btn" href="goUserBoard">내가쓴글</a>
 		</div>
 		<div class="sidenav-menu">
 			<a href="#">이용후기</a>
@@ -68,7 +58,7 @@
 		
 	</div>
 </header>
-     
+<div class="wrap">     
     <div class="main-content" id="main-content">
 		<div class="proposal">
 	    	<div class="proposal-header">
@@ -77,6 +67,7 @@
 	   				<ul>
 	   					<li><h5>제안서는 최대 5개까지 등록할 수 있습니다.</h5></li>
 	   					<li><h5>계약요청 후 제안서의 내용을 수정해도 요청한 제안서에는 반영되지 않습니다.</h5></li>
+	   					<li><h5>내가 쓴 글에서 제안서를 이용하여 공고문을 작성할 수 있습니다.</h5></li>
 	   				</ul>
 	   			</div>
 	   		</div>
@@ -110,6 +101,12 @@
 			</div>
 		</div>
 	</div>
+		<footer class="site-footer">
+		<div class="main-footer">
+			푸터
+		</div>
+	</footer>
+</div>
 </body>
  
 	<script src="resources/js/jquery-3.1.1.min.js"></script>

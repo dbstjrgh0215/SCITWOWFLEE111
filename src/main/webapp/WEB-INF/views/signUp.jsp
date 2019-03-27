@@ -8,6 +8,7 @@
 <title>회원가입</title>
 	<link rel="stylesheet" href="resources/css/wow-css.css"> 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	
 </head>
 <body>
 <header class="site-header">
@@ -21,16 +22,6 @@
 	        <button id="btnNotice"><i class="fas fa-bell"></i></button>
 	        <button id="btnSlide"><i class="fas fa-bars"></i></button> 
         </div>
-	</div>
-	<div class="main-nav">
-        <div class="list-menu">
-            <ul>
-                <li><a href="goBoardSpace">공간보기</a></li>
-                <li><a href="goBoardSeller">셀러보기</a></li>
-                <li><a href="">판매상품</a></li>
-            </ul>
-            
-        </div> <!-- /.list-menu -->
 	</div>
 	
 	<div id="sidenav" class="sidenav">
@@ -48,7 +39,7 @@
 			<a class="slide-btn" href="#">계약관리</a>
 			<a class="slide-btn" href="#">지원관리</a>
 			<a class="slide-btn" href="goProposal">제안서관리</a>
-			<a class="slide-btn" href="#">내가쓴글</a>
+			<a class="slide-btn" href="goUserBoard">내가쓴글</a>
 		</div>
 		<div class="sidenav-menu">
 			<a href="#">이용후기</a>
@@ -67,7 +58,7 @@
 		
 	</div>
 </header>
-     
+<div class="wrap">     
     <div class="main-content" id="main-content">
     	<div class="signUp">
     		<div class="signUpProgress">
@@ -157,10 +148,14 @@
 				</div>
 			</div>
     	</div>
-		
     </div>
+	<footer class="site-footer">
+		<div class="main-footer">
+			푸터
+		</div>
+	</footer>
+</div>	
 </body>
- 
 	<script src="resources/js/jquery-3.1.1.min.js"></script>
  	<script src="resources/js/wow-js.js"></script>
  	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>

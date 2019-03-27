@@ -70,11 +70,15 @@ html, body {
 	ol ol { 
 		margin-bottom: 0;		
 	}
+	.wrap{
+		width: 100%;
+    	height: 100%;
+	}
 	 /* 헤더 관련 */
 	.site-header{
-		background-color:white;
 		height:90px;
 		width:100%;
+		z-index:2;
 	}
 	.site-header-map{
 		background-color:white;
@@ -104,6 +108,8 @@ html, body {
 	.main-header{ 
 		position:relative;
 		height:40px;
+	    border-bottom: solid #F05E22;
+	    background-color:white;
 	}
 	.logo{
 		height:100%;
@@ -123,7 +129,7 @@ html, body {
 	}
 	.btn-header button{
 		height:100%; 
-		background-color:#FFFFFF;
+		background-color:inherit;
 		border:none;
 		padding:0px 15px;
 	}
@@ -163,6 +169,17 @@ html, body {
 		position:fixed;
 		top:0px; 
 	}
+	
+	/* 푸터 관련 */
+	.site-footer{
+		display: block;
+	    position: relative;
+	    height:150px;
+	    margin-top:50px;
+	    background-color: #ebebeb;
+	    color: #656565;
+	}
+	
 	/* 알림 관련 */
 	.notice { 
 		display:none;
@@ -253,7 +270,9 @@ html, body {
 
 	.main-content{
 		width:100%; 
-		height:100%;
+		min-height: 100%;
+	    height: auto !important;
+	    height: 100%;
 	}
 	.event, .recommend-space, .recommend-seller{
 		display:table;
@@ -265,23 +284,36 @@ html, body {
 		height:30%;
 		position:relative;
 	}
-	.event-content img{
+	.event-content{
 		width:100%;
+		height:350px;
+		overflow:hidden;
+	}
+	.event-ul{
+		list-style: none;
+	    width: 500%;
+	    margin: 0;
+	    padding: 0;
+	    position: relative;
+	}
+	.event-li{
+		width:100%;
+	}
+	.event-content img{
+		width: 20%; 
+		float: left;
 		height:100%;
 	}
 	.recommend-space, .recommend-seller{
 		width:80%;
 		height:40%;
 	}
-	.event-content{
-		width:100%;
-		height:350px;
-	}
 	.event-slider a{
 		position: absolute;
 	    height: 100%;
 	    width: 50px;
 	    top: 0;
+	    z-index:1;
 	}
 	.event-slider #event-slider-left{
 		left:0;
@@ -290,10 +322,12 @@ html, body {
 		right:0;
 	}
 	.event-slider i{
-		font-size:2.6em;
+		font-size:2.2em;
 		position: relative;
     	top: 150px;
+    	color:rgba(255,255,255,0.2);
 	}
+	
 	.r-space-content, .r-seller-content{
 		margin: 1% 0;
 	}
@@ -356,7 +390,7 @@ html, body {
 		display:inline-grid;
 	}
 	.td-1{ 
-		width:180px;
+		width:125px;
 	}
 	.td-2{
 		width:300px; 
@@ -364,14 +398,14 @@ html, body {
 	}
 	/*키워드*/
 	.td-keyword1{
-		width:180px;
+		width:125px;
 	    padding: 10px 0 210px 0;
 	}
 	.td-keyword2{
 		width:300px; 
 	    padding: 10px 0 50px 0;
 	}
-	.ul-keyword{
+	.ul-keyword, .ul-offday{
 		list-style:none;
 		display: contents;
 	}
@@ -503,56 +537,55 @@ html, body {
 	}
 	
 	
-	/*제안서 관리*/
-	.proposal{
+	/*제안서 관리, 공고문 관리*/
+	.proposal, .userBoard{
 		text-align:center;
-		margin-top:30px;
 	}
-	.proposal-header{
+	.proposal-header, .userBoard-header{
 		width:80%;
 		display:inline-grid;
 		text-align:left;
 	}
-	.proposal-explain{
+	.proposal-explain, .userBoard-explain{
 		background-color:#ffa07a;
 	}
-	.proposalList{
+	.proposalList, .userBoardList{
 		width:80%;
 		display:inline-grid;
 		margin-top:50px;
 	}
-	.btnRegistProposal {
+	.btnRegistProposal, .btnRegistBoard {
 		width:110px;
 		position:absolute;
 		right:10%;
 		padding:3px 10px;
 	}
-	.proposalDiv{
+	.proposalDiv, .userBoardDiv{
 	    position: relative;
 	    top: 25px;
 	    margin-top: 15px;
 	}
-	.proposalTable{
+	.proposalTable, .proposalTable2, .userBoardTable{
 		width:100%;
 	    border-collapse: collapse;
 	    border-spacing: 0;
 	    empty-cells: show;
 	}
-	.proposalTable th{
+	.proposalTable th, .proposalTable2 th, .userBoardTable th{
 		border-top: solid 2px;
     	border-bottom: solid 1px;
     	padding: 0;
 	}
-	.proposal-tr{
+	.proposal-tr, .userBoard-tr{
 		border-bottom: solid 1px gray;
 	}
-	.proposal-td-1{
+	.proposal-td-1, .userBoard-td-1{
 		width:40%;
 	}
-	.proposal-td-2{
+	.proposal-td-2, .userBoard-td-2{
 		width:30%;
 	}
-	.proposal-td-3{
+	.proposal-td-3, .userBoard-td-3{
 		width:20%;
 	}
 	.td-control{
@@ -565,18 +598,18 @@ html, body {
 	    width: 80%;
 	}
 	/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
- position: fixed; /* Stay in place */
- z-index: 1; /* Sit on top */
- left: 0;
- top: 0;
- width: 100%; /* Full width */
- height: 100%; /* Full height */
- overflow: auto; /* Enable scroll if needed */
- background-color: rgb(0,0,0); /* Fallback color */
- background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
+	.modal {
+	    display: none; /* Hidden by default */
+	 position: fixed; /* Stay in place */
+	 z-index: 1; /* Sit on top */
+	 left: 0;
+	 top: 0;
+	 width: 100%; /* Full width */
+	 height: 100%; /* Full height */
+	 overflow: auto; /* Enable scroll if needed */
+	 background-color: rgb(0,0,0); /* Fallback color */
+	 background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	}
 
 	/* Modal Content/Box */
 	.modal-content {
@@ -584,27 +617,71 @@ html, body {
 		margin: 5% auto; /* 15% from the top and centered */ 
 		padding: 30px; 
 		border: 1px solid #888; 
-		width: 80%; /* Could be more or less, depending on screen size */                          
+		width: 85%; /* Could be more or less, depending on screen size */                          
 	}
 	/* The Close Button */
-	.close {
+	.close, .close2 {
 	    color: #aaa;
 	    float: right;
 	    font-size: 28px;
 	    font-weight: bold;
+	    padding-bottom:10px;
 	}
 	.close:hover,
-	.close:focus {
+	.close:focus,
+	.close2:hover,
+	.close2:focus {
 	    color: black;
 	    text-decoration: none;
 	    cursor: pointer;
 	}
-	.propsalBtn{
+	.proposalBtn{
 		position: relative;
 		text-align:right;
 	}
-	.modal-proposalContent{
+	.modal-proposalContent, .modal-userBoard-proposalListContent{
 		text-align:center;
+	}
+	.boardWriteContent{
+	    display: inline-block;
+    	text-align: left;
+	}
+	.boardWriteContent h4{
+		margin-bottom:0;
+	}
+	.boardWriteContent input{
+		border:none;
+	}
+	.ul-offday{
+		list-style:none;
+		display: contents;
+	}
+	.li-offday{
+		float: left;
+	    text-align: center;
+	}
+	.span-offday{
+		border: solid 1px;
+        padding: 5px 10px;
+	    border-radius: 3px;
+	    display: block;
+	}
+	.span-offday i{
+		color:gray;
+	}
+	.span-offday a{
+	    color:gray;
+	}
+	.btnBoardWrite{
+		margin-top:1.33em;
+		float:right;
+	}
+	.keywordTable-bw{
+		width:100%;
+	}
+	.keywordTable-bw .td-keyword2{
+		width:610px;
+		padding:0;
 	}
 	.proposalDetailTable, .seller-ProposalDetail, .space-ProposalDetail{
 		text-align:left;
@@ -657,38 +734,146 @@ html, body {
     }
     
     
+    /*공고문 관리*/
+
+    
     /*게시판*/
     .r-bSeller, .r-bSpace, .r-bProduct,
     .bSeller, .bSpace, .bProduct{
-    	width:80%;
+    	width:90%;
     	height:auto;
 		margin: 10px 5%;
-		text-align: center;
     }
     .r-bSeller-header, .r-bSpace-header, .r-bProduct-header,
     .bSeller-header, .bSpace-header, .bProduct-header{
-    	width:100%;
-    	margin-left: 10%;
-    }
+		margin:0 auto;
+	}
     .r-bSeller-content, .r-bSpace-content, .r-bProduct-content{
-    	width:100%;
-    	display:inline-flex;
+    	width: auto;
+	    display: block;
     }
     .bSeller-content, .bSpace-content, .bProduct-content{
-    	width:100%;
-    	display:inline-flex;
+   	    width: auto;
+	    display: block;
     }
 	.box_seller, .box_space, .box_product{
-		width:30%;
+		width:auto;
 		padding:3%;
+	    display: inline-block;
+	}
+	.inner{
+		overflow:hidden;
+		border:solid 1px #dcdcdc;
+		background-color: #fefefe;
 	}    
+	.img_border{
+	    width: 350px;
+	    height: 200px;
+	    overflow: hidden;
+	}
+	.img_area, .info_area{
+		text-align:center;
+	}
     .img_area_image{
-    	width:250px;
-    	height:150px;
+    	width:20%;
+    	height:200px;
+    	overflow:hidden;
+    	float:left;
     }
+    .img_area_button{
+    	display: none;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    height: 100%;
+	    width: 100%;
+    }
+	.img_area {
+		transform: scale(1);
+		-webkit-transform: scale(1);
+		-moz-transform: scale(1);
+		-ms-transform: scale(1);
+		-o-transform: scale(1);
+		transition: all 0.3s ease-in-out;   /* 부드러운 모션을 위해 추가*/
+		width: 350px;
+	    height: 200px;
+	    overflow: hidden;
+	}
+	.aaa {
+		transform: scale(1.1);
+		-webkit-transform: scale(1.1);
+		-moz-transform: scale(1.1);
+		-ms-transform: scale(1.1);
+		-o-transform: scale(1.1);
+	}
+    .board-ul{
+   	    list-style: none;
+   	    width:500%;
+	    margin: 0;
+	    padding: 0;
+	    position: relative;
+    }
+    .board-li{
+    	width:100%;
+    }
+    .board-img-slider{
+    	height:0;
+    	display:none;
+    	transition:0.5s
+    }
+    .board-img-slider-btn{
+    	width:50px;
+    	height:200px;
+    	position:relative;
+    	top:-200px;
+    	border: none;
+    	overflow: hidden;
+    	cursor:pointer;
+    	outline:0;
+    }
+    .board-img-slider-btn i{
+    	color:white;
+    }
+    .board-img-slider #slide-left{
+    	background: linear-gradient(to left, rgba( 255,255,255, 0.2 ), rgba( 125,125,125, 0.4 ));
+    }
+    .board-img-slider #slide-right{
+    	left:245px;
+    	background: linear-gradient(to left, rgba( 125,125,125, 0.4 ), rgba( 255,255,255, 0.2 ));
+    }
+    .board-img-slider a{
+	    height: 100%;
+	    width: 50px;
+	    top: -105px;
+	    z-index:1;
+    }
+    .board-img-slider-left{
+    	background: linear-gradient(to left, rgba( 255,255,255, 0.2 ), rgba( 125,125,125, 0.4 ));
+    }
+    .board-img-slider-right{
+   	    left:245px;
+    	background: linear-gradient(to left, rgba( 125,125,125, 0.4 ), rgba( 255,255,255, 0.2 ));
+    }
+    .board-img-slider i{
+		font-size:1.8em;
+		position: relative;
+	}
+    .info_area{
+    	border-top: solid 1px #dcdcdc;
+    	text-align:left;
+    }
+    .info_area h4{
+    	margin: 15px;
+    }
+    .tag_area{
     
-    
-    
+    }
+    .tag_area h5{
+    	margin: 15px;
+    }
+    .tag_area a{
+    	margin : 0 5px;
+    }
     
     
     
@@ -729,7 +914,7 @@ html, body {
 	}
 	.login-Form{
 		text-align:center;
-		padding: 10px 10px; 
+		padding: 50px 10px; 
 	}
 	.login-Form input{
 		border: none;

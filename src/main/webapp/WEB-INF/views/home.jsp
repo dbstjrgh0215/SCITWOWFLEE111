@@ -48,7 +48,7 @@
 			<a class="slide-btn" href="#">계약관리</a>
 			<a class="slide-btn" href="#">지원관리</a>
 			<a class="slide-btn" href="goProposal">제안서관리</a>
-			<a class="slide-btn" href="#">내가쓴글</a>
+			<a class="slide-btn" href="goUserBoard">내가쓴글</a>
 		</div>
 		<div class="sidenav-menu">
 			<a href="#">이용후기</a>
@@ -67,61 +67,106 @@
 		
 	</div>
 </header>
-     
+<div class="wrap">
     <div class="main-content" id="main-content">
     	<div class="event">
     		<div class="event-content">
-    			<img alt="logo" id="logo-login" src="resources/images/eventbanner.jpg">
+    			<ul class="event-ul">
+    				<li class="event-li"><a href="#"><img src="resources/images/eventbanner.jpg"></a></li>
+	    			<li class="event-li"><a href="#"><img src="resources/images/eventbanner2.png"></a></li>
+	    			<li class="event-li"><a href="#"><img src="resources/images/eventbanner3.jpg"></a></li>
+    			</ul>
     		</div>
     		<div class="event-slider">
-    			<a href="#" id="event-slider-left"><i class="fas fa-chevron-left"></i></a>
-    			<a href="#" id="event-slider-right"><i class="fas fa-chevron-right"></i></a>
+    			<a href="javascript:void(0);" id="event-slider-left"><i class="fas fa-chevron-left"></i></a>
+    			<a href="javascript:void(0);" id="event-slider-right"><i class="fas fa-chevron-right"></i></a>
     		</div>
     	</div>
-    	<div class="recommend-space">
-    		<div class="r-space-header">
-    			추천공간
-    		</div>
-    		<div class="r-space-content">
-    			<table class="r-space-table">
-    				<tr>
-	    				<td class="r-space-image"><img alt="logo" id="logo-login" src="resources/images/gallery-image-1.jpg"></td>
-		    			<td class="r-space-image"><img alt="logo" id="logo-login" src="resources/images/gallery-image-1.jpg"></td>
-		    			<td class="r-space-image"><img alt="logo" id="logo-login" src="resources/images/gallery-image-1.jpg"></td>
-    				</tr>
-    				<tr>
-    					<td><a href="">추천 공간 1번</a></td>
-	    				<td><a href="">추천 공간 2번</a></td>
-	    				<td><a href="">추천 공간 3번</a></td> 
-    				</tr>
-    			</table>
-    		</div> 
-    	</div>
-    	<div class="recommend-seller">
-    		
-    		<div class="r-seller-header"> 
-    			추천셀러
-    		</div> 
-    		
-    		<div class="r-seller-content">
-    			<div class="r-seller-image"> 
-    				<table class="r-space-table">
-    				<tr>
-	    				<td class="r-seller-image"><img alt="logo" id="logo-login" src="resources/images/gallery-image-2.jpg"></td>
-		    			<td class="r-seller-image"><img alt="logo" id="logo-login" src="resources/images/gallery-image-2.jpg"></td>
-		    			<td class="r-seller-image"><img alt="logo" id="logo-login" src="resources/images/gallery-image-2.jpg"></td>
-    				</tr>
-    				<tr>
-    					<td><a href="">추천 셀러 1번</a></td>
-	    				<td><a href="">추천 셀러 2번</a></td>
-	    				<td><a href="">추천 셀러 3번</a></td>
-    				</tr>
-    			</table>
-    			</div>
-    			
-    		</div>
-    	</div>
-    </div>
+	    <div class="r-bSeller">
+	  		<div class="r-bSeller-header">
+	  			<h4>추천공간</h4><hr>
+	  		</div>
+	  		<div class="r-bSeller-content">
+	  		<c:forEach var="recommend" items="${recommendList}">
+	  			<article class="box_seller">
+	  				<div class="inner" data-sno="${recommend.recommendNum}" >
+	  					<a href="javascript:void(0);">
+	  						<div class="img_border">
+	  						<div class="img_area" data-sno="${recommend.recommendNum}" id="img_area${recommend.recommendNum}">
+	  							<ul class="board-ul" id="board-ul${recommend.recommendNum}">
+	  								<li class="board-li"><c:if test="${!empty recommend.image1}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/${recommend.image1}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty recommend.image2}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/${recommend.image2}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty recommend.image3}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/${recommend.image3}"></c:if></li>
+	  							</ul>
+	  						</div>
+	  						<div class="board-img-slider" data-sno="${recommend.recommendNum}" id="board-img-slider${recommend.recommendNum}">
+	  							<a href="javascript:void(0);" data-sno="${recommend.recommendNum}" class="board-img-slider-left"><button class="board-img-slider-btn" id="slide-left" data-sno="${recommend.recommendNum}" ><i class="fas fa-chevron-left"></i></button></a>
+	  							<a href="javascript:void(0);" data-sno="${recommend.recommendNum}" class="board-img-slider-right"><button class="board-img-slider-btn" id="slide-right" data-sno="${recommend.recommendNum}" ><i class="fas fa-chevron-right"></i></button></a>
+				    		</div>
+				    		</div>
+	  						<div class="info_area">
+	  							<h4>${recommend.title}</h4>
+	  						</div>
+	  					</a>
+						<div class="tag_area">
+							<h5>키워드
+							<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword1}"><span>#${recommend.keyword1}</span></c:if></a>
+							<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword2}"><span>#${recommend.keyword2}</span></c:if></a>
+							<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword3}"><span>#${recommend.keyword3}</span></c:if></a>
+							<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword4}"><span>#${recommend.keyword4}</span></c:if></a>
+							<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword5}"><span>#${recommend.keyword5}</span></c:if></a></h5>
+						</div>
+	  				</div>
+	  			</article>
+	  			</c:forEach>
+	  		</div> 
+	  	</div>
+	  	<div class="r-bSeller">
+	  		<div class="r-bSeller-header">
+	  			<h4>추천셀러</h4><hr>
+	  		</div>
+	  		<div class="r-bSeller-content">
+	  		<c:forEach var="recommend" items="${recommendList}">
+	  			<article class="box_seller">
+	  				<div class="inner" data-sno="${recommend.recommendNum}" >
+	  					<a href="javascript:void(0);">
+	  						<div class="img_border">
+	  						<div class="img_area" data-sno="${recommend.recommendNum}" id="img_area${recommend.recommendNum}">
+	  							<ul class="board-ul" id="board-ul${recommend.recommendNum}">
+	  								<li class="board-li"><c:if test="${!empty recommend.image1}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/${recommend.image1}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty recommend.image2}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/${recommend.image2}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty recommend.image3}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/${recommend.image3}"></c:if></li>
+	  							</ul>
+	  						</div>
+	  						<div class="board-img-slider" data-sno="${recommend.recommendNum}" id="board-img-slider${recommend.recommendNum}">
+	  							<a href="javascript:void(0);" data-sno="${recommend.recommendNum}" class="board-img-slider-left"><button class="board-img-slider-btn" id="slide-left" data-sno="${recommend.recommendNum}" ><i class="fas fa-chevron-left"></i></button></a>
+	  							<a href="javascript:void(0);" data-sno="${recommend.recommendNum}" class="board-img-slider-right"><button class="board-img-slider-btn" id="slide-right" data-sno="${recommend.recommendNum}" ><i class="fas fa-chevron-right"></i></button></a>
+				    		</div>
+				    		</div>
+	  						<div class="info_area">
+	  							<h4>${recommend.title}</h4>
+	  						</div>
+	  					</a>
+						<div class="tag_area">
+							<h5>키워드
+							<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword1}"><span>#${recommend.keyword1}</span></c:if></a>
+							<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword2}"><span>#${recommend.keyword2}</span></c:if></a>
+							<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword3}"><span>#${recommend.keyword3}</span></c:if></a>
+							<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword4}"><span>#${recommend.keyword4}</span></c:if></a>
+							<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword5}"><span>#${recommend.keyword5}</span></c:if></a></h5>
+						</div>
+	  				</div>
+	  			</article>
+	  			</c:forEach>
+	  		</div> 
+	  	</div>
+	</div>
+    <footer class="site-footer">
+		<div class="main-footer">
+			푸터
+		</div>
+	</footer>
+	</div>
 </body>
  	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a5ef94da1ecf3b9c86e43db1a1d3957&libraries=services"></script>
 	<script src="resources/js/jquery-3.1.1.min.js"></script>

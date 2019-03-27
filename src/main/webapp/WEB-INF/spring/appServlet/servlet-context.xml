@@ -28,6 +28,7 @@
 		<interceptor>
 			<mapping path="/goProposal"/>
 			<mapping path="/goProposalWrite"/>
+			<mapping path="/goUserBoard"/>
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
 	</interceptors>

@@ -49,7 +49,7 @@
 			<a class="slide-btn" href="#">계약관리</a>
 			<a class="slide-btn" href="#">지원관리</a>
 			<a class="slide-btn" href="goProposal">제안서관리</a>
-			<a class="slide-btn" href="#">내가쓴글</a>
+			<a class="slide-btn" href="goUserBoard">내가쓴글</a>
 		</div>
 		<div class="sidenav-menu">
 			<a href="#">이용후기</a>
@@ -68,7 +68,7 @@
 		
 	</div>
 </header>
-     
+<div class="wrap">     
     <div class="main-content" id="main-content">
     	<div class="proposalWrite">
     		<div class="memberInfoDiv">
@@ -126,23 +126,6 @@
    					<tr>
    						<td class="td-1"><h4>제안서 제목</h4></td>
    						<td class="td-2"><span class="inputNorm"><input type="text" id="title" value="${udtProposal.title}"></span></td>
-   					</tr>
-					<tr>
-						<td class="td-1"><h4>사진</h4></td>
-						<td class="td-2"><div>
-				        <div class="input_wrap">
-				            <a href="javascript:void(0);" id="fileUpload" class="my_button">파일업로드</a>
-				            <input type="file" id="image" name="uploadFile" multiple/>
-				        </div> 
-				    </div>
-				    <div>
-				        <div class="imgs_wrap">
-				            <img id="img1" src="${fileList[0]}"/>
-				            <img id="img2" src="${fileList[1]}" />
-				            <img id="img3" src="${fileList[2]}" />
-				        </div>
-				        <h5>사진파일은 3개까지 등록가능합니다.</h5>
-				    </div></td>
    					</tr>
    					<tr>
    						<td class="td-1"><h4>키워드</h4></td>
@@ -228,8 +211,13 @@
 				<button id="btnWriteProposal">작성완료</button>
 			</div>
     	</div>
-    
 	</div>
+    <footer class="site-footer">
+		<div class="main-footer">
+			푸터
+		</div>
+	</footer>
+</div>	
 </body>
  
 	<script src="resources/js/jquery-3.1.1.min.js"></script>
