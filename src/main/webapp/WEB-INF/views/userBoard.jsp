@@ -82,7 +82,15 @@
 					</tr>
 					<c:forEach var="list" items="${listUserBoard}">
 						<tr class="userBoard-tr">
-							<td class="userBoard-td-1"><a data-sno="${list.boardnum}" id="userBoard${list.boardnum}" class="userBoardDetail" href="#goUserBoardDetail?userBoardnum=${list.boardnum}">${list.title}</a></td>
+							<td class="userBoard-td-1">
+							<c:if test="${sessionMember.membertype=='셀러'}">
+							<a data-sno="${list.boardnum}" id="userBoard${list.boardnum}" class="userBoardDetail" href="goSellerDetail?boardnum=${list.boardnum}">${list.title}</a>
+							</c:if>
+							<c:if test="${sessionMember.membertype=='공간제공자'}">
+							<a data-sno="${list.boardnum}" id="userBoard${list.boardnum}" class="userBoardDetail" href="goSpaceDetail?boardnum=${list.boardnum}">${list.title}</a>
+							</c:if>
+							</td>
+							
 							<td class="userBoard-td-1">${list.indate}</td>
 							<td class="td-control"><button data-sno="${list.boardnum}" class="udtuserBoard" id="udtuserBoard${list.boardnum}">수정</button><button data-sno="${list.boardnum}" class="deluserBoard" id="deleteuserBoard${list.boardnum}">삭제</button></td>
 						</tr>
@@ -107,7 +115,7 @@
 							<c:forEach var="list" items="${listProposal}">
 								<tr class="proposal-tr">
 									<td><input type="radio" name="selectProposal" value="${list.proposalnum}"></td>
-									<td class="proposal-td-1"><a data-sno="${list.proposalnum}" id="proposal${list.proposalnum}" class="proposalDetail" href="#goProposalDetail?proposalnum=${list.proposalnum}">${list.title}</a></td>
+									<td class="proposal-td-1"><a data-sno="${list.proposalnum}" id="proposal${list.proposalnum}" class="proposalDetail" href="goProposalDetail?clickNo=${list.proposalnum}">${list.title}</a></td>
 									<td class="proposal-td-1">${list.indate}</td>
 									<td class="td-control"><button data-sno="${list.proposalnum}" class="udtProposal" id="udtProposal${list.proposalnum}">수정</button><button data-sno="${list.proposalnum}" class="delProposal" id="deleteProposal${list.proposalnum}">삭제</button></td>
 								</tr>

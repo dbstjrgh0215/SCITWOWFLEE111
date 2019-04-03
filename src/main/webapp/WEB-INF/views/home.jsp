@@ -87,16 +87,16 @@
 	  			<h4>추천공간</h4><hr>
 	  		</div>
 	  		<div class="r-bSeller-content">
-	  		<c:forEach var="recommend" items="${recommendList}">
+	  		<c:forEach var="recommend" items="${recommendSpaceList}">
 	  			<article class="box_seller">
 	  				<div class="inner" data-sno="${recommend.recommendNum}" >
-	  					<a href="javascript:void(0);">
+	  					<a href="goSpaceDetail?boardnum=${recommend.boardnum}">
 	  						<div class="img_border">
 	  						<div class="img_area" data-sno="${recommend.recommendNum}" id="img_area${recommend.recommendNum}">
 	  							<ul class="board-ul" id="board-ul${recommend.recommendNum}">
-	  								<li class="board-li"><c:if test="${!empty recommend.image1}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/${recommend.image1}"></c:if></li>
-	  								<li class="board-li"><c:if test="${!empty recommend.image2}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/${recommend.image2}"></c:if></li>
-	  								<li class="board-li"><c:if test="${!empty recommend.image3}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/${recommend.image3}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty recommend.image1}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image1}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty recommend.image2}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image2}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty recommend.image3}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image3}"></c:if></li>
 	  							</ul>
 	  						</div>
 	  						<div class="board-img-slider" data-sno="${recommend.recommendNum}" id="board-img-slider${recommend.recommendNum}">
@@ -126,16 +126,16 @@
 	  			<h4>추천셀러</h4><hr>
 	  		</div>
 	  		<div class="r-bSeller-content">
-	  		<c:forEach var="recommend" items="${recommendList}">
+	  		<c:forEach var="recommend" items="${recommendSellerList}">
 	  			<article class="box_seller">
 	  				<div class="inner" data-sno="${recommend.recommendNum}" >
-	  					<a href="javascript:void(0);">
+	  					<a href="goSellerDetail?boardnum=${recommend.boardnum}">
 	  						<div class="img_border">
 	  						<div class="img_area" data-sno="${recommend.recommendNum}" id="img_area${recommend.recommendNum}">
 	  							<ul class="board-ul" id="board-ul${recommend.recommendNum}">
-	  								<li class="board-li"><c:if test="${!empty recommend.image1}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/${recommend.image1}"></c:if></li>
-	  								<li class="board-li"><c:if test="${!empty recommend.image2}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/${recommend.image2}"></c:if></li>
-	  								<li class="board-li"><c:if test="${!empty recommend.image3}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/${recommend.image3}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty recommend.image1}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image1}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty recommend.image2}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image2}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty recommend.image3}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image3}"></c:if></li>
 	  							</ul>
 	  						</div>
 	  						<div class="board-img-slider" data-sno="${recommend.recommendNum}" id="board-img-slider${recommend.recommendNum}">

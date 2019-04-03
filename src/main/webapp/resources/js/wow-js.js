@@ -1,4 +1,8 @@
 $(function() { 
+	if($('.board').length==1){
+		$('.site-header').addClass('goBoard'); 
+	}
+	
 	var menu = $(".site-header").offset();
 	$(window).scroll( function() {
 		if($(document).scrollTop()>menu.top) {
@@ -69,6 +73,7 @@ $(function() {
 			success:function(serverData){
 				barclose();
 				$("#main-content").html(serverData);
+				board_image();
 			}
 		});
 	});
@@ -81,6 +86,7 @@ $(function() {
 			success:function(serverData){
 				barclose();
 				$("#main-content").html(serverData);
+				board_image();
 			}
 		});
 	});
@@ -133,7 +139,6 @@ $(function() {
 	
 	$("#btnGoSignUp").on("click",function(){
 		location.href="goSignUp";
-		keywordSet();
 	});
 	
 	$("#findId").click(function () {
@@ -325,69 +330,8 @@ $(function() {
 	});
 	
 	
-	$("#btnExtraInsert").on('click', function(){
-		var id = $("#id").val();
-		var membertype = $("#membertype").val();
-		var name = $("#name").val();
-		var tel = $("#tel").val();
-		var type1 = $("#type1").val();
-		var type2 = $("#type2").val();
-		var type3 = $("#type3").val();
-		var keyword = $("#keyword").val();
-		var img = $("#img").val();
-		var comments = $("#comments").val();
-		var productName = $("#productName").val();
-		var latitude = $("#latitude").val();
-		var longitude = $("#longitude").val();
-		var extra;
-		
-		$("#imgForm").submit();
-		
-		/*var seller = {
-			'id':id,
-			'membertype':membertype,
-			'sellername':name,
-			'tel':tel,
-			'prod_type1':type1,
-			'prod_type2':type2,
-			'prod_type3':type3,
-			'keyword':keyword,
-			'img':img,
-			'comments':comments,
-			'productname':productName
-		}
-		
-		var space = {
-			'id':id,
-			'membertype':membertype,
-			'spacename':name,
-			'tel':tel,
-			'space_type1':type1,
-			'space_type2':type2,
-			'space_type3':type3,
-			'keyword':keyword,
-			'img':img,
-			'comments':comments,
-			'latitude':latitude,
-			'longitude':longitude
-		}
-		
-		if(membertype=='seller'){
-			extra = seller;
-		} else {
-			extra = space;
-		}
-		
-		$.ajaxForm({
-			url:"insertExtraInfo",
-			data:extra,
-			type:"post",
-			success:function(serverData){
-				if(serverData=='success'){
-					location.href="goSignEnd";
-				}
-			}
-		});*/
+	$('#btnGoProposal').on('click',function(){
+		location.href="goProposal";
 	});
 	
 	$("#btnLogout").on("click", function(){
@@ -395,84 +339,90 @@ $(function() {
 	});
 	
 	event();
-	proposal();
-	userBoard();
+	if($('#btnExtraInsert').length!=0){
+		extraInfo();
+		keywordSet();
+		typeSet();
+	}
+	
+	$('#btnRegistProposal').on('click',function(){
+		if($('#proposalTable tr').length>5){
+			$.jQueryAlert("제안서 등록개수 초과","5개까지가능");
+		} else{
+			location.href="goProposalWrite";
+		}
+	});
+	
+	if($('#btnProposalWrite').length!=0){
+		typeSet();
+		keywordSet();
+		img();
+		contractPeriodSet();
+		insertProposal();
+	}
+	
+	if($('.udtProposal').length!=0){
+		proposal();
+	}
+	
+	if($('#btnProposalUpdate').length!=0){
+		typeSet();
+		keywordSet();
+		img();
+		contractPeriodSet();
+		proposal();
+	}
+	
+	if($('#btnRegistBoard').length!=0){
+		userBoard();
+		$("#btnRegistBoard").on('click',function(){
+			document.getElementById("modal-userBoard-proposalList").style.display = "block";
+		});
+	}
+	
+	if($('#contract-online').length!=0){
+		boardDetail();
+	}
+	
 });
+
+function extraInfo(){
+	$("#btnExtraInsert").on('click', function(){
+		var id = $("#id").val();
+		var membertype = $("#membertype").val();
+		var name = $("#name").val();
+		var tel = $("#tel").val();
+		var type = "";
+		for(var i=1; i<=5; i++){
+			if($('#typeContent'+i).val!=""){
+				type += "&"+$('#typeContent'+i).val();
+			}
+		}
+		var keyword = "";
+		for(var i=1; i<=5; i++){
+			if($('#keywordContent'+i).val!=""){
+				keyword += "&"+$('#keywordContent'+i).val();
+			}
+		}
+		var comments = $("#comments").val();
+		var productName = $("#productName").val();
+		var spaceaddr1 = $('#address').val();
+		var spaceaddr2 = $('#detailAddress').val();
+		var latitude = $("#latitude").val();
+		var longitude = $("#longitude").val();
+		
+		$('#type').val(type);
+		$('#selectedKeyword').val(keyword);
+		
+		$("#imgForm").submit();
+		
+	});
+}
 
 function udt(){
 	alert("udt");
 }
 
-function img(){
-	var sel_files = [];
-	
-	$("#image").on("change", handleImgFileSelect);
-	
-	$("#fileUpload").on('click',function(){
-        $("#image").trigger('click');
-		
-	});
-	
-	$('#imageClear').on('click',function(){
-		sel_files = [];
-        $(".imgs_wrap").empty();
-	});
-	
-	function handleImgFileSelect(e) {
-        /*sel_files = [];
-        $(".imgs_wrap").empty();*/
-
-        var files = e.target.files;
-        var filesArr = Array.prototype.slice.call(files);
-
-        var index = 0;
-        
-        filesArr.forEach(function(f) {
-            if(!f.type.match("image.*")) {
-                return;
-            }
-
-            sel_files.push(f);
-            
-            var reader = new FileReader();
-            reader.onload = function(e) {
-            	var html;
-                if($('#img_id_0').length==0){
-                	$(".imgs_wrap").empty();
-                	html = "<a id=img_id_"+0+"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
-                } else if($('#img_id_1').length==0){
-                	html = "<a id=img_id_"+1+"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
-                } else if($('#img_id_2').length==0){
-                	html = "<a id=img_id_"+2+"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
-                } else {
-                	alert("3개까지등록가능합니다!");
-                }
-                $(".imgs_wrap").append(html);
-                index++;
-                $("#img_id_0").on('click', function(){
-                	sel_files.splice(0, 1);
-                	$('#img_id_0').remove(); 
-                });
-                $("#img_id_1").on('click', function(){
-                	sel_files.splice(1, 1);
-                	$('#img_id_1').remove(); 
-                });
-                $("#img_id_2").on('click', function(){
-                	sel_files.splice(2, 1);
-                	$('#img_id_2').remove(); 
-                });
-                
-            }
-            reader.readAsDataURL(f);
-            
-        });
-        
-        
-    }
-	
-	
-
-}
 
 jQuery.jQueryAlert = function (title, msg) {
     var $messageBox = $.parseHTML('<div id="alertBox"></div>');
@@ -490,52 +440,6 @@ jQuery.jQueryAlert = function (title, msg) {
         }
     });
 };
-
-function uploadImg(){
-	var sel_files = [];
-	
-	$("#images").on("change", handleImgFileSelect);
-	
-	function fileUploadAction(){
-		$("#images").trigger('click');
-	}
-	
-	function handleImgFileSelect(e){
-		// 이미지 정보들을 초기화
-		sel_files = [];
-		$(".imgs_wrap0").empty();
-		$(".imgs_wrap1").empty();
-		$(".imgs_wrap2").empty();
-		
-		var files = e.target.files;
-		var filesArr = Array.prototype.slice.call(files);
-		
-		var index = 0;
-		filesArr.forEach(function(f){
-			if(!f.type.match("image.*")){
-				return;
-			}
-			
-			sel_files.push(f);
-			
-			var reader = new FileReader();
-			reader.onload = function(e){
-				var html = "<img src=\""+ e.target.result +"\" data-file='"+f.name+"' class='selProductFile'>";
-				$(".imgs_wrap"+index).css("background-image","");
-				$(".imgs_wrap"+index).append(html);
-				index++;
-			}
-			reader.readAsDataURL(f);
-		});
-	}
-	
-	function deleteImageAction(index) {
-		sel_files.splice(index,1);
-		
-		var img_id = "#img_id"+index;
-		$(img_id).remove();
-	}
-}
 
 function barclose(){
     document.getElementById("sidenav").style.display = 'none';
@@ -689,22 +593,25 @@ function jqueryUI(){
 	$("#btnWriteProposal").button();
 }
 
-function proposal(){
-	keywordSet();
-	
-	$('#btnRegistProposal').on('click',function(){
-		if($('#proposalTable tr').length>5){
-			$.jQueryAlert("제안서 등록개수 초과","5개까지가능");
-		} else{
-			location.href="goProposalWrite";
-		}
-	});
-	
-	$('#btnWriteProposal').on('click',function(){
-		var id=$('#id').val();
+function insertProposal(){
+	$('#title').on('keyup',function(){
 		var title=$('#title').val();
-		var image=$('#images').val();
-		var membertype=$('#membertype').val();
+		$.ajax({
+			url:"checkTitle",
+			data:{title:title},
+			type:"get",
+			success:function(serverData){
+				if(serverData=="fail"){
+					$('#titleCheck').html("중복된 제안서 제목이있습니다. 제목을 바꿔주세요.");
+				} else {
+					$('#titleCheck').html("");
+				}
+			}
+		});
+	});
+	$('#btnProposalWrite').on('click',function(){
+		var membertype=$('#form_membertype').val();
+		var title=$('#title').val();
 		var keyword = "";
 		for(var i=1; i<=5; i++){
 			if($('#keywordContent'+i).val!=""){
@@ -712,74 +619,54 @@ function proposal(){
 			}
 		}
 		var comments=$('#comments').val();
-		var name=$('#name').val();
-		var type1=$('#type1').val();
-		var type2=$('#type2').val();
-		var type3=$('#type3').val();
-		if(membertype=='셀러'){
-			var price=$('#price').val();
-			var stock=$('#stock').val();
-		} else {
-			var optime=$('#optime').val();
-			var scale=$('#scale').val();
-			var spaceaddr1=$('#address').val();
-			var spaceaddr2=$('#detailAddress').val();
-			var latitude=$('#latitude').val();
-			var longitude=$('#longitude').val();
+		var precaution=$('#precaution').val();
+		var name = $('#name').val();
+		var type = "";
+		for(var i=1; i<=5; i++){
+			if($('#typeContent'+i).val!=""){
+				type += "&"+$('#typeContent'+i).val();
+			}
 		}
+		var contractPeriod = "";
+		for(var i=1; i<=7; i++){
+			if($('#contractPeriodContent'+i).val!=""){
+				contractPeriod += "&"+$('#contractPeriodContent'+i).val();
+			}
+		}
+		var price=$('#price').val();
+		var stock=$('#stock').val();
+		var optime = "";
+		for(var i=1; i<=4; i++){
+			if($('#optime'+i).val!=""){
+				optime += "&"+$('#optime'+i).val();
+			}
+		}
+		var scale = $('#scale').val();
 
-		$('#form_id').val(id);
 		$('#form_title').val(title);
-		$('#form_image').val(image);
-		$('#form_membertype').val(membertype);
 		$('#form_keyword').val(keyword);
 		$('#form_comments').val(comments);
+		$('#form_precaution').val(precaution);
 		$('#form_name').val(name);
-		$('#form_type1').val(type1);
-		$('#form_type2').val(type2);
-		$('#form_type3').val(type3);
-		if(membertype=='셀러'){
+		$('#form_type').val(type);
+		$('#form_contractPeriod').val(contractPeriod);
+		if(price!=null){
 			$('#form_price').val(price);
+		}
+		if(stock!=null){
 			$('#form_stock').val(stock);
-		} else {
+		}
+		if(optime!=null){
 			$('#form_optime').val(optime);
+		}
+		if(scale!=null){
 			$('#form_scale').val(scale);
-			$('#form_spaceaddr1').val(spaceaddr1);
-			$('#form_spaceaddr2').val(spaceaddr2);
-			$('#form_latitude').val(latitude);
-			$('#form_longitude').val(longitude);
 		}
-		
-		
-		$('#proposalForm').submit();
-		/*
-		var proposal = {
-				id:id,
-				title:title,
-				image:image,
-				membertype:membertype,
-				keyword:keyword,
-				comments:comments,
-				name:name,
-				type1:type1,
-				type2:type2,
-				type3:type3,
-				price:price,
-				stock:stock
-		}
-		
-		$.ajaxForm({
-			url:"insertProposal",
-			enctype : "multipart/form-data",
-			data:proposal,
-			type:"get",
-			success:function(serverData){
-				location.href="goProposal";
-			}
-		});*/
-		
+				
 	});
-	
+}
+
+function proposal(){
 	$(".udtProposal").on('click',function(){
 		var clickNo = $(this).attr('data-sno');
 		$.ajax({
@@ -804,40 +691,72 @@ function proposal(){
 		});
 	}); 
 	
-	$(".proposalDetail").on('click',function(){
+	$(".goProposalDetail").on('click',function(){
 		var clickNo = $(this).attr('data-sno');
-		$.ajax({
-			url:"goProposalDetail",
-			data:{clickNo:clickNo},
-			type:"get",
-			success:function(serverData){
-				barclose();
-				$("#modal-proposalContent").html(serverData);
-				var keyword = $("#keyword").val();
-				var keywordSplit = keyword.split("&");
-				var data = "";
-				for(var i=1; i<6; i++){
-					if(keywordSplit[i].length==0){
-						break;
-					}
-					data += "<span class='keywordSpan'><a href='javascript:void(0);'>#"+keywordSplit[i]+"</a></span>";
-				}
-				$("#keywordDetail").html(data);
-				document.getElementById("modal-proposal").style.display = "block";
-			}
-		}); 
+		location.href="goProposalDetail?clickNo="+clickNo;
 	});
 	
 	$(".close").on('click',function(){
 		document.getElementById("modal-proposal").style.display="none";
 	});
+	
+	$('#btnProposalUpdate').on('click',function(){
+		var membertype=$('#form_membertype').val();
+		var title=$('#title').val();
+		var keyword = "";
+		for(var i=1; i<=5; i++){
+			if($('#keywordContent'+i).val!=""){
+				keyword += "&"+$('#keywordContent'+i).val();
+			}
+		}
+		var comments=$('#comments').val();
+		var precaution=$('#precaution').val();
+		var name = $('#name').val();
+		var type = "";
+		for(var i=1; i<=5; i++){
+			if($('#typeContent'+i).val!=""){
+				type += "&"+$('#typeContent'+i).val();
+			}
+		}
+		var contractPeriod = "";
+		for(var i=1; i<=7; i++){
+			if($('#contractPeriodContent'+i).val!=""){
+				contractPeriod += "&"+$('#contractPeriodContent'+i).val();
+			}
+		}
+		var price=$('#price').val();
+		var stock=$('#stock').val();
+		var optime = "";
+		for(var i=1; i<=4; i++){
+			if($('#optime'+i).val!=""){
+				optime += "&"+$('#optime'+i).val();
+			}
+		}
+		var scale = $('#scale').val();
+
+		$('#form_title').val(title);
+		$('#form_keyword').val(keyword);
+		$('#form_comments').val(comments);
+		$('#form_precaution').val(precaution);
+		$('#form_name').val(name);
+		$('#form_type').val(type);
+		$('#form_contractPeriod').val(contractPeriod);
+		if(price!=null){
+			$('#form_price').val(price);
+		}
+		if(stock!=null){
+			$('#form_stock').val(stock);
+		}
+		if(optime!=null){
+			$('#form_optime').val(optime);
+		}
+		if(scale!=null){
+			$('#form_scale').val(scale);
+		}
+	});
 }
 
 function userBoard(){
-	$("#btnRegistBoard").on('click',function(){
-		document.getElementById("modal-userBoard-proposalList").style.display = "block";
-	});
-	
 	$(".close2").on('click',function(){
 		location.href="goUserBoard";
 	});
@@ -868,13 +787,26 @@ function userBoard(){
 			type:"post",
 			success:function(serverData){
 				$('#userBoard-proposalListDiv').html(serverData);
-				offdaySet();
+				contractPeriodSet();
 				keywordSet();
+				typeSet();
 				img();
 				
 				$('#btnBoardWrite').on('click',function(){
 					var membertype=$('#form_membertype').val();
 					var title=$('#title').val();
+					$.ajax({
+						url:"checkTitle",
+						data:{title:title},
+						type:"get",
+						success:function(serverData){
+							if(serverData=="fail"){
+								$('#titleCheck').html("중복된 제안서 제목이있습니다. 제목을 바꿔주세요.");
+							} else {
+								$('#titleCheck').html("");
+							}
+						}
+					});
 					var keyword = "";
 					for(var i=1; i<=5; i++){
 						if($('#keywordContent'+i).val!=""){
@@ -883,10 +815,10 @@ function userBoard(){
 					}
 					var comments=$('#comments').val();
 					var precaution=$('#precaution').val();
-					var offday = "";
-					for(var i=1; i<=4; i++){
-						if($('#offday'+i).val!=""){
-							optime += "&"+$('#offday'+i).val();
+					var contractPeriod = "";
+					for(var i=1; i<=7; i++){
+						if($('#contractPeriod'+i).val!=""){
+							optime += "&"+$('#contractPeriod'+i).val();
 						}
 					}
 					if(membertype=='셀러'){
@@ -899,19 +831,14 @@ function userBoard(){
 								optime += "&"+$('#optime'+i).val();
 							}
 						}
-						var scale = "";
-						for(var i=1; i<=4; i++){
-							if($('#scale'+i).val!=""){
-								scale += "&"+$('#scale'+i).val();
-							}
-						}
+						var scale = $('#scale').val();
 					}
 
 					$('#form_title').val(title);
 					$('#form_keyword').val(keyword);
 					$('#form_comments').val(comments);
 					$('#form_precaution').val(precaution);
-					$('#form_offday').val(offday);
+					$('#form_contractPeriod').val(contractPeriod);
 					if(membertype=='셀러'){
 						$('#form_price').val(price);
 						$('#form_stock').val(stock);
@@ -930,6 +857,93 @@ function userBoard(){
 		
 	});
 	
+	$(".udtuserBoard").on('click',function(){
+		var clickNo = $(this).attr('data-sno');
+		$.ajax({
+			url:"goBoardWrite2",
+			data:{clickNo:clickNo},
+			type:"get",
+			success:function(serverData){
+				location.href="goUpdateBoard?clickNo="+clickNo;
+			}
+		});
+	}); 
+	
+	$(".deluserBoard").on('click',function(){
+		var clickNo = $(this).attr('data-sno');
+		$.ajax({
+			url:"delBoard",
+			data:{clickNo:clickNo},
+			type:"get",
+			success:function(serverData){
+				location.href="goUserBoard";
+			}
+		});
+	}); 
+}
+
+function contractPeriodSet(){
+	contractPeriodFilter();
+	
+	for(var a=1; a<=7;a++){
+		if($('#contractPeriodContent'+a).val()!=""){
+			for(var b=1; b<=7; b++){
+				if($('#contractPeriod'+b).text().substring(1)==$('#contractPeriodContent'+a).val()){
+					$('#contractPeriod'+b).css('color','#F05E22');
+					$('#contractPeriod-icon'+b).css('color','#F05E22');
+				}
+			}
+		}
+	}
+	
+	function contractPeriodFilter(){
+		$(".contractPeriod-a").on('click',function(){
+			var clickNo = $(this).attr('data-sno');
+			var status = document.getElementById("contractPeriod"+clickNo).style.color;
+			if(status=='rgb(240, 94, 34)'){
+				$('#contractPeriod'+clickNo).css('color','gray');
+				$('#contractPeriod-icon'+clickNo).css('color','gray');
+				var contractPeriod = $('#contractPeriod'+clickNo).text();
+				$('#selectedcontractPeriod'+clickNo).remove();
+				var contractPeriod = $('#contractPeriod'+clickNo).text();
+				for(var a=1; a<=7;a++){
+					if($('#contractPeriodContent'+a).val()==contractPeriod.substring(1)){
+						$('#contractPeriodContent'+a).val("");
+						break;
+					}
+				}
+			} else {
+				$('#contractPeriod'+clickNo).css('color','#F05E22');
+				$('#contractPeriod-icon'+clickNo).css('color','#F05E22');
+				var contractPeriod = $('#contractPeriod'+clickNo).text();
+				for(var a=1; a<=7;a++){
+					if($('#contractPeriodContent'+a).val()==""){
+						$('#contractPeriodContent'+a).val(contractPeriod.substring(1));
+						break;
+					}
+				}
+			}
+			contractPeriodDel();
+		}); 
+	}
+	
+	function contractPeriodDel(){
+		$('.contractPeriod-del').off('click');
+		$('.contractPeriod-del').on('click',function(){
+			var delNo = $(this).attr('data-sno');
+			$('#contractPeriod'+delNo).css('color','gray');
+			$('#contractPeriod-icon'+delNo).css('color','gray');
+			var contractPeriod = $('#contractPeriod'+delNo).text();
+			$('#selectedcontractPeriod'+delNo).remove();
+			var delcontractPeriod = $(this).attr('key');
+			for(var a=1; a<=5;a++){
+				if($('#contractPeriodContent'+a).val()==delcontractPeriod){
+					$('#contractPeriodContent'+a).val("");
+					break;
+				}
+			}
+		});
+	}
 }
 
 function offdaySet(){
@@ -985,10 +999,98 @@ function offdaySet(){
 	}
 }
 
+function typeSet(){
+	var index = 30;
+	var count = 0;
+	
+	for(var i=1; i<=5; i++){
+		if($('#typeContent'+i).val()!=""){
+			var type = $('#typeContent'+i).val();
+			$('#typeSelected .td-2').append("<button type='button' id='selectedtype"+index+"'>"+type
+					+"<a href='javascript:void(0);' data-sno='"+index+"' key='"+type+"' id='deletetype"+index+"' class='type-del'>　X</a></button>");
+			index++;
+			$('#type').val("");
+			count++;
+			$('#typeCount').html(count);
+			typeDel();
+		}
+		
+	}
+	
+	$("#typeRegist").on('click',function(){
+		var membertype=$('#membertype').val();
+		var type = $('#type').val();
+		if(count>4){
+			alert("5개이상선택할수없습니다.");
+		} else{
+			$.ajax({
+				url:"keyword",
+				data:{membertype:membertype},
+				type:"get",
+				success:function(serverData){
+					$('#typeSelected .td-2').append("<button type='button' id='selectedtype"+index+"'>"+type
+							+"<a href='javascript:void(0);' data-sno='"+index+"' key='"+type+"' id='deletetype"+index+"' class='type-del'>　X</a></button>");
+					index++;
+					$('#type').val("");
+					for(var a=1; a<=5;a++){
+						if($('#typeContent'+a).val()==""){
+							$('#typeContent'+a).val(type);
+							break;
+						}
+					}
+					count++;
+					$('#typeCount').html(count);
+					typeDel();
+				}
+			});
+		}
+	});
+	
+	
+	function typeDel(){
+		$('.type-del').off('click');
+		$('.type-del').on('click',function(){
+			var delNo = $(this).attr('data-sno');
+			var type = $('#type'+delNo).text();
+			$('#selectedtype'+delNo).remove();
+			var deltype = $(this).attr('key');
+			for(var a=1; a<=5;a++){
+				if($('#typeContent'+a).val()==deltype){
+					$('#typeContent'+a).val("");
+					break;
+				}
+			}
+			count--;
+			$('#typeCount').html(count);
+		});
+	}
+	
+}
+
 function keywordSet(){
 	var index = 30;
 	var count = 0;
 	
+	for(var i=1; i<=5; i++){
+		if($('#keywordContent'+i).val()!=""){
+			var keyword = $('#keywordContent'+i).val();
+			$('#keywordSelected .td-2').append("<button type='button' id='selectedKeyword"+index+"'>"+keyword
+					+"<a href='javascript:void(0);' data-sno='"+index+"' key='"+keyword+"' id='deleteKeyword"+index+"' class='keyword-del'>　X</a></button>");
+			index++;
+			$('#keyword').val("");
+			count++;
+			$('#keywordCount').html(count);
+			if(count==5){
+				$('#keywordCount').css('color','red');
+			} else {
+				$('#keywordCount').css('color','#2a3f52')
+			}
+			keywordDel();
+		}
+		
+	}
+	
+	$('#keywordRegist').off('click');
 	$("#keywordRegist").on('click',function(){
 		var membertype=$('#membertype').val();
 		var keyword = $('#keyword').val();
@@ -1245,6 +1347,205 @@ function board_image(){
 		}
 	});
 	
+}
+
+function boardDetail(){
+	var imgs;
+	var img_count;
+	var img_position = 1;
+	
+	imgs = $(".boardDetail-image ul");
+	img_count = imgs.children().length;
+	
+	$('#board-content-image-slider-left').click(function(){
+		back();
+	});
+	
+	$('#board-content-image-slider-right').click(function(){
+		next();
+	});
+	
+	function back() {
+		if(1<img_position){
+			imgs.animate({
+				left:'+=100%'
+			});
+			img_position--;
+		}
+	}
+	
+	function next() {
+		if(img_count>img_position){
+			imgs.animate({
+				left:'-=100%'
+			});
+			img_position++;
+		}
+	}
+	
+	$(window).scroll( function() {
+		var menu = $(".board").offset();
+		if($(document).scrollTop()>menu.top) {
+			$('.contractWindow').addClass('fixed-contract'); 
+			$('.contractWindow2').addClass('fixed-contract');
+		} else {
+			$('.contractWindow').removeClass('fixed-contract');
+			$('.contractWindow2').removeClass('fixed-contract');
+		}
+		
+		var bottom = $('.board-map').offset();
+		if(bottom!=null){
+			if($(document).scrollTop()>bottom.top){
+				$('.contractWindow').css('display','none');  
+			} else {
+				$('.contractWindow').css('display','block'); 
+			}
+		} else {
+			var bottom2 = $('.board-precaution').offset();
+			if($(document).scrollTop()>bottom2.top){
+				$('.contractWindow2').css('display','none');  
+			} else {
+				$('.contractWindow2').css('display','block'); 
+			}
+		}
+	});	
+	
+	//지도 띄우기
+	// 이미지 지도에서 마커가 표시될 위치입니다 
+	var latitude = $('#staticMap').attr('latitude');
+	var longitude = $('#staticMap').attr('longitude');
+	var positionName = $('#staticMap').attr('positionName');
+    var markerPosition  = new daum.maps.LatLng(latitude, longitude); 
+
+    // 이미지 지도에 표시할 마커입니다
+    // 이미지 지도에 표시할 마커는 Object 형태입니다
+    var marker = {
+        position: markerPosition, 
+        text: positionName // text 옵션을 설정하면 마커 위에 텍스트를 함께 표시할 수 있습니다 
+    };
+
+    var staticMapContainer  = document.getElementById('staticMap'), // 이미지 지도를 표시할 div  
+        staticMapOption = { 
+    		center: new daum.maps.LatLng(latitude, longitude), // 이미지 지도의 중심좌표
+            level: 3, // 이미지 지도의 확대 레벨
+            marker: marker // 이미지 지도에 표시할 마커 
+        };    
+
+    if(staticMapContainer!=undefined){
+    	// 이미지 지도를 생성합니다
+    	var staticMap = new daum.maps.StaticMap(staticMapContainer, staticMapOption);
+    }
+	
+    //댓글작성
+    $('#btnCommentWrite').on('click',function(){
+    	$('#modal-board-qna').css('display','block');
+    });
+    
+    $('.closeQna').on('click',function(){
+    	$('#modal-board-qna').css('display','none');
+    });
+    
+    $('#qna-cancel').on('click',function(){
+    	$('#modal-board-qna').css('display','none');
+    });
+    
+    $('#qna-regist').on('click',function(){
+    	//댓글작성하기만들것
+    	
+    });
+	
+    // 계약창
+    var contractSelect = $('.contract-select-li input:radio[name=contractType]');
+    contractSelect.change(function(){
+    	var select = $(this).val();
+    	if(select=='online'){
+    		$('#contract-online').css('display','block');
+    		$('#contract-offline').css('display','none');
+    	} else if(select=='offline') {
+    		$('#contract-online').css('display','none');
+    		$('#contract-offline').css('display','block');
+    	}
+    	$.ajax({
+    		url:"contractSelect",
+    		data:{type:select},
+    		type:"get",
+    		success:function(serverData){
+    			$('.selectedContractType').html(serverData);
+    		}
+    	});
+    });
+}
+
+function img(){
+	var sel_files = [];
+	
+	$("#image").on("change", handleImgFileSelect);
+	
+	$("#fileUpload").on('click',function(){
+        $("#image").trigger('click');
+		
+	});
+	
+	$('#imageClear').on('click',function(){
+		sel_files = [];
+        $(".imgs_wrap").empty();
+        $('#image').val("");
+	});
+	
+	function handleImgFileSelect(e) {
+        /*sel_files = [];
+        $(".imgs_wrap").empty();*/
+
+        var files = e.target.files;
+        var filesArr = Array.prototype.slice.call(files);
+
+        var index = 0;
+        
+        filesArr.forEach(function(f) {
+            if(!f.type.match("image.*")) {
+                return;
+            }
+
+            sel_files.push(f);
+            
+            var reader = new FileReader();
+            reader.onload = function(e) {
+            	var html;
+                if($('#img_id_0').length==0){
+                	$(".imgs_wrap").empty();
+                	html = "<a id=img_id_"+0+"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+                } else if($('#img_id_1').length==0){
+                	html = "<a id=img_id_"+1+"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+                } else if($('#img_id_2').length==0){
+                	html = "<a id=img_id_"+2+"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+                } else {
+                	alert("3개까지등록가능합니다!");
+                }
+                $(".imgs_wrap").append(html);
+                index++;
+                $("#img_id_0").on('click', function(){
+                	sel_files.splice(0, 1);
+                	$('#img_id_0').remove(); 
+                });
+                $("#img_id_1").on('click', function(){
+                	sel_files.splice(1, 1);
+                	$('#img_id_1').remove(); 
+                });
+                $("#img_id_2").on('click', function(){
+                	sel_files.splice(2, 1);
+                	$('#img_id_2').remove(); 
+                });
+                
+            }
+            reader.readAsDataURL(f);
+            
+        });
+        
+        
+    }
+	
+	
+
 }
 
 

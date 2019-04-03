@@ -22,12 +22,15 @@ public class HomeController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(HttpSession hs, Model model) {
-		ArrayList<Board> list = boardDAO.listRecommendSeller();
-		ArrayList<HashMap<String,String>> recommendList = new ArrayList<HashMap<String,String>>();
+		ArrayList<Board> listSeller = boardDAO.listRecommend("셀러");
+		ArrayList<Board> listSpace = boardDAO.listRecommend("공간제공자");
+		ArrayList<HashMap<String,String>> recommendSellerList = new ArrayList<HashMap<String,String>>();
+		ArrayList<HashMap<String,String>> recommendSpaceList = new ArrayList<HashMap<String,String>>();
 		
-		for(int i=0; i<list.size(); i++) {		// keyword 자르는 구문
+		//셀러 추천리스트
+		for(int i=0; i<listSeller.size(); i++) {		// keyword 자르는 구문
 			HashMap<String,String> recommendMap = new HashMap<String,String>();
-			String keyword = list.get(i).getKeyword();
+			String keyword = listSeller.get(i).getKeyword();
 			for(int j=0; j<5; j++) {
 				int cnt = 0;
 				keyword = keyword.substring(cnt+1);
@@ -39,7 +42,7 @@ public class HomeController {
 				keyword = keyword.substring(cnt);
 			}
 			
-			String image = list.get(i).getImage();
+			String image = listSeller.get(i).getImage();
 			for(int j=0; j<3; j++) {		// image 자르는 구문
 				int cnt = 0;
 				cnt = image.indexOf("&");
@@ -51,23 +54,62 @@ public class HomeController {
 				image = image.substring(cnt+1);
 			}
 			recommendMap.put("recommendNum","rs"+Integer.toString(i+1));
-			recommendMap.put("id",list.get(i).getId());
-			recommendMap.put("title",list.get(i).getTitle());
-			recommendList.add(recommendMap);
+			recommendMap.put("id",listSeller.get(i).getId());
+			recommendMap.put("title",listSeller.get(i).getTitle());
+			recommendMap.put("boardnum",Integer.toString(listSeller.get(i).getBoardnum()));
+			recommendSellerList.add(recommendMap);
 		}
 		
-		model.addAttribute("recommendList", recommendList);
+		
+		//셀러 추천리스트
+		for(int i=0; i<listSpace.size(); i++) {		// keyword 자르는 구문
+			HashMap<String,String> recommendMap = new HashMap<String,String>();
+			String keyword = listSpace.get(i).getKeyword();
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				keyword = keyword.substring(cnt+1);
+				cnt = keyword.indexOf("&");
+				if(cnt==-1) {
+					break;
+				}
+				recommendMap.put("keyword"+(j+1), keyword.substring(0, cnt));
+				keyword = keyword.substring(cnt);
+			}
+			
+			String image = listSpace.get(i).getImage();
+			for(int j=0; j<3; j++) {		// image 자르는 구문
+				int cnt = 0;
+				cnt = image.indexOf("&");
+				if(cnt==-1) {
+					recommendMap.put("image"+(j+1), image);
+					break;
+				}
+				recommendMap.put("image"+(j+1), image.substring(0, cnt));
+				image = image.substring(cnt+1);
+			}
+			recommendMap.put("recommendNum","rsp"+Integer.toString(i+1));
+			recommendMap.put("id",listSpace.get(i).getId());
+			recommendMap.put("title",listSpace.get(i).getTitle());
+			recommendMap.put("boardnum",Integer.toString(listSpace.get(i).getBoardnum()));
+			recommendSpaceList.add(recommendMap);
+		}
+		
+		model.addAttribute("recommendSpaceList", recommendSpaceList);
+		model.addAttribute("recommendSellerList", recommendSellerList);
 		return "home";
 	}
 	
 	@RequestMapping(value="/goHome", method=RequestMethod.GET)
 	public String goHome(HttpSession hs, Model model) {
-		ArrayList<Board> list = boardDAO.listRecommendSeller();
-		ArrayList<HashMap<String,String>> recommendList = new ArrayList<HashMap<String,String>>();
+		ArrayList<Board> listSeller = boardDAO.listRecommend("셀러");
+		ArrayList<Board> listSpace = boardDAO.listRecommend("공간제공자");
+		ArrayList<HashMap<String,String>> recommendSellerList = new ArrayList<HashMap<String,String>>();
+		ArrayList<HashMap<String,String>> recommendSpaceList = new ArrayList<HashMap<String,String>>();
 		
-		for(int i=0; i<list.size(); i++) {		// keyword 자르는 구문
+		//셀러 추천리스트
+		for(int i=0; i<listSeller.size(); i++) {		// keyword 자르는 구문
 			HashMap<String,String> recommendMap = new HashMap<String,String>();
-			String keyword = list.get(i).getKeyword();
+			String keyword = listSeller.get(i).getKeyword();
 			for(int j=0; j<5; j++) {
 				int cnt = 0;
 				keyword = keyword.substring(cnt+1);
@@ -79,7 +121,7 @@ public class HomeController {
 				keyword = keyword.substring(cnt);
 			}
 			
-			String image = list.get(i).getImage();
+			String image = listSeller.get(i).getImage();
 			for(int j=0; j<3; j++) {		// image 자르는 구문
 				int cnt = 0;
 				cnt = image.indexOf("&");
@@ -91,12 +133,48 @@ public class HomeController {
 				image = image.substring(cnt+1);
 			}
 			recommendMap.put("recommendNum","rs"+Integer.toString(i+1));
-			recommendMap.put("id",list.get(i).getId());
-			recommendMap.put("title",list.get(i).getTitle());
-			recommendList.add(recommendMap);
+			recommendMap.put("id",listSeller.get(i).getId());
+			recommendMap.put("title",listSeller.get(i).getTitle());
+			recommendMap.put("boardnum",Integer.toString(listSeller.get(i).getBoardnum()));
+			recommendSellerList.add(recommendMap);
 		}
 		
-		model.addAttribute("recommendList", recommendList);
+		
+		//셀러 추천리스트
+		for(int i=0; i<listSpace.size(); i++) {		// keyword 자르는 구문
+			HashMap<String,String> recommendMap = new HashMap<String,String>();
+			String keyword = listSpace.get(i).getKeyword();
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				keyword = keyword.substring(cnt+1);
+				cnt = keyword.indexOf("&");
+				if(cnt==-1) {
+					break;
+				}
+				recommendMap.put("keyword"+(j+1), keyword.substring(0, cnt));
+				keyword = keyword.substring(cnt);
+			}
+			
+			String image = listSpace.get(i).getImage();
+			for(int j=0; j<3; j++) {		// image 자르는 구문
+				int cnt = 0;
+				cnt = image.indexOf("&");
+				if(cnt==-1) {
+					recommendMap.put("image"+(j+1), image);
+					break;
+				}
+				recommendMap.put("image"+(j+1), image.substring(0, cnt));
+				image = image.substring(cnt+1);
+			}
+			recommendMap.put("recommendNum","rsp"+Integer.toString(i+1));
+			recommendMap.put("id",listSpace.get(i).getId());
+			recommendMap.put("title",listSpace.get(i).getTitle());
+			recommendMap.put("boardnum",Integer.toString(listSpace.get(i).getBoardnum()));
+			recommendSpaceList.add(recommendMap);
+		}
+		
+		model.addAttribute("recommendSpaceList", recommendSpaceList);
+		model.addAttribute("recommendSellerList", recommendSellerList);
 		return "home";
 	}
 	
@@ -128,12 +206,6 @@ public class HomeController {
 	@RequestMapping(value="/goSignEnd", method=RequestMethod.GET)
 	public String goSignEnd() {
 		return "signEnd";
-	}
-	
-	
-	@RequestMapping(value="/goProposalWrite", method=RequestMethod.GET)
-	public String goProposalWrite() {
-		return "proposalWrite";
 	}
 	
 	@RequestMapping(value="/goMap", method=RequestMethod.GET)

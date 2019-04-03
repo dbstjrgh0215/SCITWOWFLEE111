@@ -11,6 +11,9 @@ public interface MemberMapper {
 	public ArrayList<Space> searchSpace(Space space); 
 	public int insertMember(Member mem);
 	public Member loginMember(Member mem);
+	public Seller sessionSeller(String id);
+	public Product sessionProduct(String id);
+	public Space sessionSpace(String id);
 	public int deleteMember(String id);
 	public int insertSpace(Space space);
 	public int insertSeller(Seller seller);

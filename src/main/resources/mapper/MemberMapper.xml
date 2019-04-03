@@ -5,11 +5,6 @@
 
 <!-- 게시판 처리 SQL -->
 <mapper namespace="com.scit.flee2.dao.MemberMapper">
-<select id="searchSpace" parameterType="Space" resultType="Space">
-SELECT * FROM WOW_SPACEINFO
-WHERE SPACENAME=#{spacename}
-</select>
-	
 	<insert id="insertMember" parameterType="Member">
 	INSERT INTO WOW_MEMBERINFO
 	(ID, PW, NAME, NICKNAME, PHONE, EMAIL, BIRTHDATE, GENDER, ADDRESS1, ADDRESS2, MEMBERTYPE)
@@ -24,6 +19,27 @@ WHERE SPACENAME=#{spacename}
 	WHERE ID=#{id} AND PW=#{pw}
 	</select>
 	
+	<select id="sessionSeller" parameterType="String" resultType="Seller">
+	SELECT
+	SELLERNUM, ID, SELLERNAME, TEL, COMMENTS
+	FROM WOW_SELLERINFO
+	WHERE ID=#{id}
+	</select>
+	
+	<select id="sessionProduct" parameterType="String" resultType="Product">
+	SELECT
+	PRODUCTNUM, SELLERNUM, ID, PRODUCTNAME, PROD_TYPE, KEYWORD
+	FROM WOW_PRODUCTINFO
+	WHERE ID=#{id}
+	</select>
+	
+	<select id="sessionSpace" parameterType="String" resultType="Space">
+	SELECT
+	SPACENUM, ID, SPACENAME, SPACE_TYPE, KEYWORD, TEL, COMMENTS, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE
+	FROM WOW_SPACEINFO
+	WHERE ID=#{id}
+	</select>
+	
 	<delete id="deleteMember" parameterType="String">
 	DELETE FROM WOW_MEMBERINFO
 	WHERE ID=#{id}
@@ -31,9 +47,9 @@ WHERE SPACENAME=#{spacename}
 	
 	<insert id="insertSpace" parameterType="Space">
 	INSERT INTO WOW_SPACEINFO
-	(SPACENUM, ID, SPACENAME, SPACE_TYPE1, SPACE_TYPE2, SPACE_TYPE3, KEYWORD, IMAGE, TEL, COMMENTS, LATITUDE, LONGITUDE)
+	(SPACENUM, ID, SPACENAME, SPACE_TYPE, KEYWORD, TEL, COMMENTS, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE)
 	VALUES
-	(WOW_SPACENUM_SEQ.NEXTVAL, #{id}, #{spacename}, #{space_type1}, #{space_type2}, #{space_type3}, #{keyword}, #{image}, #{tel}, #{comments}, #{latitude}, #{longitude})
+	(WOW_SPACENUM_SEQ.NEXTVAL, #{id}, #{spacename}, #{space_type}, #{keyword}, #{tel}, #{comments}, #{spaceaddr1}, #{spaceaddr2}, #{latitude}, #{longitude})
 	</insert>
 	
 	<insert id="insertSeller" parameterType="Seller">
@@ -45,9 +61,9 @@ WHERE SPACENAME=#{spacename}
 	
 	<insert id="insertProduct" parameterType="Product">
 	INSERT INTO WOW_PRODUCTINFO
-	(PRODUCTNUM, SELLERNUM, ID, PRODUCTNAME, PROD_TYPE1, PROD_TYPE2, PROD_TYPE3, KEYWORD, IMAGE)
+	(PRODUCTNUM, SELLERNUM, ID, PRODUCTNAME, PROD_TYPE, KEYWORD)
 	VALUES
-	(WOW_PRODUCTNUM_SEQ.NEXTVAL, (SELECT SELLERNUM FROM WOW_SELLERINFO WHERE ID = #{id}), #{id}, #{productname}, #{prod_type1}, #{prod_type2}, #{prod_type3}, #{keyword}, #{image})
+	(WOW_PRODUCTNUM_SEQ.NEXTVAL, (SELECT SELLERNUM FROM WOW_SELLERINFO WHERE ID = #{id}), #{id}, #{productname}, #{prod_type}, #{keyword})
 	</insert>
 	
 	<select id="checkId" parameterType="String" resultType="String">

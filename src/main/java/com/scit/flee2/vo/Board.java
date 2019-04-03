@@ -11,9 +11,8 @@ public class Board {
 	private String comments;
 	private String precaution;
 	private String name;
-	private String type1;
-	private String type2;
-	private String type3;
+	private String type;
+	private String contractperiod;
 	private int price;
 	private int stock;
 	private String optime;
@@ -26,9 +25,9 @@ public class Board {
 	private int recommend;
 
 	public Board(int boardnum, String id, String title, String image, String indate, String membertype, String keyword,
-			String comments, String precaution, String name, String type1, String type2, String type3, int price,
-			int stock, String optime, String offday, double scale, String spaceaddr1, String spaceaddr2,
-			double latitude, double longitude, int recommend) {
+			String comments, String precaution, String name, String type, String contractperiod, int price, int stock,
+			String optime, String offday, double scale, String spaceaddr1, String spaceaddr2, double latitude,
+			double longitude, int recommend) {
 		super();
 		this.boardnum = boardnum;
 		this.id = id;
@@ -40,9 +39,8 @@ public class Board {
 		this.comments = comments;
 		this.precaution = precaution;
 		this.name = name;
-		this.type1 = type1;
-		this.type2 = type2;
-		this.type3 = type3;
+		this.type = type;
+		this.contractperiod = contractperiod;
 		this.price = price;
 		this.stock = stock;
 		this.optime = optime;
@@ -139,28 +137,20 @@ public class Board {
 		this.name = name;
 	}
 
-	public String getType1() {
-		return type1;
+	public String getType() {
+		return type;
 	}
 
-	public void setType1(String type1) {
-		this.type1 = type1;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public String getType2() {
-		return type2;
+	public String getContractperiod() {
+		return contractperiod;
 	}
 
-	public void setType2(String type2) {
-		this.type2 = type2;
-	}
-
-	public String getType3() {
-		return type3;
-	}
-
-	public void setType3(String type3) {
-		this.type3 = type3;
+	public void setContractperiod(String contractperiod) {
+		this.contractperiod = contractperiod;
 	}
 
 	public int getPrice() {
@@ -247,8 +237,8 @@ public class Board {
 	public String toString() {
 		return "Board [boardnum=" + boardnum + ", id=" + id + ", title=" + title + ", image=" + image + ", indate="
 				+ indate + ", membertype=" + membertype + ", keyword=" + keyword + ", comments=" + comments
-				+ ", precaution=" + precaution + ", name=" + name + ", type1=" + type1 + ", type2=" + type2 + ", type3="
-				+ type3 + ", price=" + price + ", stock=" + stock + ", optime=" + optime + ", offday=" + offday
+				+ ", precaution=" + precaution + ", name=" + name + ", type=" + type + ", contractperiod="
+				+ contractperiod + ", price=" + price + ", stock=" + stock + ", optime=" + optime + ", offday=" + offday
 				+ ", scale=" + scale + ", spaceaddr1=" + spaceaddr1 + ", spaceaddr2=" + spaceaddr2 + ", latitude="
 				+ latitude + ", longitude=" + longitude + ", recommend=" + recommend + "]";
 	}

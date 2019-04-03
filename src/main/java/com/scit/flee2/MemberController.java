@@ -37,6 +37,17 @@ public class MemberController {
 		if(result==null) {
 			return "fail"; 
 		}else {
+			String id = result.getId();
+			if(result.getMembertype().equals("셀러")) {
+				Seller seller = memberDAO.sessionSeller(id);
+				Product product = memberDAO.sessionProduct(id);
+				hs.setAttribute("sessionType", seller);
+				hs.setAttribute("sessionProd", product);
+			} else if(result.getMembertype().equals("공간제공자")) {
+				Space space = memberDAO.sessionSpace(id);
+				hs.setAttribute("sessionType", space);
+			}
+			
 			hs.setAttribute("sessionMember", result);
 			return "success";
 		}
@@ -121,45 +132,14 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/insertExtraInfo", method=RequestMethod.POST)
-	public String fileUpload(String id, String membertype, Product prod, Seller seller, Space space, MultipartFile uploadFile, MultipartHttpServletRequest request, HttpSession hs) {
+	public String fileUpload(String id, String membertype, Product prod, Seller seller, Space space, HttpSession hs) {
 		
-		String fileName, originalFileName;
-		
-		List<MultipartFile> fileList = request.getFiles("uploadFile");
-
-		String files = "";
 
 		Member mem = (Member) hs.getAttribute("sessionMember");
 		
-		try {
-			Iterator<MultipartFile> it = fileList.iterator();
-			int index = 0;
-			while (it.hasNext()) {
-				index++;
-				MultipartFile file = (MultipartFile) it.next();
-				originalFileName = file.getOriginalFilename();
-				fileName = mem.getId()+"_mem"+"_image"+index+originalFileName.substring(originalFileName.indexOf("."));
-				File f = new File(UPLOADPATH+mem.getId()+"\\"+fileName);
-				if(!f.exists()) { //폴더가 없으면 생성
-				   f.mkdirs();
-				}
-				file.transferTo(f);	// 파일의 내용을 가져오고 업로드 저장되는 이름은 (+fileName)으로 저장
-				files=files+"&"+fileName;
-			}
-			if(files.indexOf("&")==0) {
-				files = files.substring(1);
-			}
 			
-			
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-			hs.invalidate();
-		}
-		
 		try {
 			if(membertype.equals("space")) {
-				space.setImage(files);
 				try {
 					memberDAO.insertSpace(space);
 				}catch(Exception e) {
@@ -168,8 +148,6 @@ public class MemberController {
 					hs.invalidate();
 				}
 			} else {
-				prod.setImage(files);
-				try {
 					memberDAO.insertSeller(seller);
 					try {
 						memberDAO.insertProduct(prod);
@@ -178,11 +156,6 @@ public class MemberController {
 						memberDAO.deleteMember(id);
 						hs.invalidate();
 					}
-				}catch(Exception e) {
-					e.printStackTrace();
-					memberDAO.deleteMember(id);
-					hs.invalidate();
-				}
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

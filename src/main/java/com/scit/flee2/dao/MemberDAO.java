@@ -58,6 +58,47 @@ public class MemberDAO {
 		return result;
 	}
 	
+	public Seller sessionSeller(String id) {
+		Seller result = new Seller();
+		
+		MemberMapper mm = sqlSession.getMapper(MemberMapper.class);
+		
+		try {
+			result = mm.sessionSeller(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;		
+	}
+	public Product sessionProduct(String id) {
+		Product result = new Product();
+		
+		MemberMapper mm = sqlSession.getMapper(MemberMapper.class);
+		
+		try {
+			result = mm.sessionProduct(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;		
+	}
+	public Space sessionSpace(String id) {
+		Space result = new Space();
+		
+		MemberMapper mm = sqlSession.getMapper(MemberMapper.class);
+		
+		try {
+			result = mm.sessionSpace(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;		
+	}
+	
+	
 	public int deleteMember(String id) {
 		int result = 0;
 		

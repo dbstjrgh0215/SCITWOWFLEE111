@@ -33,8 +33,3 @@
 					</ul><br>
 			    </div>
 			</div>
-<footer class="site-footer">
-		<div class="main-footer">
-			푸터
-		</div>
-	</footer>

@@ -10,6 +10,7 @@
 		<typeAlias type="com.scit.flee2.vo.Space" alias="Space" />
 		<typeAlias type="com.scit.flee2.vo.Proposal" alias="Proposal" />
 		<typeAlias type="com.scit.flee2.vo.Board" alias="Board" />
+		<typeAlias type="com.scit.flee2.vo.Qna" alias="Qna" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mapper/MemberMapper.xml" />

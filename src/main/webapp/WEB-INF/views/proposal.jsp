@@ -82,7 +82,7 @@
 					</tr>
 					<c:forEach var="list" items="${listProposal}">
 						<tr class="proposal-tr">
-							<td class="proposal-td-1"><a data-sno="${list.proposalnum}" id="proposal${list.proposalnum}" class="proposalDetail" href="#goProposalDetail?proposalnum=${list.proposalnum}">${list.title}</a></td>
+							<td class="proposal-td-1"><a data-sno="${list.proposalnum}" id="proposal${list.proposalnum}" class="goProposalDetail" href="#goProposalDetail?proposalnum=${list.proposalnum}">${list.title}</a></td>
 							<td class="proposal-td-1">${list.indate}</td>
 							<td class="td-control"><button data-sno="${list.proposalnum}" class="udtProposal" id="udtProposal${list.proposalnum}">수정</button><button data-sno="${list.proposalnum}" class="delProposal" id="deleteProposal${list.proposalnum}">삭제</button></td>
 						</tr>

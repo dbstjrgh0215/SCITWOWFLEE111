@@ -8,20 +8,20 @@
 	<insert id="insertProposal" parameterType="Proposal">
 	INSERT INTO WOW_PROPOSAL
 	<if test="membertype=='셀러'">
-	(PROPOSALNUM, ID, TITLE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, NAME, TYPE1, TYPE2, TYPE3, PRICE, STOCK)
+	(PROPOSALNUM, ID, TITLE, INDATE, MEMBERTYPE, KEYWORD, IMAGE, COMMENTS, PRECAUTION, NAME, TYPE, CONTRACTPERIOD, PRICE, STOCK)
 	VALUES
-	(WOW_PROPOSAL_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{name}, #{type1}, #{type2}, #{type3}, #{price}, #{stock})
+	(WOW_PROPOSAL_SEQ.NEXTVAL, #{id}, #{title}, SYSDATE, #{membertype}, #{keyword}, #{image}, #{comments}, #{precaution}, #{name}, #{type}, #{contractperiod}, #{price}, #{stock})
 	</if>
 	<if test="membertype=='공간제공자'">
-	(PROPOSALNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, NAME, TYPE1, TYPE2, TYPE3, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE)
+	(PROPOSALNUM, ID, TITLE, INDATE, MEMBERTYPE, KEYWORD, IMAGE, COMMENTS, PRECAUTION, NAME, TYPE, CONTRACTPERIOD, OPTIME, OFFDAY, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE)
 	VALUES
-	(WOW_PROPOSAL_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{name}, #{type1}, #{type2}, #{type3},  #{spaceaddr1}, #{spaceaddr2}, #{latitude}, #{longitude})
+	(WOW_PROPOSAL_SEQ.NEXTVAL, #{id}, #{title}, SYSDATE, #{membertype}, #{keyword}, #{image}, #{comments}, #{precaution}, #{name}, #{type}, #{contractperiod}, #{optime}, #{offday}, #{scale},  #{spaceaddr1}, #{spaceaddr2}, #{latitude}, #{longitude})
 	</if>
 	</insert>
 	
 	<select id="listProposal" parameterType="Member" resultType="Proposal">
 	SELECT
-	PROPOSALNUM, ID, TITLE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, COMMENTS, NAME, TYPE1, TYPE2, TYPE3, PRICE, STOCK, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE
+	PROPOSALNUM, ID, TITLE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, CONTRACTPERIOD, PRICE, STOCK, OPTIME, OFFDAY, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE
 	FROM WOW_PROPOSAL
 	WHERE ID=#{id}
 	ORDER BY PROPOSALNUM DESC
@@ -29,10 +29,58 @@
 	
 	<select id="selectProposal" parameterType="Integer" resultType="Proposal">
 	SELECT
-	PROPOSALNUM, ID, TITLE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, COMMENTS, NAME, TYPE1, TYPE2, TYPE3, PRICE, STOCK, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE
+	PROPOSALNUM, ID, TITLE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, IMAGE, COMMENTS, PRECAUTION, NAME, TYPE, CONTRACTPERIOD, PRICE, STOCK, OPTIME, OFFDAY, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE
 	FROM WOW_PROPOSAL
 	WHERE PROPOSALNUM=#{clickNo}
 	</select>
+	
+	<update id="updateProposal" parameterType="Proposal">
+	UPDATE
+	WOW_PROPOSAL
+	SET
+		<if test="membertype=='셀러'">
+		TITLE = #{title}, 
+		INDATE = SYSDATE,
+		KEYWORD = #{keyword}, 
+		IMAGE = #{image},
+		COMMENTS = #{comments}, 
+		PRECAUTION = #{precaution},
+		NAME = #{name}, 
+		TYPE = #{type}, 
+		CONTRACTPERIOD = #{contractperiod}, 
+		PRICE = #{price}, 
+		STOCK = #{stock}
+		</if>
+		<if test="membertype=='공간제공자'">
+		TITLE = #{title}, 
+		INDATE = SYSDATE,
+		KEYWORD = #{keyword}, 
+		IMAGE = #{image},
+		COMMENTS = #{comments}, 
+		PRECAUTION = #{precaution},
+		NAME = #{name}, 
+		TYPE = #{type}, 
+		CONTRACTPERIOD = #{contractperiod}, 
+		OPTIME = #{optime},
+		OFFDAY = #{offday},
+		SCALE = #{scale},
+		SPACEADDR1 = #{spaceaddr1},
+		SPACEADDR2 = #{spaceaddr2},
+		LATITUDE = #{latitude},
+		LONGITUDE = #{longitude}
+		</if>
+	WHERE
+		PROPOSALNUM = #{proposalnum}
+	</update>
+	
+	<update id="updateImageProp" parameterType="Proposal">
+	UPDATE
+	WOW_PROPOSAL
+	SET
+		IMAGE = #{image}
+	WHERE
+		PROPOSALNUM = #{proposalnum}
+	</update>
 
 	<delete id="deleteProposal" parameterType="Integer">
 	DELETE
@@ -40,30 +88,30 @@
 	WHERE PROPOSALNUM=#{clickNo}
 	</delete>
 	
-	<select id="listRecommendSeller" resultType="Board">
+	<select id="listRecommend" parameterType="String" resultType="Board">
 	SELECT
 	*
 	FROM WOW_BOARD
-	WHERE RECOMMEND='1'
+	WHERE RECOMMEND='1' AND MEMBERTYPE= #{membertype}
 	</select>
 	
 	<insert id="insertBoard" parameterType="Board">
 	INSERT INTO WOW_BOARD
 	<if test="membertype=='셀러'">
-	(BOARDNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE1, TYPE2, TYPE3, PRICE, STOCK)
+	(BOARDNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, CONTRACTPERIOD, PRICE, STOCK)
 	VALUES
-	(WOW_BOARD_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{precaution}, #{name}, #{type1}, #{type2}, #{type3}, #{price}, #{stock})
+	(WOW_BOARD_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{precaution}, #{name}, #{type}, #{contractperiod}, #{price}, #{stock})
 	</if>
 	<if test="membertype=='공간제공자'">
-	(BOARDNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE1, TYPE2, TYPE3, OPTIME, OFFDAY, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE)
+	(BOARDNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, OPTIME, OFFDAY, CONTRACTPERIOD, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE)
 	VALUES
-	(WOW_BOARD_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{precaution}, #{name}, #{type1}, #{type2}, #{type3}, #{optime}, #{offday}, #{scale}, #{spaceaddr1}, #{spaceaddr2}, #{latitude}, #{longitude})
+	(WOW_BOARD_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{precaution}, #{name}, #{type}, #{optime}, #{offday}, #{contractperiod}, #{scale}, #{spaceaddr1}, #{spaceaddr2}, #{latitude}, #{longitude})
 	</if>
 	</insert>
 	
 	<select id="listUserBoard" parameterType="Member" resultType="Board">
 	SELECT
-	BOARDNUM, ID, TITLE, IMAGE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE1, TYPE2, TYPE3, PRICE, STOCK, OPTIME, OFFDAY, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE, RECOMMEND
+	BOARDNUM, ID, TITLE, IMAGE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, PRICE, STOCK, OPTIME, OFFDAY, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE, RECOMMEND
 	FROM WOW_BOARD
 	WHERE ID=#{id}
 	ORDER BY BOARDNUM DESC
@@ -71,9 +119,29 @@
 	
 	<select id="listBoard" parameterType="String" resultType="Board">
 	SELECT
-	BOARDNUM, ID, TITLE, IMAGE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE1, TYPE2, TYPE3, PRICE, STOCK, OPTIME, OFFDAY, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE, RECOMMEND
+	BOARDNUM, ID, TITLE, IMAGE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, PRICE, STOCK, OPTIME, OFFDAY, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE, RECOMMEND
 	FROM WOW_BOARD
 	WHERE MEMBERTYPE=#{membertype}
 	ORDER BY BOARDNUM DESC
 	</select>
+	
+	<select id="selectBoard" parameterType="Integer" resultType="Board">
+	SELECT
+	*
+	FROM WOW_BOARD
+	WHERE BOARDNUM=#{boardnum}
+	</select>
+	
+	<delete id="deleteBoard" parameterType="Integer">
+	DELETE
+	FROM WOW_BOARD
+	WHERE BOARDNUM=#{clickNo}
+	</delete>
+	
+	<insert id="insertQna" parameterType="Qna">
+	INSERT INTO WOW_BOARD_QNA
+	(QNANUM, BOARDNUM, COMMENTS, INDATE)
+	VALUES
+	(WOW_BOARD_QNA_SEQ.NEXTVAL, #{boardnum}, #{comments}, SYSDATE)
+	</insert>
 </mapper>

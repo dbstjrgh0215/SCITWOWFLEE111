@@ -105,39 +105,20 @@
 					</tr>
 					<tr>
 						<td class="td-1"><h4>제품분류</h4></td>
-						<td class="td-2"><span class="inputNorm"><select name="prod_type1"><option value="type1">대분류</option></select>
-														  		<select name="prod_type2"><option value="type2">중분류</option></select>
-														  		<select name="prod_type3"><option value="type3">소분류</option></select></span></td>
+						<td class="td-2"><span class="inputNorm"><input type="text" id="type" name="prod_type"></span>
+						<button id="typeRegist" type="button">등록</button></td>
 					</tr>
-					<tr>
-						<td class="td-1"><h4>키워드</h4></td>
-						<td class="td-2"><span class="inputNorm"><input type="text" name="keyword" placeholder="검색시 활용할 키워드를 넣어주세요"></span></td>
-					</tr>
-					<tr>
-						<td class="td-1"><h4>간략한 소개</h4></td>
-						<td class="td-2"><textarea rows="10" cols="50" name="comments"></textarea></td>
-					</tr>
-				</c:if>
-				<c:if test="${memtype=='space'}">
-					<tr>
-						<td class="td-1"><h4>공간이름</h4></td>
-						<td class="td-2"><span class="inputNorm"><input type="text" name="spacename"></span></td>
-					</tr>
-					<tr>
-						<td class="td-1"><h4>TEL</h4></td>
-						<td class="td-2"><span class="inputNorm"><input type="text" name="tel"></span></td>
-					</tr>
-			 		<input type="hidden" name="latitude" value="${latitude}">
-			 		<input type="hidden" name="longitude" value="${longitude}">
-					<tr>
-						<td class="td-1"><h4>공간분류</h4></td>
-						<td class="td-2"><span class="inputNorm"><select name="space_type1"><option value="type1">대분류</option></select>
-				  		<select name="space_type2"><option value="type2">중분류</option></select>
-				  		<select name="space_type3"><option value="type3">소분류</option></select></span></td>
-					</tr>
+					<tr id="typeSelected">
+   						<td class="td-1"><h4>제품분류</h4></td>
+   						<td class="td-2"><input type="hidden" id="typeContent1" value="">
+   						<input type="hidden" id="typeContent2" value=""><input type="hidden" id="typeContent4" value="">
+   						<input type="hidden" id="typeContent3" value=""><input type="hidden" id="typeContent5" value=""></td>
+   					</tr>
 					<tr>
    						<td class="td-1"><h4>키워드</h4></td>
-   						<td class="td-2"><span class="inputNorm"><input type="text" id="keyword" value="${udtProposal.keyword}"></span>
+   						<td class="td-2">
+   						<input type="hidden" id="selectedKeyword" name="keyword">
+   						<span class="inputNorm"><input type="text" id="keyword" value="${udtProposal.keyword}"></span>
    						<button id="keywordRegist" type="button">등록</button><button id="selectKeyword" type="button">추천키워드에서선택 <i class="fas fa-chevron-down"></i></button></td>
    					</tr>
    					<tr id="keywordFilter">
@@ -154,10 +135,59 @@
 						<td class="td-2"><textarea rows="10" cols="50" name="comments"></textarea></td>
 					</tr>
 				</c:if>
+				<c:if test="${memtype=='space'}">
+					<tr>
+						<td class="td-1"><h4>공간이름</h4></td>
+						<td class="td-2"><span class="inputNorm"><input type="text" name="spacename"></span></td>
+					</tr>
+					<tr>
+						<td class="td-1"><h4>TEL</h4></td>
+						<td class="td-2"><span class="inputNorm"><input type="text" name="tel"></span></td>
+					</tr>
+					<tr>
+						<td class="td-1"><h4>공간분류</h4></td>
+						<td class="td-2"><span class="inputNorm"><input type="text" id="type" name="space_type"></span>
+						<button id="typeRegist" type="button">등록</button></td>
+					</tr>
+					<tr id="typeSelected">
+   						<td class="td-1"><h4>공간분류</h4></td>
+   						<td class="td-2"><input type="hidden" id="typeContent1" value="">
+   						<input type="hidden" id="typeContent2" value=""><input type="hidden" id="typeContent4" value="">
+   						<input type="hidden" id="typeContent3" value=""><input type="hidden" id="typeContent5" value=""></td>
+   					</tr>
+					<tr>
+   						<td class="td-1"><h4>키워드</h4></td>
+   						<td class="td-2"><span class="inputNorm"><input type="text" id="keyword" value="${udtProposal.keyword}"></span>
+   						<button id="keywordRegist" type="button">등록</button><button id="selectKeyword" type="button">추천키워드에서선택 <i class="fas fa-chevron-down"></i></button></td>
+   					</tr>
+   					<tr id="keywordFilter">
+   						
+   					</tr>
+   					<tr id="keywordSelected">
+   						<td class="td-1"><h4>나의 키워드</h4><h5>(<font id="keywordCount">0</font> / 5)</h5></td>
+   						<td class="td-2">
+   						<input type="hidden" id="selectedKeyword" name="keyword">
+   						<input type="hidden" id="keywordContent1" value="">
+   						<input type="hidden" id="keywordContent2" value=""><input type="hidden" id="keywordContent4" value="">
+   						<input type="hidden" id="keywordContent3" value=""><input type="hidden" id="keywordContent5" value=""></td>
+   					</tr>
+   					<tr>
+						<td class="td-1"><h4>공간주소</h4></td>
+						<td class="td-2"><span class="inputNorm"><input type="text" id="address" name="spaceaddr1" placeholder="주소"></span><button type="button" onclick="execDaumPostcode()">주소검색</button></td>
+					</tr>
+					<tr>
+						<td class="td-1"><h4>상세주소</h4></td>
+						<td class="td-2"><span class="inputNorm"><input type="text" id="detailAddress" name="spaceaddr2" placeholder="상세주소"></span><input type="hidden" id="latitude" name="latitude"><input type="hidden" id="longitude" name="longitude"></td>
+					</tr>
+					<tr>
+						<td class="td-1"><h4>간략한 소개</h4></td>
+						<td class="td-2"><textarea rows="10" cols="50" name="comments"></textarea></td>
+					</tr>
+				</c:if>
 				</table>
 				</form>
 			 		<div class="signUpbtn">
-					<button id="btnExtraInsert">등록</button>
+					<button type="button" id="btnExtraInsert">등록</button>
    					<p id="extraWarning"></p>
 				</div>
 			</div>

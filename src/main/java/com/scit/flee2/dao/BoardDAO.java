@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.scit.flee2.vo.Board;
 import com.scit.flee2.vo.Member;
 import com.scit.flee2.vo.Proposal;
+import com.scit.flee2.vo.Qna;
 
 @Repository
 public class BoardDAO {
@@ -72,13 +73,13 @@ public class BoardDAO {
 		return result;
 	}
 	
-	public ArrayList<Board> listRecommendSeller(){
+	public ArrayList<Board> listRecommend(String membertype){
 		ArrayList<Board> list = new ArrayList<Board>();
 		
 		BoardMapper bm = sqlSession.getMapper(BoardMapper.class);
 		
 		try {
-			list = bm.listRecommendSeller();
+			list = bm.listRecommend(membertype);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -126,5 +127,62 @@ public class BoardDAO {
 		}
 		
 		return list;
+	}
+	
+	public Board selectBoard(int boardnum) {
+		Board result = new Board();
+		
+		BoardMapper bm = sqlSession.getMapper(BoardMapper.class);
+		
+		try {
+			result = bm.selectBoard(boardnum);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public int insertQna(Qna qna) {
+		int result = 0;
+
+		BoardMapper bm = sqlSession.getMapper(BoardMapper.class);
+		
+		try {
+			result = bm.insertQna(qna);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return result;
+	}
+	
+	public int updateProposal(Proposal prop) {
+		int result = 0;
+
+		BoardMapper bm = sqlSession.getMapper(BoardMapper.class);
+		
+		try {
+			result = bm.updateProposal(prop);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public int deleteBoard(int clickNo) {
+		int result = 0;
+
+		BoardMapper bm = sqlSession.getMapper(BoardMapper.class);
+		
+		try {
+			result = bm.deleteBoard(clickNo);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }
