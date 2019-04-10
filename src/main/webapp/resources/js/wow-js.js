@@ -14,8 +14,31 @@ $(function() {
 	
 	board_image();
 	
-	$("#btnSearchM").on("click", function(){
+	if(typeof daum !== 'undefined'){
+		var text = $('#text').val();
 		$.ajax({
+			url:"searchMap",
+			data:{text:text},
+			type:"get",
+			success:function(serverData){
+				map(serverData);
+			}
+		});
+	}
+	
+	$("#btnSearchM").on("click", function(){
+		var status = $('#searchModal').css('display');
+		barclose();
+		searchWidth();
+		if(status != 'block'){   
+			$('.search').addClass('searchOpen');
+			$('#event-slider-right').css('display','none');
+			$('#event-slider-left').css('display','none');
+		} else {
+			$('#event-slider-right').css('display','block');
+			$('#event-slider-left').css('display','block');
+		}
+		/*$.ajax({
 			url:"goMap",
 			data:{},
 			type:"get",
@@ -24,15 +47,32 @@ $(function() {
 				$("#main-content").html(serverData);
 				map();
 			}
-		});
+		});*/
 	});
 	
+	$('.closeSearch').on('click',function(){
+		$('.search').removeClass('searchOpen');
+	});
+	
+	search();
+	
+	$("#searchText").keydown(function(key) {
+		if (key.keyCode == 13) {
+			goSearch();
+		}
+	});
+	
+	$("#searchText2").keydown(function(key) {
+		if (key.keyCode == 13) {
+			goSearch();
+		}
+	});
 	
 	$("#btnNotice").on("click",function(){
 		var status = document.getElementById("notice").style.display;
 		barclose();
 		if(status != 'block'){   
-			document.getElementById("notice").style.display = 'block'
+			document.getElementById("notice").style.display = 'block';
 		}
 	});
 	
@@ -52,51 +92,16 @@ $(function() {
 		barclose();
 	});
 	
-	$("#goSeller").on("click",function(){
-		$.ajax({
-			url:"goBoardSeller",
-			data:{},
-			type:"get",
-			success:function(serverData){
-				barclose();
-				$("#main-content").html(serverData);
-				board_image();
+	mainNav();
+	
+	
+	if($('#loginId').length!=0){
+		$("#loginId,#loginPw").keydown(function(key) {
+			if (key.keyCode == 13) {
+				login();
 			}
 		});
-	});
-	
-	$("#goSpace").on("click",function(){
-		$.ajax({
-			url:"goBoardSpace",
-			data:{},
-			type:"get",
-			success:function(serverData){
-				barclose();
-				$("#main-content").html(serverData);
-				board_image();
-			}
-		});
-	});
-	
-	$("#goProduct").on("click",function(){
-		$.ajax({
-			url:"goBoardProduct",
-			data:{},
-			type:"get",
-			success:function(serverData){
-				barclose();
-				$("#main-content").html(serverData);
-				board_image();
-			}
-		});
-	});
-	
-	
-	$("#loginId,#loginPw").keydown(function(key) {
-		if (key.keyCode == 13) {
-			login();
-		}
-	});
+	}
 
 	$("#btnLogin").on("click", function(){
 		login();
@@ -355,6 +360,7 @@ $(function() {
 	
 	if($('#btnProposalWrite').length!=0){
 		typeSet();
+		offdaySet();
 		keywordSet();
 		img();
 		contractPeriodSet();
@@ -367,6 +373,7 @@ $(function() {
 	
 	if($('#btnProposalUpdate').length!=0){
 		typeSet();
+		offdaySet();
 		keywordSet();
 		img();
 		contractPeriodSet();
@@ -378,6 +385,24 @@ $(function() {
 		$("#btnRegistBoard").on('click',function(){
 			document.getElementById("modal-userBoard-proposalList").style.display = "block";
 		});
+	}
+	
+	if($('#btnBoardWrite').length!=0){
+		typeSet();
+		offdaySet();
+		keywordSet();
+		img();
+		contractPeriodSet();
+		userBoard();
+	}
+	
+	if($('#btnBoardUpdate').length!=0){
+		typeSet();
+		offdaySet();
+		keywordSet();
+		img();
+		contractPeriodSet();
+		userBoard();
 	}
 	
 	if($('#contract-online').length!=0){
@@ -420,7 +445,7 @@ function extraInfo(){
 }
 
 function udt(){
-	alert("udt");
+	
 }
 
 
@@ -444,117 +469,359 @@ jQuery.jQueryAlert = function (title, msg) {
 function barclose(){
     document.getElementById("sidenav").style.display = 'none';
     document.getElementById("notice").style.display = 'none';
+    if($('#searchFilter').hasClass('search searchOpen')===true){
+    	$('.search').removeClass("searchOpen");
+    }
 }
 
-function map(){
+function mainNav(){
+	$("#goSeller").on("click",function(){
+		$.ajax({
+			url:"goBoardSeller",
+			data:{},
+			type:"get",
+			success:function(serverData){
+				barclose();
+				$("#main-content").html(serverData);
+				board_image();
+			}
+		});
+	});
+	
+	$("#goSpace").on("click",function(){
+		$.ajax({
+			url:"goBoardSpace",
+			data:{},
+			type:"get",
+			success:function(serverData){
+				barclose();
+				$("#main-content").html(serverData);
+				board_image();
+			}
+		});
+	});
+	
+	$("#goProduct").on("click",function(){
+		$.ajax({
+			url:"goBoardProduct",
+			data:{},
+			type:"get",
+			success:function(serverData){
+				barclose();
+				$("#main-content").html(serverData);
+				board_image();
+			}
+		});
+	});
+}
+
+function mainNavMake(){
+	var data = "<div class='list-menu'><ul> <li><a href='javascript:void(0);' id='goSpace'>공간보기</a></li><li><a href='javascript:void(0);' id='goSeller'>셀러보기</a></li><li><a href='javascript:void(0);' id='goProduct'>판매상품</a></li></ul></div>";
+	if($('.searchPageContent').length!=0){
+		$.ajax({
+			url:"keyword",
+			data:{},
+			type:"get",
+			success:function(serverData){
+				$('.main-nav').html(data);
+				$('#searchText').css('width','88%');
+				mainNav();
+			}
+		});
+	}
+}
+
+function searchWidth(){
+	if($('.list-menu').length==0){
+		$.ajax({
+			url:"keyword",
+			data:{},
+			type:"get",
+			success:function(serverData){
+				$('#searchText').css('width','88%');
+			}
+		});
+	}
+}
+
+function goSearch(){
+	var text = $('#searchText').val();
+	var text2 = $('#searchText2').val();
+	if(text!=""){
+		$.ajax({
+			url:"goSearch",
+			data:{text:text},
+			type:"get",
+			success:function(serverData){
+				location.href="goSearch?text="+text;
+			}
+		});
+	} else if(text2!=undefined) {
+		if(text2!=""){
+			$.ajax({
+				url:"goSearch",
+				data:{text:text2},
+				type:"get",
+				success:function(serverData){
+					location.href="goSearch?text="+text2;
+				}
+			});
+		}
+	} else {
+		alert("검색어를입력해주세요!");
+		return;
+	}
+	if(text2=="") {
+		alert("검색어를입력해주세요!");
+		return;
+	}
+}
+
+function search(){
+	mainNavMake();
+	
+	$('#goSearch').on('click',function(){
+		goSearch();
+	});
+	
+	$('#goSearch2').on('click',function(){
+		goSearch();
+	});
+	
+	$('.span-searchKeyword').on('click',function(){
+		var clickNo = $(this).attr('data-sno');
+		var text = $('#keyword-a'+clickNo).text().substring(1);
+		$('#keyword-a'+clickNo).on('click',function(){
+			$.ajax({
+				url:"goSearch",
+				data:{text:text},
+				type:"get",
+				success:function(serverData){
+					location.href="goSearch?text="+text;
+				}
+			});
+		});
+	});
+	
+	$('#searchMap').on('click',function(){
+		var text = $('#text').val();
+		location.href="goMap?text="+text;
+	});
+}
+
+function map(serverData){
 	if(typeof daum !== 'undefined'){
 		//지도 관련
 		// 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
 		var placeOverlay = new daum.maps.CustomOverlay({zIndex:1}), 
 		    contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다 
 		    markers = [], // 마커를 담을 배열입니다
+		    overlays = [],
 		    currCategory = ''; // 현재 선택된 카테고리를 가지고 있을 변수입니다
 		var marker = null;
+		var overlay = null;
 		var mapContainer = document.getElementById('map_map'), // 지도를 표시할 div 
 		mapOption = { 
 		    center: new daum.maps.LatLng(37.513220, 127.058581), // 지도의 중심좌표
-		    level: 3 // 지도의 확대 레벨
+		    level: 8 // 지도의 확대 레벨
 		};
-			var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다    
+		imageSize = new daum.maps.Size(64, 69), // 마커이미지의 크기입니다
+		imageOption = {offset: new daum.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		
+		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+		$.each(serverData, function(index,item){
+			//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+			var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption),
+			markerPosition = new daum.maps.LatLng(item.latitude, item.longitude); // 마커가 표시될 위치입니다
+			//마커를 생성합니다
+			marker = new daum.maps.Marker({
+			position: markerPosition,
+			image: markerImage // 마커이미지 설정 
+			});
 			
-			var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다    
-			imageSize = new daum.maps.Size(64, 69), // 마커이미지의 크기입니다
-			imageOption = {offset: new daum.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+			marker.setMap(map);
+			markers.push(marker);  // 배열에 생성된 마커를 추가합니다
 			
-			// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-			function addMarker(serverData) {
-				$.each(serverData, function(index,item){
-					//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-					var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption),
-					markerPosition = new daum.maps.LatLng(item.latitude, item.longitude); // 마커가 표시될 위치입니다
-					//마커를 생성합니다
-					marker = new daum.maps.Marker({
-					position: markerPosition,
-					image: markerImage // 마커이미지 설정 
-					});
-					
-					marker.setMap(map);
-					markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+			// 커스텀 오버레이에 표시할 컨텐츠 입니다
+			// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
+			// 별도의 이벤트 메소드를 제공하지 않습니다 
+			var content = '<div class="overlay" id="overlay'+index+'">' + 
+			            '    <div class="info">' + 
+			            '        <div class="title">' + 
+			            			item.name+ 
+			            '            <div class="closeInfo" data-sno="'+index+'" title="닫기"></div>' + 
+			            '        </div>' + 
+			            '        <div class="body">' + 
+			            '            <div class="img">' +
+			            '                 <img class="img1" src="resources/images/userImage/'+item.id+'/board/'+item.title+'/'+item.id+'_board_'+item.title+'_image1.jpg">' +
+			            '           </div>' + 
+			            '            <div class="desc">' + 
+			            '                <div class="ellipsis">'+item.spaceaddr1+'</div>' + 
+			            '                <div class="jibun ellipsis">'+item.spaceaddr2+'</div>' + 
+			            '                <div>'+item.type+'</div>' + 
+			            '            </div>' + 
+			            '        </div>' + 
+			            '    </div>' +    
+			            '</div>';
+
+			// 커스텀 오버레이를 생성합니다
+			var customOverlay = new daum.maps.CustomOverlay({
+			    position: markerPosition,
+			    content: content   
+			});
+
+			overlays.push(customOverlay);
+		});
+		
+		// 마커에 클릭이벤트를 등록합니다
+		$.each(overlays, function(index,item){
+			// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+			daum.maps.event.addListener(markers[index], 'click', function() {
+				for(var i=0; i<overlays.length; i++){
+					overlays[i].setMap(null);
+				}
+				overlays[index].setMap(map);
+				
+				// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+				$('.closeInfo').on('click',function(){
+					overlays[index].setMap(null);
 				});
-			}
-			
-			function panTo() {
-			 	// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
-			    if (navigator.geolocation) {
-			        
-			        // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-			        navigator.geolocation.getCurrentPosition(function(position) {
-			            
-			            var lat = position.coords.latitude, // 위도
-			                lon = position.coords.longitude; // 경도
-			            
-			            var locPosition = new daum.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-			            
-			         	// 이동할 위도 경도 위치를 생성합니다 
-					    var moveLatLon = new daum.maps.LatLng(37.513220, 127.058581);
-			            
-					 	// 지도 중심을 부드럽게 이동시킵니다
-					    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-					    map.panTo(locPosition);  
-					    
-			          });
-			        
-			    } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-			        
-			        var locPosition = new daum.maps.LatLng(33.450701, 126.570667);    
-			         
-			     	// 지도 중심을 부드럽게 이동시킵니다
+			});
+		});
+		
+		
+		
+		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+		function addMarker(serverData) {
+			$.each(serverData, function(index,item){
+				//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+				var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption),
+				markerPosition = new daum.maps.LatLng(item.latitude, item.longitude); // 마커가 표시될 위치입니다
+				//마커를 생성합니다
+				marker = new daum.maps.Marker({
+				position: markerPosition,
+				image: markerImage // 마커이미지 설정 
+				});
+				
+				marker.setMap(map);
+				markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+				
+				// 커스텀 오버레이에 표시할 컨텐츠 입니다
+				// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
+				// 별도의 이벤트 메소드를 제공하지 않습니다 
+				var content = '<div class="overlay" id="overlay'+index+'">' + 
+				            '    <div class="info">' + 
+				            '        <div class="title">' + 
+				            			item.title+ 
+				            '            <div class="closeInfo" data-sno="'+index+'" title="닫기"></div>' + 
+				            '        </div>' + 
+				            '        <div class="body">' + 
+				            '            <div class="img">' +
+				            '                <img class="img1" src="resources/images/userImage/'+item.id+'/board/'+item.title+'/'+item.id+'_board_'+item.title+'_image1.jpg">' +
+				            '           </div>' + 
+				            '            <div class="desc">' + 
+				            '                <div class="ellipsis">'+item.spaceaddr1+' '+item.spaceaddr2+'</div>' + 
+				            '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+				            '                <div><a href="http://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+				            '            </div>' + 
+				            '        </div>' + 
+				            '    </div>' +    
+				            '</div>';
+
+				// 커스텀 오버레이를 생성합니다
+				var customOverlay = new daum.maps.CustomOverlay({
+				    position: markerPosition,
+				    content: content   
+				});
+
+				overlays.push(customOverlay);
+			});
+		}
+
+		function panTo() {
+		 	// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+		    if (navigator.geolocation) {
+		        
+		        // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+		        navigator.geolocation.getCurrentPosition(function(position) {
+		            
+		            var lat = position.coords.latitude, // 위도
+		                lon = position.coords.longitude; // 경도
+		            
+		            var locPosition = new daum.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+		            
+		         	// 이동할 위도 경도 위치를 생성합니다 
+				    var moveLatLon = new daum.maps.LatLng(37.513220, 127.058581);
+		            
+				 	// 지도 중심을 부드럽게 이동시킵니다
 				    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
 				    map.panTo(locPosition);  
-			    }
-			 	
-			 	
-			}      
-			
-			
-			// 지도 위에 표시되고 있는 마커를 모두 제거합니다
-			function removeMarker() {
-			    for ( var i = 0; i < markers.length; i++ ) {
-			        markers[i].setMap(null);
-			    }   
-			    markers = [];
-			}
-			
-			$('#map_btn1').on('click',function(){
-				$.ajax({
-					url:"clickBtn1",
-					data:{spacename:"aaa"},
-					type:"get",
-					success:function(serverData){
-						removeMarker(); 
-						addMarker(serverData);
-					}
-				});
-			});
-			 
-			$('#map_btn2').on('click',function(){
-				$.ajax({
-					url:"clickBtn2",
-					data:{spacename:"bbb"},
-					type:"get",
-					success:function(serverData){
-						removeMarker(); 
-						addMarker(serverData);
-					}
-				});
-			});
-			
-			$('#map_btnMyPos').on('click', function(){
-				panTo();
-			});
+				    
+		          });
+		        
+		    } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+		        
+		        var locPosition = new daum.maps.LatLng(33.450701, 126.570667);    
+		         
+		     	// 지도 중심을 부드럽게 이동시킵니다
+			    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+			    map.panTo(locPosition);  
+		    }
+		}      
 		
-
+		// 지도 위에 표시되고 있는 마커를 모두 제거합니다
+		function removeMarker() {
+		    for ( var i = 0; i < markers.length; i++ ) {
+		        markers[i].setMap(null);
+		    }   
+		    markers = [];
+		}
+		
+		$('#map_btn1').on('click',function(){
+			location.href="goMap?text=악세사리"
+		});
+		 
+		$('#map_btn2').on('click',function(){
+			location.href="goMap?text=카페"
+		});
+		
+		$('#map_btn3').on('click',function(){
+			$.ajax({
+				url:"searchMap",
+				data:{text:"애견카페"},
+				type:"get",
+				success:function(serverData){
+					removeMarker(); 
+					addMarker(serverData);
+				}
+			});
+		});
+		
+		$('#map_btnMyPos').on('click', function(){
+			panTo();
+		});
+		
+		
+		$('#mapSearchBtn').on('click',function(){
+			var text = $('#mapSearchText').val();
+			$.ajax({
+				url:"searchMap",
+				data:{text:text},
+				type:"get",
+				success:function(serverData){
+					removeMarker(); 
+					addMarker(serverData);
+					$('#mapSearchText').val("");
+				}
+			});
+		});
 	}
+}
+
+function markerSetting(text){
+	location.href="goMap?text="+text;
 }
 
 function execDaumPostcode() {
@@ -718,6 +985,12 @@ function proposal(){
 				type += "&"+$('#typeContent'+i).val();
 			}
 		}
+		var offday="";
+		for(var i=1; i<=7; i++){
+			if($('#offdayContent'+i).val!=""){
+				offday += "&"+$('#offdayContent'+i).val();
+			}
+		}
 		var contractPeriod = "";
 		for(var i=1; i<=7; i++){
 			if($('#contractPeriodContent'+i).val!=""){
@@ -740,6 +1013,7 @@ function proposal(){
 		$('#form_precaution').val(precaution);
 		$('#form_name').val(name);
 		$('#form_type').val(type);
+		$('#form_offday').val(offday);
 		$('#form_contractPeriod').val(contractPeriod);
 		if(price!=null){
 			$('#form_price').val(price);
@@ -781,79 +1055,74 @@ function userBoard(){
 			alert('선택해주세요!');
 			return false;
 		} 
+		location.href="goBoardWrite?proposalnum="+checked_radio;
+	});
+	
+	$('#btnBoardWrite').on('click',function(){
+		var membertype=$('#form_membertype').val();
+		var title=$('#title').val();
 		$.ajax({
-			url:"goBoardWrite",
-			data:{proposalnum:checked_radio},
-			type:"post",
+			url:"checkTitle",
+			data:{title:title},
+			type:"get",
 			success:function(serverData){
-				$('#userBoard-proposalListDiv').html(serverData);
-				contractPeriodSet();
-				keywordSet();
-				typeSet();
-				img();
-				
-				$('#btnBoardWrite').on('click',function(){
-					var membertype=$('#form_membertype').val();
-					var title=$('#title').val();
-					$.ajax({
-						url:"checkTitle",
-						data:{title:title},
-						type:"get",
-						success:function(serverData){
-							if(serverData=="fail"){
-								$('#titleCheck').html("중복된 제안서 제목이있습니다. 제목을 바꿔주세요.");
-							} else {
-								$('#titleCheck').html("");
-							}
-						}
-					});
-					var keyword = "";
-					for(var i=1; i<=5; i++){
-						if($('#keywordContent'+i).val!=""){
-							keyword += "&"+$('#keywordContent'+i).val();
-						}
-					}
-					var comments=$('#comments').val();
-					var precaution=$('#precaution').val();
-					var contractPeriod = "";
-					for(var i=1; i<=7; i++){
-						if($('#contractPeriod'+i).val!=""){
-							optime += "&"+$('#contractPeriod'+i).val();
-						}
-					}
-					if(membertype=='셀러'){
-						var price=$('#price').val();
-						var stock=$('#stock').val();
-					} else {
-						var optime = "";
-						for(var i=1; i<=4; i++){
-							if($('#optime'+i).val!=""){
-								optime += "&"+$('#optime'+i).val();
-							}
-						}
-						var scale = $('#scale').val();
-					}
-
-					$('#form_title').val(title);
-					$('#form_keyword').val(keyword);
-					$('#form_comments').val(comments);
-					$('#form_precaution').val(precaution);
-					$('#form_contractPeriod').val(contractPeriod);
-					if(membertype=='셀러'){
-						$('#form_price').val(price);
-						$('#form_stock').val(stock);
-						$('#form_optime').val("");
-						$('#form_scale').val(0);
-					} else {
-						$('#form_price').val(0);
-						$('#form_stock').val(0);
-						$('#form_optime').val(optime);
-						$('#form_scale').val(scale);
-					}
-					
-				});
+				if(serverData=="fail"){
+					$('#titleCheck').html("중복된 공고문 제목이있습니다. 제목을 바꿔주세요.");
+				} else {
+					$('#titleCheck').html("");
+				}
 			}
 		});
+		var keyword = "";
+		for(var i=1; i<=5; i++){
+			if($('#keywordContent'+i).val!=""){
+				keyword += "&"+$('#keywordContent'+i).val();
+			}
+		}
+		var comments=$('#comments').val();
+		var precaution=$('#precaution').val();
+		var contractPeriod = "";
+		for(var i=1; i<=7; i++){
+			if($('#contractPeriod'+i).val!=""){
+				optime += "&"+$('#contractPeriod'+i).val();
+			}
+		}
+		var offday = "";
+		for(var i=1; i<=7; i++){
+			if($('#offdayContent'+i).val!=""){
+				keyword += "&"+$('#offdayContent'+i).val();
+			}
+		}
+		if(membertype=='셀러'){
+			var price=$('#price').val();
+			var stock=$('#stock').val();
+		} else {
+			var optime = "";
+			for(var i=1; i<=4; i++){
+				if($('#optime'+i).val!=""){
+					optime += "&"+$('#optime'+i).val();
+				}
+			}
+			var scale = $('#scale').val();
+		}
+
+		$('#form_title').val(title);
+		$('#form_keyword').val(keyword);
+		$('#form_comments').val(comments);
+		$('#form_precaution').val(precaution);
+		$('#form_contractPeriod').val(contractPeriod);
+		$('#form_offday').val(offday);
+		if(membertype=='셀러'){
+			$('#form_price').val(price);
+			$('#form_stock').val(stock);
+			$('#form_optime').val("");
+			$('#form_scale').val(0);
+		} else {
+			$('#form_price').val(0);
+			$('#form_stock').val(0);
+			$('#form_optime').val(optime);
+			$('#form_scale').val(scale);
+		}
 		
 	});
 	
@@ -865,6 +1134,11 @@ function userBoard(){
 			type:"get",
 			success:function(serverData){
 				location.href="goUpdateBoard?clickNo="+clickNo;
+				contractPeriodSet();
+				offdaySet();
+				keywordSet();
+				typeSet();
+				img();
 			}
 		});
 	}); 
@@ -880,6 +1154,73 @@ function userBoard(){
 			}
 		});
 	}); 
+	
+	$('#btnBoardUpdate').on('click',function(){
+		var membertype=$('#form_membertype').val();
+		var title=$('#title').val();
+		$.ajax({
+			url:"checkTitle",
+			data:{title:title},
+			type:"get",
+			success:function(serverData){
+				if(serverData=="fail"){
+					$('#titleCheck').html("중복된 공고문 제목이있습니다. 제목을 바꿔주세요.");
+				} else {
+					$('#titleCheck').html("");
+				}
+			}
+		});
+		var keyword = "";
+		for(var i=1; i<=5; i++){
+			if($('#keywordContent'+i).val!=""){
+				keyword += "&"+$('#keywordContent'+i).val();
+			}
+		}
+		var comments=$('#comments').val();
+		var precaution=$('#precaution').val();
+		var contractPeriod = "";
+		for(var i=1; i<=7; i++){
+			if($('#contractPeriod'+i).val!=""){
+				optime += "&"+$('#contractPeriod'+i).val();
+			}
+		}
+		var offday = "";
+		for(var i=1; i<=7; i++){
+			if($('#offdayContent'+i).val!=""){
+				keyword += "&"+$('#offdayContent'+i).val();
+			}
+		}
+		if(membertype=='셀러'){
+			var price=$('#price').val();
+			var stock=$('#stock').val();
+		} else {
+			var optime = "";
+			for(var i=1; i<=4; i++){
+				if($('#optime'+i).val!=""){
+					optime += "&"+$('#optime'+i).val();
+				}
+			}
+			var scale = $('#scale').val();
+		}
+
+		$('#form_title').val(title);
+		$('#form_keyword').val(keyword);
+		$('#form_comments').val(comments);
+		$('#form_precaution').val(precaution);
+		$('#form_contractPeriod').val(contractPeriod);
+		$('#form_offday').val(offday);
+		if(membertype=='셀러'){
+			$('#form_price').val(price);
+			$('#form_stock').val(stock);
+			$('#form_optime').val("");
+			$('#form_scale').val(0);
+		} else {
+			$('#form_price').val(0);
+			$('#form_stock').val(0);
+			$('#form_optime').val(optime);
+			$('#form_scale').val(scale);
+		}
+	});
 }
 
 function contractPeriodSet(){
@@ -1018,31 +1359,40 @@ function typeSet(){
 	}
 	
 	$("#typeRegist").on('click',function(){
-		var membertype=$('#membertype').val();
+		var membertype=$('#form_membertype').val();
 		var type = $('#type').val();
 		if(count>4){
 			alert("5개이상선택할수없습니다.");
 		} else{
-			$.ajax({
-				url:"keyword",
-				data:{membertype:membertype},
-				type:"get",
-				success:function(serverData){
-					$('#typeSelected .td-2').append("<button type='button' id='selectedtype"+index+"'>"+type
-							+"<a href='javascript:void(0);' data-sno='"+index+"' key='"+type+"' id='deletetype"+index+"' class='type-del'>　X</a></button>");
-					index++;
-					$('#type').val("");
-					for(var a=1; a<=5;a++){
-						if($('#typeContent'+a).val()==""){
-							$('#typeContent'+a).val(type);
-							break;
+			if(type!=""){
+				$.ajax({
+					url:"keyword",
+					data:{membertype:membertype},
+					type:"get",
+					success:function(serverData){
+						$('#typeSelected .td-2').append("<button type='button' id='selectedtype"+index+"'>"+type
+								+"<a href='javascript:void(0);' data-sno='"+index+"' key='"+type+"' id='deletetype"+index+"' class='type-del'>　X</a></button>");
+						index++;
+						$('#type').val("");
+						for(var a=1; a<=5;a++){
+							if($('#typeContent'+a).val()==""){
+								$('#typeContent'+a).val(type);
+								break;
+							}
 						}
+						count++;
+						$('#typeCount').html(count);
+						typeDel();
 					}
-					count++;
-					$('#typeCount').html(count);
-					typeDel();
+				});
+			} else {
+				if(membertype=="공간제공자"){
+					alert("공간분류를 입력해주세요!");
 				}
-			});
+				if(membertype=="셀러"){
+					alert("상품분류를 입력해주세요!");
+				}
+			}
 		}
 	});
 	
@@ -1083,7 +1433,7 @@ function keywordSet(){
 			if(count==5){
 				$('#keywordCount').css('color','red');
 			} else {
-				$('#keywordCount').css('color','#2a3f52')
+				$('#keywordCount').css('color','#2a3f52');
 			}
 			keywordDel();
 		}
@@ -1097,31 +1447,35 @@ function keywordSet(){
 		if(count>4){
 			alert("5개이상선택할수없습니다.");
 		} else{
-			$.ajax({
-				url:"keyword",
-				data:{membertype:membertype},
-				type:"get",
-				success:function(serverData){
-					$('#keywordSelected .td-2').append("<button type='button' id='selectedKeyword"+index+"'>"+keyword
-							+"<a href='javascript:void(0);' data-sno='"+index+"' key='"+keyword+"' id='deleteKeyword"+index+"' class='keyword-del'>　X</a></button>");
-					index++;
-					$('#keyword').val("");
-					for(var a=1; a<=5;a++){
-						if($('#keywordContent'+a).val()==""){
-							$('#keywordContent'+a).val(keyword);
-							break;
+			if($('#keyword').val()!=""){
+				$.ajax({
+					url:"keyword",
+					data:{membertype:membertype},
+					type:"get",
+					success:function(serverData){
+						$('#keywordSelected .td-2').append("<button type='button' id='selectedKeyword"+index+"'>"+keyword
+								+"<a href='javascript:void(0);' data-sno='"+index+"' key='"+keyword+"' id='deleteKeyword"+index+"' class='keyword-del'>　X</a></button>");
+						index++;
+						$('#keyword').val("");
+						for(var a=1; a<=5;a++){
+							if($('#keywordContent'+a).val()==""){
+								$('#keywordContent'+a).val(keyword);
+								break;
+							}
 						}
+						count++;
+						$('#keywordCount').html(count);
+						if(count==5){
+							$('#keywordCount').css('color','red');
+						} else {
+							$('#keywordCount').css('color','#2a3f52')
+						}
+						keywordDel();
 					}
-					count++;
-					$('#keywordCount').html(count);
-					if(count==5){
-						$('#keywordCount').css('color','red');
-					} else {
-						$('#keywordCount').css('color','#2a3f52')
-					}
-					keywordDel();
-				}
-			});
+				});
+			} else {
+				alert("키워드를 입력해주세요!");
+			}
 		}
 	});
 	
@@ -1403,9 +1757,9 @@ function boardDetail(){
 		} else {
 			var bottom2 = $('.board-precaution').offset();
 			if($(document).scrollTop()>bottom2.top){
-				$('.contractWindow2').css('display','none');  
+				$('.contractWindow').css('display','none');  
 			} else {
-				$('.contractWindow2').css('display','block'); 
+				$('.contractWindow').css('display','block'); 
 			}
 		}
 	});	

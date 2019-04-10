@@ -13,17 +13,17 @@
   				<div class="inner" data-sno="${recommend.recommendNum}" >
   					<a href="goSpaceDetail?boardnum=${recommend.boardnum}">
   						<div class="img_border">
-  						<div class="img_area" data-sno="${recommend.recommendNum}" id="img_area${recommend.recommendNum}">
-  							<ul class="board-ul" id="board-ul${recommend.recommendNum}">
-  								<li class="board-li"><c:if test="${!empty recommend.image1}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image1}"></c:if></li>
-  								<li class="board-li"><c:if test="${!empty recommend.image2}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image2}"></c:if></li>
-  								<li class="board-li"><c:if test="${!empty recommend.image3}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image3}"></c:if></li>
-  							</ul>
-  						</div>
-  						<div class="board-img-slider" data-sno="${recommend.recommendNum}" id="board-img-slider${recommend.recommendNum}">
-  							<a href="javascript:void(0);" data-sno="${recommend.recommendNum}" class="board-img-slider-left"><button class="board-img-slider-btn" id="slide-left" data-sno="${recommend.recommendNum}" ><i class="fas fa-chevron-left"></i></button></a>
-  							<a href="javascript:void(0);" data-sno="${recommend.recommendNum}" class="board-img-slider-right"><button class="board-img-slider-btn" id="slide-right" data-sno="${recommend.recommendNum}" ><i class="fas fa-chevron-right"></i></button></a>
-			    		</div>
+	  						<div class="img_area" data-sno="${recommend.recommendNum}" id="img_area${recommend.recommendNum}">
+	  							<ul class="board-ul" id="board-ul${recommend.recommendNum}">
+	  								<li class="board-li"><c:if test="${!empty recommend.image1}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image1}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty recommend.image2}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image2}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty recommend.image3}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image3}"></c:if></li>
+	  							</ul>
+	  						</div>
+	  						<div class="board-img-slider" data-sno="${recommend.recommendNum}" id="board-img-slider${recommend.recommendNum}">
+	  							<a href="javascript:void(0);" data-sno="${recommend.recommendNum}" class="board-img-slider-left"><button class="board-img-slider-btn" id="slide-left" data-sno="${recommend.recommendNum}" ><i class="fas fa-chevron-left"></i></button></a>
+	  							<a href="javascript:void(0);" data-sno="${recommend.recommendNum}" class="board-img-slider-right"><button class="board-img-slider-btn" id="slide-right" data-sno="${recommend.recommendNum}" ><i class="fas fa-chevron-right"></i></button></a>
+				    		</div>
 			    		</div>
   						<div class="info_area">
   							<h4>${recommend.title}</h4>
@@ -52,17 +52,19 @@
   			<article class="box_space">
   				<div class="inner" data-sno="${space.spaceNum}">
   					<a href="goSpaceDetail?boardnum=${space.boardnum}">
-  						<div class="img_area" data-sno="${space.spaceNum}" id="img_area${space.spaceNum}">
-  							<ul class="board-ul" id="board-ul${space.spaceNum}">
-  								<li class="board-li"><c:if test="${!empty space.image1}"><img class="img_area_image" src="resources/images/userImage/${space.id}/board/${space.title}/${space.image1}"></c:if></li>
-  								<li class="board-li"><c:if test="${!empty space.image2}"><img class="img_area_image" src="resources/images/userImage/${space.id}/board/${space.title}/${space.image2}"></c:if></li>
-  								<li class="board-li"><c:if test="${!empty space.image3}"><img class="img_area_image" src="resources/images/userImage/${space.id}/board/${space.title}/${space.image3}"></c:if></li>
-  							</ul>
+  						<div class="img_border">
+	  						<div class="img_area" data-sno="${space.spaceNum}" id="img_area${space.spaceNum}">
+	  							<ul class="board-ul" id="board-ul${space.spaceNum}">
+	  								<li class="board-li"><c:if test="${!empty space.image1}"><img class="img_area_image" src="resources/images/userImage/${space.id}/board/${space.title}/${space.image1}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty space.image2}"><img class="img_area_image" src="resources/images/userImage/${space.id}/board/${space.title}/${space.image2}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty space.image3}"><img class="img_area_image" src="resources/images/userImage/${space.id}/board/${space.title}/${space.image3}"></c:if></li>
+	  							</ul>
+	  						</div>
+	  						<div class="board-img-slider" data-sno="${space.spaceNum}" id="board-img-slider${space.spaceNum}">
+	  							<a href="javascript:void(0);" data-sno="${space.spaceNum}" class="board-img-slider-left"><button class="board-img-slider-btn" id="slide-left" data-sno="${space.spaceNum}" ><i class="fas fa-chevron-left"></i></button></a>
+	  							<a href="javascript:void(0);" data-sno="${space.spaceNum}" class="board-img-slider-right"><button class="board-img-slider-btn" id="slide-right" data-sno="${space.spaceNum}" ><i class="fas fa-chevron-right"></i></button></a>
+				    		</div>
   						</div>
-  						<div class="board-img-slider" data-sno="${space.spaceNum}" id="board-img-slider${space.spaceNum}">
-  							<a href="javascript:void(0);" data-sno="${space.spaceNum}" class="board-img-slider-left"><button class="board-img-slider-btn" id="slide-left" data-sno="${space.spaceNum}" ><i class="fas fa-chevron-left"></i></button></a>
-  							<a href="javascript:void(0);" data-sno="${space.spaceNum}" class="board-img-slider-right"><button class="board-img-slider-btn" id="slide-right" data-sno="${space.spaceNum}" ><i class="fas fa-chevron-right"></i></button></a>
-			    		</div>
   						<div class="info_area">
   							<h4>${space.title}</h4>
   						</div>

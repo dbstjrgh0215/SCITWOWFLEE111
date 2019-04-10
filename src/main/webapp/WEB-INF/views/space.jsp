@@ -23,7 +23,48 @@
         </div>
 	</div>
 	
-	
+	<div id="searchFilter" class="search">
+			<div class="searchSection">
+				<div class="searchWrap">
+					<form class="searchForm">
+						<input type="text" id="searchText" class="searchText" placeholder="키워드를 검색해보세요.">
+						<a class="searchIcon" href="javascript:void(0);" id="goSearch"><i class="fas fa-search"></i></a>
+					</form>
+				</div>
+				<div class="searchTable">
+					<h4>추천검색어</h4>
+					<div class="searchKeywordDiv">
+					<ul class="ul-searchKeyword">
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=1><a href="javascript:void(0);" data-sno=1 id="keyword-a1"><i data-sno=1 id="keyword-icon1" class="fas fa-check"></i>　카페</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=2><a href="javascript:void(0);" data-sno=2 id="keyword-a2"><i data-sno=2 id="keyword-icon2" class="fas fa-check"></i>　애견카페</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=3><a href="javascript:void(0);" data-sno=3 id="keyword-a3"><i data-sno=3 id="keyword-icon3" class="fas fa-check"></i>　헤어밴드</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=4><a href="javascript:void(0);" data-sno=4 id="keyword-a4"><i data-sno=4 id="keyword-icon4" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=5><a href="javascript:void(0);" data-sno=5 id="keyword-a5"><i data-sno=5 id="keyword-icon5" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=6><a href="javascript:void(0);" data-sno=6 id="keyword-a6"><i data-sno=6 id="keyword-icon6" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=7><a href="javascript:void(0);" data-sno=7 id="keyword-a7"><i data-sno=7 id="keyword-icon7" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=8><a href="javascript:void(0);" data-sno=8 id="keyword-a8"><i data-sno=8 id="keyword-icon8" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=9><a href="javascript:void(0);" data-sno=9 id="keyword-a9"><i data-sno=9 id="keyword-icon9" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=10><a href="javascript:void(0);" data-sno=10 id="keyword-a10"><i data-sno=10 id="keyword-icon10" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=11><a href="javascript:void(0);" data-sno=11 id="keyword-a11"><i data-sno=11 id="keyword-icon11" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=12><a href="javascript:void(0);" data-sno=12 id="keyword-a12"><i data-sno=12 id="keyword-icon12" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=13><a href="javascript:void(0);" data-sno=13 id="keyword-a13"><i data-sno=13 id="keyword-icon13" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=14><a href="javascript:void(0);" data-sno=14 id="keyword-a14"><i data-sno=14 id="keyword-icon14" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=15><a href="javascript:void(0);" data-sno=15 id="keyword-a15"><i data-sno=15 id="keyword-icon15" class="fas fa-check"></i>　악세서리</a></span></li>
+					</ul>
+					</div>
+					<h4>추천검색장소</h4>
+					<div class="searchLocationDiv">
+					<ul class="ul-searchKeyword">
+						<li class="li-searchKeyword"><span class="span-searchKeyword"><a href="javascript:void(0);"><i data-sno=1 id="keyword-icon1" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword"><a href="javascript:void(0);"><i data-sno=1 id="keyword-icon1" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword"><a href="javascript:void(0);"><i data-sno=1 id="keyword-icon1" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword"><a href="javascript:void(0);"><i data-sno=1 id="keyword-icon1" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword"><a href="javascript:void(0);"><i data-sno=1 id="keyword-icon1" class="fas fa-check"></i>　악세서리</a></span></li>
+					</ul>
+					</div>
+				</div>
+			</div>
+		</div>
 	<div id="sidenav" class="sidenav">
 		<div class="side-login">
 			<i class="fas fa-user-circle"></i><br>
@@ -147,6 +188,7 @@
     			</div>
     			<div class="board-map">
     				<h3 class="board-h">공간위치</h3><hr class="board-hr">
+    				<p class="board-address">상세주소 : ${board.spaceaddr1} ${board.spaceaddr2}</p>
 	    			<div id="staticMap" positionName="${board.name}" latitude="${board.latitude}" longitude="${board.longitude}"></div>
     			</div> 
     		</div>
@@ -177,24 +219,43 @@
    		</div> 
 	</div>
 	<div id="modal-board-qna" class="modal">
-    		<div class="modal-board-qna">
-	    		<div class="modal-board-qnaHeader">
-		    		Q&A 작성하기<span class="closeQna">&times;</span> 
-	    		</div>
-				<div class="modal-board-qnaContent" id="modal-board-qnaContent">
-					<div class="modal-board-qnaInsert" id="modal-baord-qnaInsert">
-						<div class="modal-board-qnaHead" id="modal-board-qnaHead">
-							질문
-				 		</div>
-				 		<textarea class="qnaInserTextarea" maxlength="200" placeholder="질문내용을 입력하세요."></textarea>
-					</div>
-					<div class="modal-board-qnabtn">
-						<a href="javascript:void(0);" id="qna-cancel"><span class="modal-board-qna-cancel">취소</span></a>
-						<a href="javascript:void(0);" id="qna-regist"><span class="modal-board-qna-regist">등록</span></a>
-					</div>
+   		<div class="modal-board-qna">
+    		<div class="modal-board-qnaHeader">
+	    		Q&A 작성하기<span class="closeQna">&times;</span> 
+    		</div>
+			<div class="modal-board-qnaContent" id="modal-board-qnaContent">
+				<div class="modal-board-qnaInsert" id="modal-baord-qnaInsert">
+					<div class="modal-board-qnaHead" id="modal-board-qnaHead">
+						질문
+			 		</div>
+			 		<textarea class="qnaInserTextarea" maxlength="200" placeholder="질문내용을 입력하세요."></textarea>
+				</div>
+				<div class="modal-board-qnabtn">
+					<a href="javascript:void(0);" id="qna-cancel"><span class="modal-board-qna-cancel">취소</span></a>
+					<a href="javascript:void(0);" id="qna-regist"><span class="modal-board-qna-regist">등록</span></a>
 				</div>
 			</div>
 		</div>
+	</div>
+	<div id="modal-board-qna" class="modal">
+   		<div class="modal-board-qna">
+    		<div class="modal-board-qnaHeader">
+	    		Q&A 작성하기<span class="closeQna">&times;</span> 
+    		</div>
+			<div class="modal-board-qnaContent" id="modal-board-qnaContent">
+				<div class="modal-board-qnaInsert" id="modal-baord-qnaInsert">
+					<div class="modal-board-qnaHead" id="modal-board-qnaHead">
+						질문
+			 		</div>
+			 		<textarea class="qnaInserTextarea" maxlength="200" placeholder="질문내용을 입력하세요."></textarea>
+				</div>
+				<div class="modal-board-qnabtn">
+					<a href="javascript:void(0);" id="qna-cancel"><span class="modal-board-qna-cancel">취소</span></a>
+					<a href="javascript:void(0);" id="qna-regist"><span class="modal-board-qna-regist">등록</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="contractWindow">
 		<h3 class="board-h">계약신청방식선택</h3>
 		<div class="board-contract">

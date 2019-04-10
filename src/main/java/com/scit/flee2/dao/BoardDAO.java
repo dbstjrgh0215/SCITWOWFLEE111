@@ -172,6 +172,20 @@ public class BoardDAO {
 		return result;
 	}
 	
+	public int updateBoard(Board board) {
+		int result = 0;
+
+		BoardMapper bm = sqlSession.getMapper(BoardMapper.class);
+		
+		try {
+			result = bm.updateBoard(board);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 	public int deleteBoard(int clickNo) {
 		int result = 0;
 
@@ -184,5 +198,19 @@ public class BoardDAO {
 		}
 		
 		return result;
+	}
+	
+	public ArrayList<Board> searchBoard(String text){
+		ArrayList<Board> list = new ArrayList<Board>();
+		
+		BoardMapper bm = sqlSession.getMapper(BoardMapper.class);
+		
+		try {
+			list = bm.searchBoard(text);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 }

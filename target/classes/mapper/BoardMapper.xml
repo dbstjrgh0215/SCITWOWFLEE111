@@ -132,6 +132,45 @@
 	WHERE BOARDNUM=#{boardnum}
 	</select>
 	
+	<update id="updateBoard" parameterType="Proposal">
+	UPDATE
+	WOW_BOARD
+	SET
+		<if test="membertype=='셀러'">
+		TITLE = #{title}, 
+		INDATE = SYSDATE,
+		KEYWORD = #{keyword}, 
+		IMAGE = #{image},
+		COMMENTS = #{comments}, 
+		PRECAUTION = #{precaution},
+		NAME = #{name}, 
+		TYPE = #{type}, 
+		CONTRACTPERIOD = #{contractperiod}, 
+		PRICE = #{price}, 
+		STOCK = #{stock}
+		</if>
+		<if test="membertype=='공간제공자'">
+		TITLE = #{title}, 
+		INDATE = SYSDATE,
+		KEYWORD = #{keyword}, 
+		IMAGE = #{image},
+		COMMENTS = #{comments}, 
+		PRECAUTION = #{precaution},
+		NAME = #{name}, 
+		TYPE = #{type}, 
+		CONTRACTPERIOD = #{contractperiod}, 
+		OPTIME = #{optime},
+		OFFDAY = #{offday},
+		SCALE = #{scale},
+		SPACEADDR1 = #{spaceaddr1},
+		SPACEADDR2 = #{spaceaddr2},
+		LATITUDE = #{latitude},
+		LONGITUDE = #{longitude}
+		</if>
+	WHERE
+		BOARDNUM = #{boardnum}
+	</update>
+	
 	<delete id="deleteBoard" parameterType="Integer">
 	DELETE
 	FROM WOW_BOARD
@@ -144,4 +183,12 @@
 	VALUES
 	(WOW_BOARD_QNA_SEQ.NEXTVAL, #{boardnum}, #{comments}, SYSDATE)
 	</insert>
+	
+	<select id="searchBoard" parameterType="String" resultType="Board">
+	SELECT
+	*
+	FROM WOW_BOARD
+	WHERE
+		KEYWORD LIKE '%'||#{text}||'%'
+	</select>
 </mapper>

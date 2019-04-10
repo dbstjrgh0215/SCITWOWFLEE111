@@ -20,4 +20,6 @@ public interface BoardMapper {
 	public int insertQna(Qna qna);
 	public int updateProposal(Proposal prop);
 	public int deleteBoard(int clickNo);
+	public ArrayList<Board> searchBoard(String text);
+	public int updateBoard(Board board);
 }

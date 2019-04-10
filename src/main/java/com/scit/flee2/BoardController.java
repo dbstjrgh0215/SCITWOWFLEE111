@@ -287,7 +287,6 @@ public class BoardController {
 	  }else
 	  {
 		  f1.mkdirs();
-		  System.out.println(1);
 	   return false;
 	  }
 	 }
@@ -297,7 +296,6 @@ public class BoardController {
 	  File f1 = new File(makeFileName);
 	  try {
 	   f1.createNewFile();
-	   System.out.println(2);
 	  } catch (IOException e) {
 	   // TODO Auto-generated catch block
 	   e.printStackTrace();
@@ -537,7 +535,7 @@ public class BoardController {
 		return "selectProposal";
 	}
 	
-	@RequestMapping(value="/goBoardWrite", method=RequestMethod.POST)
+	@RequestMapping(value="/goBoardWrite", method=RequestMethod.GET)
 	public String goBoardWrite(int proposalnum, Model model) {
 		Proposal result = goProposal2(proposalnum);
 		ArrayList<HashMap<String,String>> contentDetail = new ArrayList<HashMap<String,String>>();
@@ -625,6 +623,149 @@ public class BoardController {
 		result = boardDAO.selectBoard(clickNo);
 		
 		return result;
+	}
+	
+	@RequestMapping(value="/goUpdateBoard", method=RequestMethod.GET)
+	public String goBoardUpdate(int clickNo, Model model) {
+		Board result = goBoardWrite2(clickNo);
+		ArrayList<HashMap<String,String>> contentDetail = new ArrayList<HashMap<String,String>>();
+		HashMap<String,String> map = new HashMap<String,String>();
+		
+		String keyword = result.getKeyword();
+		if(keyword!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				keyword = keyword.substring(cnt+1);
+				cnt = keyword.indexOf("&");
+				if(cnt==-1) {
+					map.put("keyword"+(j+1), keyword);
+					break;
+				}
+				map.put("keyword"+(j+1), keyword.substring(0, cnt));
+				keyword = keyword.substring(cnt);
+			}
+		}
+		String type = result.getType();
+		if(type!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				type = type.substring(cnt+1);
+				cnt = type.indexOf("&");
+				if(cnt==-1) {
+					map.put("type"+(j+1), type);
+					break;
+				}
+				map.put("type"+(j+1), type.substring(0, cnt));
+				type = type.substring(cnt);
+			}
+		}
+		String image = result.getImage();
+		for(int j=0; j<3; j++) {		// image 자르는 구문
+			int cnt = 0;
+			cnt = image.indexOf("&");
+			if(cnt==-1) {
+				map.put("image"+(j+1), image);
+				break;
+			}
+			map.put("image"+(j+1), image.substring(0, cnt));
+			image = image.substring(cnt+1);
+		}
+		String optime = result.getOptime();
+		if(optime!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				optime = optime.substring(cnt+1);
+				cnt = optime.indexOf("&");
+				if(cnt==-1) {
+					map.put("optime"+(j+1), optime);
+					break;
+				}
+				map.put("optime"+(j+1), optime.substring(0, cnt));
+				optime = optime.substring(cnt);
+			}
+		}
+		String contractPeriod = result.getContractperiod();
+		if(contractPeriod!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				contractPeriod = contractPeriod.substring(cnt+1);
+				cnt = contractPeriod.indexOf("&");
+				if(cnt==-1) {
+					map.put("contractPeriod"+(j+1), contractPeriod);
+					break;
+				}
+				map.put("contractPeriod"+(j+1), contractPeriod.substring(0, cnt));
+				contractPeriod = contractPeriod.substring(cnt);
+			}
+		}
+		String offday = result.getOffday();
+		if(offday!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				offday = offday.substring(cnt+1);
+				cnt = offday.indexOf("&");
+				if(cnt==-1) {
+					map.put("offday"+(j+1), offday);
+					break;
+				}
+				map.put("offday"+(j+1), offday.substring(0, cnt));
+				offday = offday.substring(cnt);
+			}
+		}
+		
+		contentDetail.add(map);
+		model.addAttribute("contentDetail", contentDetail);
+		model.addAttribute("selectBoard", result);
+		return "boardWrite";
+	}
+	
+	@RequestMapping(value="/updateBoard", method=RequestMethod.POST)
+	public String updateBoard(Board board, String clickNo, MultipartFile uploadFile, MultipartHttpServletRequest request, HttpSession hs) {
+		
+		String fileName, originalFileName;
+		
+		List<MultipartFile> fileList = request.getFiles("uploadFile");
+		String files = "";
+		
+		Member mem = (Member) hs.getAttribute("sessionMember");
+		
+		try {
+			Iterator<MultipartFile> it = fileList.iterator();
+			int index = 0;
+			while (it.hasNext()) {
+				index++;
+				MultipartFile file = (MultipartFile) it.next();
+				originalFileName = file.getOriginalFilename();
+				if(originalFileName.equals("")) {
+					fileDelete(mem.getId(), board.getTitle(), "board");
+					break;
+				}
+				fileName = mem.getId()+"_board_"+board.getTitle()+"_image"+index+originalFileName.substring(originalFileName.indexOf("."));
+				File f = new File(UPLOADPATH+mem.getId()+"\\board\\"+board.getTitle()+"\\"+fileName);
+				if(!f.exists()) { //폴더가 없으면 생성
+				   f.mkdirs();
+				}
+				file.transferTo(f);	// 파일의 내용을 가져오고 업로드 저장되는 이름은 (+fileName)으로 저장
+				files=files+"&"+fileName;
+			}
+			if(files.indexOf("&")==0) {
+				files = files.substring(1);
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(files.equals("")) {
+			Board board2 = boardDAO.selectBoard(Integer.parseInt(clickNo));
+			board.setImage(board2.getImage());
+		} else {
+			board.setImage(files);
+		}
+		board.setBoardnum(Integer.parseInt(clickNo));
+		boardDAO.updateBoard(board);
+		
+		return "redirect:/goUserBoard";
 	}
 	
 	
@@ -1107,4 +1248,63 @@ public class BoardController {
 		
 		return redirect;
 	}
+	
+	@RequestMapping(value="/goSearch", method=RequestMethod.GET)
+	public String goSearch(String text, Model model) {
+		ArrayList<Board> search = new ArrayList<Board>();
+		search = boardDAO.searchBoard(text);
+		
+		ArrayList<HashMap<String,String>> searchList = new ArrayList<HashMap<String,String>>();
+		
+		for(int i=0; i<search.size(); i++) {		// keyword 자르는 구문
+			HashMap<String,String> searchMap = new HashMap<String,String>();
+			String keyword = search.get(i).getKeyword();
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				keyword = keyword.substring(cnt+1);
+				cnt = keyword.indexOf("&");
+				if(cnt==-1) {
+					break;
+				}
+				searchMap.put("keyword"+(j+1), keyword.substring(0, cnt));
+				keyword = keyword.substring(cnt);
+			}
+			
+			String image = search.get(i).getImage();
+			for(int j=0; j<3; j++) {		// image 자르는 구문
+				int cnt = 0;
+				cnt = image.indexOf("&");
+				if(cnt==-1) {
+					searchMap.put("image"+(j+1), image);
+					break;
+				}
+				searchMap.put("image"+(j+1), image.substring(0, cnt));
+				image = image.substring(cnt+1);
+			}
+			searchMap.put("searchNum","s"+Integer.toString(i+1));
+			searchMap.put("id",search.get(i).getId());
+			searchMap.put("title",search.get(i).getTitle());
+			searchMap.put("boardnum", Integer.toString(search.get(i).getBoardnum()));
+			searchMap.put("membertype", search.get(i).getMembertype());
+			searchList.add(searchMap);
+		}
+		
+		
+		model.addAttribute("searchList", searchList);
+		model.addAttribute("text",text);
+		return "search";
+	}
+	
+	@RequestMapping(value="/goMap", method=RequestMethod.GET)
+	public String goMap(String text, Model model) {
+		model.addAttribute("text", text);
+		return "map"; 
+	}
+	
+	@RequestMapping(value="/searchMap", method=RequestMethod.GET)
+	public @ResponseBody ArrayList<Board> searchMap(String text) {
+		ArrayList<Board> result = boardDAO.searchBoard(text);
+		return result; 
+	}
+	
 }

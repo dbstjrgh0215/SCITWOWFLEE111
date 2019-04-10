@@ -208,8 +208,4 @@ public class HomeController {
 		return "signEnd";
 	}
 	
-	@RequestMapping(value="/goMap", method=RequestMethod.GET)
-	public String goMap() { 
-		return "map"; 
-	}
 }

@@ -13,17 +13,17 @@
   				<div class="inner" data-sno="${recommend.recommendNum}" >
   					<a href="goSellerDetail?boardnum=${recommend.boardnum}">
   						<div class="img_border">
-  						<div class="img_area" data-sno="${recommend.recommendNum}" id="img_area${recommend.recommendNum}">
-  							<ul class="board-ul" id="board-ul${recommend.recommendNum}">
-  								<li class="board-li"><c:if test="${!empty recommend.image1}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image1}"></c:if></li>
-  								<li class="board-li"><c:if test="${!empty recommend.image2}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image2}"></c:if></li>
-  								<li class="board-li"><c:if test="${!empty recommend.image3}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image3}"></c:if></li>
-  							</ul>
-  						</div>
-  						<div class="board-img-slider" data-sno="${recommend.recommendNum}" id="board-img-slider${recommend.recommendNum}">
-  							<a href="javascript:void(0);" data-sno="${recommend.recommendNum}" class="board-img-slider-left"><button class="board-img-slider-btn" id="slide-left" data-sno="${recommend.recommendNum}" ><i class="fas fa-chevron-left"></i></button></a>
-  							<a href="javascript:void(0);" data-sno="${recommend.recommendNum}" class="board-img-slider-right"><button class="board-img-slider-btn" id="slide-right" data-sno="${recommend.recommendNum}" ><i class="fas fa-chevron-right"></i></button></a>
-			    		</div>
+	  						<div class="img_area" data-sno="${recommend.recommendNum}" id="img_area${recommend.recommendNum}">
+	  							<ul class="board-ul" id="board-ul${recommend.recommendNum}">
+	  								<li class="board-li"><c:if test="${!empty recommend.image1}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image1}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty recommend.image2}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image2}"></c:if></li>
+	  								<li class="board-li"><c:if test="${!empty recommend.image3}"><img class="img_area_image" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.image3}"></c:if></li>
+	  							</ul>
+	  						</div>
+	  						<div class="board-img-slider" data-sno="${recommend.recommendNum}" id="board-img-slider${recommend.recommendNum}">
+	  							<a href="javascript:void(0);" data-sno="${recommend.recommendNum}" class="board-img-slider-left"><button class="board-img-slider-btn" id="slide-left" data-sno="${recommend.recommendNum}" ><i class="fas fa-chevron-left"></i></button></a>
+	  							<a href="javascript:void(0);" data-sno="${recommend.recommendNum}" class="board-img-slider-right"><button class="board-img-slider-btn" id="slide-right" data-sno="${recommend.recommendNum}" ><i class="fas fa-chevron-right"></i></button></a>
+				    		</div>
 			    		</div>
   						<div class="info_area">
   							<h4>${recommend.title}</h4>
@@ -52,6 +52,7 @@
   			<article class="box_seller">
   				<div class="inner" data-sno="${seller.sellerNum}">
   					<a href="goSellerDetail?boardnum=${seller.boardnum}">
+  					<div class="img_border">
   						<div class="img_area" data-sno="${seller.sellerNum}" id="img_area${seller.sellerNum}">
   							<ul class="board-ul" id="board-ul${seller.sellerNum}">
   								<li class="board-li"><c:if test="${!empty seller.image1}"><img class="img_area_image" src="resources/images/userImage/${seller.id}/board/${seller.title}/${seller.image1}"></c:if></li>
@@ -63,6 +64,7 @@
   							<a href="javascript:void(0);" data-sno="${seller.sellerNum}" class="board-img-slider-left"><button class="board-img-slider-btn" id="slide-left" data-sno="${seller.sellerNum}" ><i class="fas fa-chevron-left"></i></button></a>
   							<a href="javascript:void(0);" data-sno="${seller.sellerNum}" class="board-img-slider-right"><button class="board-img-slider-btn" id="slide-right" data-sno="${seller.sellerNum}" ><i class="fas fa-chevron-right"></i></button></a>
 			    		</div>
+  					</div>
   						<div class="info_area">
   							<h4>${seller.title}</h4>
   						</div>
