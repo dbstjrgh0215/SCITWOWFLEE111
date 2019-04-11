@@ -164,11 +164,11 @@
 	  					</a>
 						<div class="tag_area">
 							<h5>키워드
-							<a href="javascript:void(0);"><c:if test="${!empty search.keyword1}"><span>#${search.keyword1}</span></c:if></a>
-							<a href="javascript:void(0);"><c:if test="${!empty search.keyword2}"><span>#${search.keyword2}</span></c:if></a>
-							<a href="javascript:void(0);"><c:if test="${!empty search.keyword3}"><span>#${search.keyword3}</span></c:if></a>
-							<a href="javascript:void(0);"><c:if test="${!empty search.keyword4}"><span>#${search.keyword4}</span></c:if></a>
-							<a href="javascript:void(0);"><c:if test="${!empty search.keyword5}"><span>#${search.keyword5}</span></c:if></a></h5>
+							<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty search.keyword1}"><span>#${search.keyword1}</span></c:if></a>
+							<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty search.keyword2}"><span>#${search.keyword2}</span></c:if></a>
+							<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty search.keyword3}"><span>#${search.keyword3}</span></c:if></a>
+							<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty search.keyword4}"><span>#${search.keyword4}</span></c:if></a>
+							<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty search.keyword5}"><span>#${search.keyword5}</span></c:if></a></h5>
 						</div>
 	  				</div>
 	  			</article>

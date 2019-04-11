@@ -31,11 +31,11 @@
   					</a>
 					<div class="tag_area">
 						<h5>키워드
-						<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword1}"><span>#${recommend.keyword1}</span></c:if></a>
-						<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword2}"><span>#${recommend.keyword2}</span></c:if></a>
-						<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword3}"><span>#${recommend.keyword3}</span></c:if></a>
-						<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword4}"><span>#${recommend.keyword4}</span></c:if></a>
-						<a href="javascript:void(0);"><c:if test="${!empty recommend.keyword5}"><span>#${recommend.keyword5}</span></c:if></a></h5>
+						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty recommend.keyword1}"><span>#${recommend.keyword1}</span></c:if></a>
+						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty recommend.keyword2}"><span>#${recommend.keyword2}</span></c:if></a>
+						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty recommend.keyword3}"><span>#${recommend.keyword3}</span></c:if></a>
+						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty recommend.keyword4}"><span>#${recommend.keyword4}</span></c:if></a>
+						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty recommend.keyword5}"><span>#${recommend.keyword5}</span></c:if></a></h5>
 					</div>
   				</div>
   			</article>
@@ -71,11 +71,11 @@
   					</a>
 					<div class="tag_area">
 						<h5>키워드
-						<a href="javascript:void(0);"><c:if test="${!empty space.keyword1}"><span>#${space.keyword1}</span></c:if></a>
-						<a href="javascript:void(0);"><c:if test="${!empty space.keyword2}"><span>#${space.keyword2}</span></c:if></a>
-						<a href="javascript:void(0);"><c:if test="${!empty space.keyword3}"><span>#${space.keyword3}</span></c:if></a>
-						<a href="javascript:void(0);"><c:if test="${!empty space.keyword4}"><span>#${space.keyword4}</span></c:if></a>
-						<a href="javascript:void(0);"><c:if test="${!empty space.keyword5}"><span>#${space.keyword5}</span></c:if></a></h5>
+						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty space.keyword1}"><span>#${space.keyword1}</span></c:if></a>
+						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty space.keyword2}"><span>#${space.keyword2}</span></c:if></a>
+						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty space.keyword3}"><span>#${space.keyword3}</span></c:if></a>
+						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty space.keyword4}"><span>#${space.keyword4}</span></c:if></a>
+						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty space.keyword5}"><span>#${space.keyword5}</span></c:if></a></h5>
 					</div>
   				</div>
   			</article>

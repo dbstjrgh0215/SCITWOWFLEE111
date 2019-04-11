@@ -1307,4 +1307,61 @@ public class BoardController {
 		return result; 
 	}
 	
+	@RequestMapping(value="/searchMapDetail", method=RequestMethod.GET)
+	public @ResponseBody ArrayList<HashMap<String,String>> searchMapDetail(String text){
+		ArrayList<Board> search = new ArrayList<Board>();
+		search = boardDAO.searchBoard(text);
+		
+		ArrayList<HashMap<String,String>> searchList = new ArrayList<HashMap<String,String>>();
+		
+		for(int i=0; i<search.size(); i++) {		// keyword 자르는 구문
+			HashMap<String,String> searchMap = new HashMap<String,String>();
+			String keyword = search.get(i).getKeyword();
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				keyword = keyword.substring(cnt+1);
+				cnt = keyword.indexOf("&");
+				if(cnt==-1) {
+					break;
+				}
+				searchMap.put("keyword"+(j+1), keyword.substring(0, cnt));
+				keyword = keyword.substring(cnt);
+			}
+			String type = search.get(i).getType();
+			if(type!=null) {
+				for(int j=0; j<5; j++) {
+					int cnt = 0;
+					type = type.substring(cnt+1);
+					cnt = type.indexOf("&");
+					if(cnt==-1) {
+						searchMap.put("type"+(j+1), type);
+						break;
+					}
+					searchMap.put("type"+(j+1), type.substring(0, cnt));
+					type = type.substring(cnt);
+				}
+			}
+			String image = search.get(i).getImage();
+			if(image!=null) {
+				for(int j=0; j<3; j++) {		// image 자르는 구문
+					int cnt = 0;
+					cnt = image.indexOf("&");
+					if(cnt==-1) {
+						searchMap.put("image"+(j+1), image);
+						break;
+					}
+					searchMap.put("image"+(j+1), image.substring(0, cnt));
+					image = image.substring(cnt+1);
+				}
+			}
+			searchMap.put("searchNum","s"+Integer.toString(i+1));
+			searchMap.put("id",search.get(i).getId());
+			searchMap.put("title",search.get(i).getTitle());
+			searchMap.put("boardnum", Integer.toString(search.get(i).getBoardnum()));
+			searchMap.put("membertype", search.get(i).getMembertype());
+			searchList.add(searchMap);
+		}
+		
+		return searchList;
+	}
 }

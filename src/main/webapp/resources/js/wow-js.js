@@ -68,6 +68,8 @@ $(function() {
 		}
 	});
 	
+	clickKeyword();
+	
 	$("#btnNotice").on("click",function(){
 		var status = document.getElementById("notice").style.display;
 		barclose();
@@ -497,6 +499,7 @@ function mainNav(){
 				barclose();
 				$("#main-content").html(serverData);
 				board_image();
+				clickKeyword();
 			}
 		});
 	});
@@ -542,6 +545,20 @@ function searchWidth(){
 			}
 		});
 	}
+}
+
+function clickKeyword(){
+	$('.clickKeyword').on('click',function(){
+		var text = $(this).text().substring(1);
+		$.ajax({
+			url:"goSearch",
+			data:{text:text},
+			type:"get",
+			success:function(serverData){
+				location.href="goSearch?text="+text;
+			}
+		});
+	});
 }
 
 function goSearch(){
@@ -609,6 +626,46 @@ function search(){
 	});
 }
 
+//생성자 함수를 이용해서 Arraylist 만들기
+ArrayList = function arrayList(){
+ 
+ this.list=[]; //데이터를 저장할 수 있는 배열을 멤버필드로 선언한다.
+ //인자로 전달되는 데이터를 저장하는 함수
+ 
+ this.add = function(item){
+  //인자로 전달된 데이터를 자기 자신의 필드에 저장
+  this.list.push(item);
+ };
+ 
+ //인자로 전달되는 해당 인덱스의 값을 리턴 하는 함수
+ this.get = function(index){
+  return this.list[index];
+ };
+ 
+ //인자로 전달되는 해당 인덱스의 값을 삭제하는 함수
+ this.removeAll = function(){
+  this.list=[]; //빈 배열을 대입해서 삭제하는 효과를 준다
+ };
+ 
+ //현재 저장된 크기를 리턴하는 메소드
+ this.size = function(){
+  return this.list.length;
+ };
+  
+ this.remove = function(index){
+  //새로운 배열을 정의
+  var newList=[];
+  //반복문을 돌면서 인자로 전달된 인덱스를 제외한 모든 요소를 새 배열에 담는다.
+  for(var i=0;i<this.list.length;i++){
+   if(i!=index){ //삭제할 인덱스가 아니라면
+    newList.push(this.list[i]);
+   };
+  };
+  //새로 만든 배열을 멤버 필드에 저장한다.
+  this.list = newList;
+ };
+};
+
 function map(serverData){
 	if(typeof daum !== 'undefined'){
 		//지도 관련
@@ -626,118 +683,249 @@ function map(serverData){
 		    level: 8 // 지도의 확대 레벨
 		};
 		var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-		var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다    
-		imageSize = new daum.maps.Size(64, 69), // 마커이미지의 크기입니다
+		var imageSrc = 'resources/images/map_icon.png', // 마커이미지의 주소입니다    
+		imageSize = new daum.maps.Size(34, 34), // 마커이미지의 크기입니다
 		imageOption = {offset: new daum.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 		
-		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-		$.each(serverData, function(index,item){
-			//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-			var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption),
-			markerPosition = new daum.maps.LatLng(item.latitude, item.longitude); // 마커가 표시될 위치입니다
-			//마커를 생성합니다
-			marker = new daum.maps.Marker({
-			position: markerPosition,
-			image: markerImage // 마커이미지 설정 
-			});
-			
-			marker.setMap(map);
-			markers.push(marker);  // 배열에 생성된 마커를 추가합니다
-			
-			// 커스텀 오버레이에 표시할 컨텐츠 입니다
-			// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
-			// 별도의 이벤트 메소드를 제공하지 않습니다 
-			var content = '<div class="overlay" id="overlay'+index+'">' + 
-			            '    <div class="info">' + 
-			            '        <div class="title">' + 
-			            			item.name+ 
-			            '            <div class="closeInfo" data-sno="'+index+'" title="닫기"></div>' + 
-			            '        </div>' + 
-			            '        <div class="body">' + 
-			            '            <div class="img">' +
-			            '                 <img class="img1" src="resources/images/userImage/'+item.id+'/board/'+item.title+'/'+item.id+'_board_'+item.title+'_image1.jpg">' +
-			            '           </div>' + 
-			            '            <div class="desc">' + 
-			            '                <div class="ellipsis">'+item.spaceaddr1+'</div>' + 
-			            '                <div class="jibun ellipsis">'+item.spaceaddr2+'</div>' + 
-			            '                <div>'+item.type+'</div>' + 
-			            '            </div>' + 
-			            '        </div>' + 
-			            '    </div>' +    
-			            '</div>';
+		if(typeof daum !== 'undefined'){
+			var text = $('#text').val();
+			$.ajax({
+				url:"searchMapDetail",
+				data:{text:text},
+				type:"get",
+				success:function(searchList){
+					var searchMapList = new ArrayList();
+					searchMapList = searchList;
+					// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+					$.each(serverData, function(index,item){
+						//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+						var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption),
+						markerPosition = new daum.maps.LatLng(item.latitude, item.longitude); // 마커가 표시될 위치입니다
+						//마커를 생성합니다
+						marker = new daum.maps.Marker({
+						position: markerPosition,
+						image: markerImage // 마커이미지 설정 
+						});
+						
+						marker.setMap(map);
+						markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+						
+						var image = searchMapList[index].image1;
+						var type = "";
+						var type1 = searchMapList[index].type1;
+						var type2 = searchMapList[index].type2;
+						var type3 = searchMapList[index].type3;
+						var type4 = searchMapList[index].type4;
+						var type5 = searchMapList[index].type5;
+						if(type1!=""){
+							type += type1;
+							if(type2!=""){
+								type += ", "+type2;
+								if(type3!=""){
+									type += ", "+type3;
+									if(type4!=""){
+										type += ", "+type4;
+										if(type5!=""){
+											type += ", "+type5;
+										}
+									}
+								}
+							}
+						}
+						var keyword = "";
+						var keyword1 = searchMapList[index].keyword1;
+						var keyword2 = searchMapList[index].keyword2;
+						var keyword3 = searchMapList[index].keyword3;
+						var keyword4 = searchMapList[index].keyword4;
+						var keyword5 = searchMapList[index].keyword5;
+						if(keyword1!=""){
+							keyword += '<a class="overLay-keyword">#'+keyword1+'</a> ';
+							if(keyword2!=""){
+								keyword += '<a class="overLay-keyword">#'+keyword2+'</a> ';
+								if(keyword3!=""){
+									keyword += '<a class="overLay-keyword">#'+keyword3+'</a> ';
+									if(keyword4!=""){
+										keyword += '<a class="overLay-keyword">#'+keyword4+'</a> ';
+										if(keyword5!=""){
+											keyword += '<a class="overLay-keyword">#'+keyword5+'</a> ';
+										}
+									}
+								}
+							}
+						}
+						// 커스텀 오버레이에 표시할 컨텐츠 입니다
+						// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
+						// 별도의 이벤트 메소드를 제공하지 않습니다 
+						var content = '<div class="overlay" id="overlay'+index+'">' + 
+						            '    <div class="info">' + 
+						            '        <div class="title">' + 
+						            			item.name+ 
+						            '            <div class="closeInfo" data-sno="'+index+'" title="닫기"></div>' + 
+						            '        </div>' + 
+						            '        <div class="body">' + 
+						            '            <div class="img">' +
+						            '                 <img class="img1" src="resources/images/userImage/'+item.id+'/board/'+item.title+'/'+image+'">' +
+						            '           </div>' + 
+						            '            <div class="desc">' + 
+						            '                <div class="ellipsis">'+item.spaceaddr1+'</div>' + 
+						            '                <div class="ellipsis">'+item.spaceaddr2+'</div>' +
+						            '                <div class="jibun ellipsis">'+type+'</div>' +
+						            '                <div class="jibun ellipsis">'+keyword+'</div>' +
+						            '                <a class="overLay-goBoard">자세히보기</a>' +
+						            '            </div>' + 
+						            '        </div>' + 
+						            '    </div>' +    
+						            '</div>';
 
-			// 커스텀 오버레이를 생성합니다
-			var customOverlay = new daum.maps.CustomOverlay({
-			    position: markerPosition,
-			    content: content   
-			});
+						// 커스텀 오버레이를 생성합니다
+						var customOverlay = new daum.maps.CustomOverlay({
+						    position: markerPosition,
+						    content: content   
+						});
 
-			overlays.push(customOverlay);
-		});
-		
-		// 마커에 클릭이벤트를 등록합니다
-		$.each(overlays, function(index,item){
-			// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-			daum.maps.event.addListener(markers[index], 'click', function() {
-				for(var i=0; i<overlays.length; i++){
-					overlays[i].setMap(null);
+						overlays.push(customOverlay);
+					});
+					
+					// 마커에 클릭이벤트를 등록합니다
+					$.each(overlays, function(index,item){
+						// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+						daum.maps.event.addListener(markers[index], 'click', function() {
+							for(var i=0; i<overlays.length; i++){
+								overlays[i].setMap(null);
+							}
+							overlays[index].setMap(map);
+							
+							// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+							$('.closeInfo').on('click',function(){
+								overlays[index].setMap(null);
+							});
+						});
+					});
+					return searchMapList; 
 				}
-				overlays[index].setMap(map);
-				
-				// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
-				$('.closeInfo').on('click',function(){
-					overlays[index].setMap(null);
-				});
 			});
-		});
-		
-		
+		}
 		
 		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 		function addMarker(serverData) {
-			$.each(serverData, function(index,item){
-				//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-				var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption),
-				markerPosition = new daum.maps.LatLng(item.latitude, item.longitude); // 마커가 표시될 위치입니다
-				//마커를 생성합니다
-				marker = new daum.maps.Marker({
-				position: markerPosition,
-				image: markerImage // 마커이미지 설정 
-				});
-				
-				marker.setMap(map);
-				markers.push(marker);  // 배열에 생성된 마커를 추가합니다
-				
-				// 커스텀 오버레이에 표시할 컨텐츠 입니다
-				// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
-				// 별도의 이벤트 메소드를 제공하지 않습니다 
-				var content = '<div class="overlay" id="overlay'+index+'">' + 
-				            '    <div class="info">' + 
-				            '        <div class="title">' + 
-				            			item.title+ 
-				            '            <div class="closeInfo" data-sno="'+index+'" title="닫기"></div>' + 
-				            '        </div>' + 
-				            '        <div class="body">' + 
-				            '            <div class="img">' +
-				            '                <img class="img1" src="resources/images/userImage/'+item.id+'/board/'+item.title+'/'+item.id+'_board_'+item.title+'_image1.jpg">' +
-				            '           </div>' + 
-				            '            <div class="desc">' + 
-				            '                <div class="ellipsis">'+item.spaceaddr1+' '+item.spaceaddr2+'</div>' + 
-				            '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
-				            '                <div><a href="http://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
-				            '            </div>' + 
-				            '        </div>' + 
-				            '    </div>' +    
-				            '</div>';
+			if(typeof daum !== 'undefined'){
+				var text = $('#text').val();
+				$.ajax({
+					url:"searchMapDetail",
+					data:{text:text},
+					type:"get",
+					success:function(searchList){
+						var searchMapList = new ArrayList();
+						searchMapList = searchList;
+						// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+						$.each(serverData, function(index,item){
+							//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+							var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption),
+							markerPosition = new daum.maps.LatLng(item.latitude, item.longitude); // 마커가 표시될 위치입니다
+							//마커를 생성합니다
+							marker = new daum.maps.Marker({
+							position: markerPosition,
+							image: markerImage // 마커이미지 설정 
+							});
+							
+							marker.setMap(map);
+							markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+							
+							var image = searchMapList[index].image1;
+							var type = "";
+							var type1 = searchMapList[index].type1;
+							var type2 = searchMapList[index].type2;
+							var type3 = searchMapList[index].type3;
+							var type4 = searchMapList[index].type4;
+							var type5 = searchMapList[index].type5;
+							if(type1!=""){
+								type += type1;
+								if(type2!=""){
+									type += ", "+type2;
+									if(type3!=""){
+										type += ", "+type3;
+										if(type4!=""){
+											type += ", "+type4;
+											if(type5!=""){
+												type += ", "+type5;
+											}
+										}
+									}
+								}
+							}
+							var keyword = "";
+							var keyword1 = searchMapList[index].keyword1;
+							var keyword2 = searchMapList[index].keyword2;
+							var keyword3 = searchMapList[index].keyword3;
+							var keyword4 = searchMapList[index].keyword4;
+							var keyword5 = searchMapList[index].keyword5;
+							if(keyword1!=""){
+								keyword += '<a class="overLay-keyword">#'+keyword1+'</a> ';
+								if(keyword2!=""){
+									keyword += '<a class="overLay-keyword">#'+keyword2+'</a> ';
+									if(keyword3!=""){
+										keyword += '<a class="overLay-keyword">#'+keyword3+'</a> ';
+										if(keyword4!=""){
+											keyword += '<a class="overLay-keyword">#'+keyword4+'</a> ';
+											if(keyword5!=""){
+												keyword += '<a class="overLay-keyword">#'+keyword5+'</a> ';
+											}
+										}
+									}
+								}
+							}
+							// 커스텀 오버레이에 표시할 컨텐츠 입니다
+							// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
+							// 별도의 이벤트 메소드를 제공하지 않습니다 
+							var content = '<div class="overlay" id="overlay'+index+'">' + 
+							            '    <div class="info">' + 
+							            '        <div class="title">' + 
+							            			item.name+ 
+							            '            <div class="closeInfo" data-sno="'+index+'" title="닫기"></div>' + 
+							            '        </div>' + 
+							            '        <div class="body">' + 
+							            '            <div class="img">' +
+							            '                 <img class="img1" src="resources/images/userImage/'+item.id+'/board/'+item.title+'/'+image+'">' +
+							            '           </div>' + 
+							            '            <div class="desc">' + 
+							            '                <div class="ellipsis">'+item.spaceaddr1+'</div>' + 
+							            '                <div class="ellipsis">'+item.spaceaddr2+'</div>' +
+							            '                <div class="jibun ellipsis">'+type+'</div>' +
+							            '                <div class="jibun ellipsis">'+keyword+'</div>' +
+							            '                <a class="overLay-goBoard">자세히보기</a>' +
+							            '            </div>' + 
+							            '        </div>' + 
+							            '    </div>' +    
+							            '</div>';
 
-				// 커스텀 오버레이를 생성합니다
-				var customOverlay = new daum.maps.CustomOverlay({
-				    position: markerPosition,
-				    content: content   
-				});
+							// 커스텀 오버레이를 생성합니다
+							var customOverlay = new daum.maps.CustomOverlay({
+							    position: markerPosition,
+							    content: content   
+							});
 
-				overlays.push(customOverlay);
-			});
+							overlays.push(customOverlay);
+						});
+						
+						// 마커에 클릭이벤트를 등록합니다
+						$.each(overlays, function(index,item){
+							// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+							daum.maps.event.addListener(markers[index], 'click', function() {
+								for(var i=0; i<overlays.length; i++){
+									overlays[i].setMap(null);
+								}
+								overlays[index].setMap(map);
+								
+								// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+								$('.closeInfo').on('click',function(){
+									overlays[index].setMap(null);
+								});
+							});
+						});
+						return searchMapList; 
+					}
+				});
+			}
 		}
 
 		function panTo() {
@@ -780,11 +968,27 @@ function map(serverData){
 		}
 		
 		$('#map_btn1').on('click',function(){
-			location.href="goMap?text=악세사리"
+			$.ajax({
+				url:"searchMap",
+				data:{text:"악세사리"},
+				type:"get",
+				success:function(serverData){
+					removeMarker(); 
+					addMarker(serverData);
+				}
+			});
 		});
 		 
 		$('#map_btn2').on('click',function(){
-			location.href="goMap?text=카페"
+			$.ajax({
+				url:"searchMap",
+				data:{text:"카페"},
+				type:"get",
+				success:function(serverData){
+					removeMarker(); 
+					addMarker(serverData);
+				}
+			});
 		});
 		
 		$('#map_btn3').on('click',function(){

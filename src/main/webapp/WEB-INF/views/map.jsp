@@ -33,7 +33,7 @@
 							<li style="width:33%"><button id="map_btn6" style="width:100%; height:60px;"><img src="resources/images/logo.png">편의점</button></li>
 						</ul><br>
 						<ul style="width:100%">
-							<li style="width:50%"><button id="map_btnMyPos" style="width:100%; height:60px;"><i class="fas fa-map-marker-alt"></i>내위치</button></li>
+							<li style="width:50%"><button id="map_btnMyPos" style="width:100%; height:60px;"><i class="fas fa-street-view"></i>내위치</button></li>
 							<li style="width:50%"><button id="map_btn8" style="width:100%; height:60px;"><i class="far fa-grin-hearts"></i>인기있는물품</button></li>
 						</ul><br>
 			    	</div>
