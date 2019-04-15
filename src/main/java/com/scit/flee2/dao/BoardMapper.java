@@ -18,6 +18,9 @@ public interface BoardMapper {
 	public ArrayList<Board> listBoard(String membertype);
 	public Board selectBoard(int boardnum);
 	public int insertQna(Qna qna);
+	public int insertReply(Qna qna);
+	public ArrayList<Qna> listQna(int boardnum);
+	public ArrayList<Qna> goQnaDetail(int qnanum);
 	public int updateProposal(Proposal prop);
 	public int deleteBoard(int clickNo);
 	public ArrayList<Board> searchBoard(String text);

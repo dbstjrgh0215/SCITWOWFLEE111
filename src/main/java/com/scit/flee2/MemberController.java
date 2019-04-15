@@ -43,7 +43,6 @@ public class MemberController {
 				Product product = memberDAO.sessionProduct(id);
 				hs.setAttribute("sessionType", seller);
 				hs.setAttribute("sessionProd", product);
-				System.out.println(product);
 			} else if(result.getMembertype().equals("공간제공자")) {
 				Space space = memberDAO.sessionSpace(id);
 				hs.setAttribute("sessionType", space);

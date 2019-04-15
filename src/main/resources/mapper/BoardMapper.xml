@@ -179,10 +179,31 @@
 	
 	<insert id="insertQna" parameterType="Qna">
 	INSERT INTO WOW_BOARD_QNA
-	(QNANUM, BOARDNUM, COMMENTS, INDATE)
+	(QNANUM, BOARDNUM, ID, NICKNAME, COMMENTS, INDATE)
 	VALUES
-	(WOW_BOARD_QNA_SEQ.NEXTVAL, #{boardnum}, #{comments}, SYSDATE)
+	(WOW_BOARD_QNA_SEQ.NEXTVAL, #{boardnum}, #{id}, (SELECT NICKNAME FROM WOW_MEMBERINFO WHERE ID=#{id}), #{comments}, SYSDATE)
 	</insert>
+	
+	<update id="insertReply" parameterType="Qna">
+	UPDATE WOW_BOARD_QNA
+	SET REPLY = #{reply}, REPLYDATE = SYSDATE
+	WHERE QNANUM = #{qnanum}
+	</update>
+	
+	<select id="listQna" parameterType="Integer" resultType="Qna">
+	SELECT
+	QNANUM, BOARDNUM, ID, NICKNAME, COMMENTS, REPLY, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, TO_CHAR(REPLYDATE,'YYYY-MM-DD') AS REPLYDATE
+	FROM WOW_BOARD_QNA
+	WHERE BOARDNUM=#{boardnum}
+	ORDER BY QNANUM DESC
+	</select>
+	
+	<select id="goQnaDetail" parameterType="Integer" resultType="Qna">
+	SELECT
+	QNANUM, BOARDNUM, ID, NICKNAME, COMMENTS, REPLY, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, TO_CHAR(REPLYDATE,'YYYY-MM-DD') AS REPLYDATE
+	FROM WOW_BOARD_QNA
+	WHERE QNANUM=#{qnanum}
+	</select>
 	
 	<select id="searchBoard" parameterType="String" resultType="Board">
 	SELECT
@@ -190,5 +211,7 @@
 	FROM WOW_BOARD
 	WHERE
 		KEYWORD LIKE '%'||#{text}||'%'
+		OR
+		NAME LIKE '%'||SUBSTR(#{text},2)||'%'
 	</select>
 </mapper>

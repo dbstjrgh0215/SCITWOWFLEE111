@@ -741,14 +741,14 @@ html, body {
 		width: 85%; /* Could be more or less, depending on screen size */                          
 	}
 	/* The Close Button */
-	.close, .close2, .closeQna {
+	.close, .close2, .closeQna, .closeReply {
 	    color: #aaa;
 	    float: right;
 	    font-size: 28px;
 	    font-weight: bold;
 	    padding-bottom:10px;
 	}
-	.closeQna{
+	.closeQna, .closeReply{
 		color:white;
 	}
 	.close:hover,
@@ -756,7 +756,9 @@ html, body {
 	.close2:hover,
 	.close2:focus,
 	.closeQna:hover,
-	.closeQna:focus {
+	.closeQna:focus,
+	.closeReply:hover,
+	.closeReply:focus {
 	    color: black;
 	    text-decoration: none;
 	    cursor: pointer;
@@ -1144,7 +1146,17 @@ html, body {
 	    height: 400px;
 	    transform: translate(-50%, -50%);
 	}
-	.modal-board-qnaHeader{
+	.modal-board-qnaReply{
+		position: fixed;
+	    display: block;
+	    top: 50%;
+	    left: 50%;
+	    margin-bottom: 0px;
+	    width: 600px;
+	    height: 500px;
+	    transform: translate(-50%, -50%);
+	}
+	.modal-board-qnaHeader, .modal-board-qnaReplyHeader{
 		padding: 20px 25px;
 	    border-radius: 12px 12px 0 0;
 	    background: #F05E22;
@@ -1159,19 +1171,35 @@ html, body {
 	    background-color:white;
         height: 280px;
 	}
-	.modal-board-qnaInsert{
+	.modal-board-qnaReplyContent{
+	    border-radius: 0 0 12px 12px;
+	    padding: 24px 26px 26px;
+	    vertical-align: middle;
+	    background-color:white;
+        height: 350px;
+	}
+	.modal-board-qnaInsert, .modal-board-qnaReplyInsert{
 	    margin-top: 0;
     	border-top: 0;
    	    padding: 0;
    	    width: 90%;
 	}
-	.modal-board-qnaHead{
+	.modal-board-qnaReplyQuestion{
+		vertical-align: top;
+		width:100%;
+		padding-bottom: 15px;
+		font-size: 15px;
+	}
+	.modal-board-qnaReplyComments{
+		font-size:15px;
+	}
+	.modal-board-qnaHead, .modal-board-qnaReplyHead{
 		vertical-align: top;
 		width:100%;
 		padding-bottom: 15px;
 		font-size: 20px;
 	}
-	.qnaInserTextarea{
+	.qnaInsertTextarea, .replyInsertTextarea{
 		height: 125px;
 	    display: inline-block;
 	    position: relative;
@@ -1184,9 +1212,19 @@ html, body {
 	.modal-board-qnabtn{
 		margin-top:40px;
 	}
+	.modal-board-replybtn{
+	    position: relative;
+	    top: 50px;
+	}
 	.modal-board-qnabtn span{
 		border: solid 1px;
 	    padding: 25px 86px;
+	    border-radius: 10px;
+	    font-size: 1.4em;
+	}
+	.modal-board-replybtn span{
+		border: solid 1px;
+	    padding: 25px 105px;
 	    border-radius: 10px;
 	    font-size: 1.4em;
 	}
@@ -1205,6 +1243,13 @@ html, body {
 	}
 	
 	
+	.commentsTitle{
+	    max-width: 250px;
+	    height: 20px;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	}
 	.comment-table{
 		width:100%;
 		text-align:center;
@@ -1506,6 +1551,7 @@ html, body {
 	}
 	.overLay-keyword{
 		font-size:10px;
+		cursor:pointer;
 	}
 	.overLay-goBoard{
 		color:yellow;

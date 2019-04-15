@@ -774,7 +774,7 @@ public class BoardController {
 		int result = 0;
 		Board board = boardDAO.selectBoard(clickNo);
 		result = boardDAO.deleteBoard(clickNo);
-		/*fileDelete(board.getId(),board.getTitle());*/
+		fileDelete(board.getId(),board.getTitle(),"board");
 		
 		return result;
 	}
@@ -1109,7 +1109,9 @@ public class BoardController {
 		}
 		
 		boardDetail.add(sellerMap);
+		ArrayList<Qna> qnaList = boardDAO.listQna(boardnum);
 		
+		model.addAttribute("qnaList", qnaList);
 		model.addAttribute("board",board);
 		model.addAttribute("boardDetail", boardDetail);
 		return "seller";
@@ -1210,7 +1212,9 @@ public class BoardController {
 		}
 		
 		boardDetail.add(spaceMap);
+		ArrayList<Qna> qnaList = boardDAO.listQna(boardnum);
 		
+		model.addAttribute("qnaList", qnaList);
 		model.addAttribute("board",board);
 		model.addAttribute("boardDetail", boardDetail);
 		
@@ -1237,16 +1241,24 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/insertQna", method=RequestMethod.GET)
-	public String insertQna(Qna qna, String membertype) {
-		String redirect = "";
+	public @ResponseBody ArrayList<Qna> insertQna(Qna qna) {
 		boardDAO.insertQna(qna);
-		if(membertype=="¼¿·¯") {
-			redirect = "goSellerDetail?boardnum="+qna.getBoardnum();
-		} else {
-			redirect = "goSpaceDetail?boardnum="+qna.getBoardnum();
-		}
-		
-		return redirect;
+		ArrayList<Qna> qnaList = boardDAO.listQna(qna.getBoardnum());
+		return qnaList;
+	}
+	
+	@RequestMapping(value="/insertReply", method=RequestMethod.GET)
+	public @ResponseBody ArrayList<Qna> insertReply(Qna qna){
+		boardDAO.insertReply(qna);
+		ArrayList<Qna> qnaList = boardDAO.listQna(qna.getBoardnum());
+		return qnaList;
+	}
+	
+	@RequestMapping(value="/goCommentsDetail", method=RequestMethod.GET)
+	public @ResponseBody Qna goCommentsDetail(String qnanum){
+		ArrayList<Qna> qnaList = boardDAO.goQnaDetail(Integer.parseInt(qnanum));
+		Qna qna = qnaList.get(0);
+		return qna;
 	}
 	
 	@RequestMapping(value="/goSearch", method=RequestMethod.GET)

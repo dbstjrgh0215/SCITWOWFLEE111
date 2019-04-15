@@ -23,12 +23,12 @@
 			    	</div>
 			    	<div class="category_content">
 				    	<ul style="width:100%;">
-				    		<li style="width:33%"><button id="map_btn1" style="width:100%; height:60px;"><img src="resources/images/logo.png">액세서리</button></li>
-				    		<li style="width:33%"><button id="map_btn2" style="width:100%; height:60px;"><img src="resources/images/logo.png">카페</button></li>
-				    		<li style="width:33%"><button id="map_btn3" style="width:100%; height:60px;"><img src="resources/images/logo.png">애견카페</button></li> 
+				    		<li style="width:33%"><button id="map_btn1" style="width:100%; height:60px;"><img src="resources/images/logo.png">카페</button></li>
+				    		<li style="width:33%"><button id="map_btn2" style="width:100%; height:60px;"><img src="resources/images/logo.png">서점</button></li>
+				    		<li style="width:33%"><button id="map_btn3" style="width:100%; height:60px;"><img src="resources/images/logo.png">꽃</button></li> 
 				   		</ul><br>
 				   		<ul style="width:100%">
-				    		<li style="width:33%"><button id="map_btn4" style="width:100%; height:60px;"><img src="resources/images/logo.png">주유소</button></li>
+				    		<li style="width:33%"><button id="map_btn4" style="width:100%; height:60px;"><img src="resources/images/logo.png">레스토랑</button></li>
 							<li style="width:33%"><button id="map_btn5" style="width:100%; height:60px;"><img src="resources/images/logo.png">카페</button></li>
 							<li style="width:33%"><button id="map_btn6" style="width:100%; height:60px;"><img src="resources/images/logo.png">편의점</button></li>
 						</ul><br>

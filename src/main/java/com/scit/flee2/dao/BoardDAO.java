@@ -157,6 +157,48 @@ public class BoardDAO {
 		
 		return result;
 	}
+
+	public int insertReply(Qna qna) {
+		int result = 0;
+
+		BoardMapper bm = sqlSession.getMapper(BoardMapper.class);
+		
+		try {
+			result = bm.insertReply(qna);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public ArrayList<Qna> listQna(int boardnum){
+		ArrayList<Qna> listQna = new ArrayList<Qna>();
+		
+		BoardMapper bm = sqlSession.getMapper(BoardMapper.class);
+		
+		try {
+			listQna = bm.listQna(boardnum);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return listQna;
+	}
+
+	public ArrayList<Qna> goQnaDetail(int qnanum) {
+		ArrayList<Qna> listQna = new ArrayList<Qna>();
+		
+		BoardMapper bm = sqlSession.getMapper(BoardMapper.class);
+		
+		try {
+			listQna = bm.goQnaDetail(qnanum);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return listQna;
+	}
 	
 	public int updateProposal(Proposal prop) {
 		int result = 0;
@@ -206,11 +248,13 @@ public class BoardDAO {
 		BoardMapper bm = sqlSession.getMapper(BoardMapper.class);
 		
 		try {
-			list = bm.searchBoard(text);
+			list = bm.searchBoard("&"+text);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		
 		return list;
 	}
+
+
 }

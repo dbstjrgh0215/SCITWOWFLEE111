@@ -680,134 +680,19 @@ function map(serverData){
 		var mapContainer = document.getElementById('map_map'), // 지도를 표시할 div 
 		mapOption = { 
 		    center: new daum.maps.LatLng(37.513220, 127.058581), // 지도의 중심좌표
-		    level: 8 // 지도의 확대 레벨
+		    level: 7 // 지도의 확대 레벨
 		};
-		var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-		var imageSrc = 'resources/images/map_icon.png', // 마커이미지의 주소입니다    
-		imageSize = new daum.maps.Size(34, 34), // 마커이미지의 크기입니다
-		imageOption = {offset: new daum.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-		
-		if(typeof daum !== 'undefined'){
-			var text = $('#text').val();
-			$.ajax({
-				url:"searchMapDetail",
-				data:{text:text},
-				type:"get",
-				success:function(searchList){
-					var searchMapList = new ArrayList();
-					searchMapList = searchList;
-					// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-					$.each(serverData, function(index,item){
-						//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-						var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption),
-						markerPosition = new daum.maps.LatLng(item.latitude, item.longitude); // 마커가 표시될 위치입니다
-						//마커를 생성합니다
-						marker = new daum.maps.Marker({
-						position: markerPosition,
-						image: markerImage // 마커이미지 설정 
-						});
-						
-						marker.setMap(map);
-						markers.push(marker);  // 배열에 생성된 마커를 추가합니다
-						
-						var image = searchMapList[index].image1;
-						var type = "";
-						var type1 = searchMapList[index].type1;
-						var type2 = searchMapList[index].type2;
-						var type3 = searchMapList[index].type3;
-						var type4 = searchMapList[index].type4;
-						var type5 = searchMapList[index].type5;
-						if(type1!=""){
-							type += type1;
-							if(type2!=""){
-								type += ", "+type2;
-								if(type3!=""){
-									type += ", "+type3;
-									if(type4!=""){
-										type += ", "+type4;
-										if(type5!=""){
-											type += ", "+type5;
-										}
-									}
-								}
-							}
-						}
-						var keyword = "";
-						var keyword1 = searchMapList[index].keyword1;
-						var keyword2 = searchMapList[index].keyword2;
-						var keyword3 = searchMapList[index].keyword3;
-						var keyword4 = searchMapList[index].keyword4;
-						var keyword5 = searchMapList[index].keyword5;
-						if(keyword1!=""){
-							keyword += '<a class="overLay-keyword">#'+keyword1+'</a> ';
-							if(keyword2!=""){
-								keyword += '<a class="overLay-keyword">#'+keyword2+'</a> ';
-								if(keyword3!=""){
-									keyword += '<a class="overLay-keyword">#'+keyword3+'</a> ';
-									if(keyword4!=""){
-										keyword += '<a class="overLay-keyword">#'+keyword4+'</a> ';
-										if(keyword5!=""){
-											keyword += '<a class="overLay-keyword">#'+keyword5+'</a> ';
-										}
-									}
-								}
-							}
-						}
-						// 커스텀 오버레이에 표시할 컨텐츠 입니다
-						// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
-						// 별도의 이벤트 메소드를 제공하지 않습니다 
-						var content = '<div class="overlay" id="overlay'+index+'">' + 
-						            '    <div class="info">' + 
-						            '        <div class="title">' + 
-						            			item.name+ 
-						            '            <div class="closeInfo" data-sno="'+index+'" title="닫기"></div>' + 
-						            '        </div>' + 
-						            '        <div class="body">' + 
-						            '            <div class="img">' +
-						            '                 <img class="img1" src="resources/images/userImage/'+item.id+'/board/'+item.title+'/'+image+'">' +
-						            '           </div>' + 
-						            '            <div class="desc">' + 
-						            '                <div class="ellipsis">'+item.spaceaddr1+'</div>' + 
-						            '                <div class="ellipsis">'+item.spaceaddr2+'</div>' +
-						            '                <div class="jibun ellipsis">'+type+'</div>' +
-						            '                <div class="jibun ellipsis">'+keyword+'</div>' +
-						            '                <a class="overLay-goBoard">자세히보기</a>' +
-						            '            </div>' + 
-						            '        </div>' + 
-						            '    </div>' +    
-						            '</div>';
-
-						// 커스텀 오버레이를 생성합니다
-						var customOverlay = new daum.maps.CustomOverlay({
-						    position: markerPosition,
-						    content: content   
-						});
-
-						overlays.push(customOverlay);
-					});
-					
-					// 마커에 클릭이벤트를 등록합니다
-					$.each(overlays, function(index,item){
-						// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-						daum.maps.event.addListener(markers[index], 'click', function() {
-							for(var i=0; i<overlays.length; i++){
-								overlays[i].setMap(null);
-							}
-							overlays[index].setMap(map);
-							
-							// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
-							$('.closeInfo').on('click',function(){
-								overlays[index].setMap(null);
-							});
-						});
-					});
-					return searchMapList; 
-				}
-			});
-		}
-		
-		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-		function addMarker(serverData) {
+		if($('#map_map').length!=0){
+			panTo();
+			var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+			var imageSrc = 'resources/images/map_icon.png', // 마커이미지의 주소입니다    
+			imageSize = new daum.maps.Size(55, 55), // 마커이미지의 크기입니다
+			imageOption = {
+				spriteSize : new daum.maps.Size(31, 31), // 스프라이트 이미지의 크기
+	            spriteOrigin : new daum.maps.Point(0, 0), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+	            offset: new daum.maps.Point(15, 15) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+			}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+			
 			if(typeof daum !== 'undefined'){
 				var text = $('#text').val();
 				$.ajax({
@@ -827,7 +712,7 @@ function map(serverData){
 							position: markerPosition,
 							image: markerImage // 마커이미지 설정 
 							});
-							
+							panTo(item.latitude,item.longitude);
 							marker.setMap(map);
 							markers.push(marker);  // 배열에 생성된 마커를 추가합니다
 							
@@ -897,13 +782,13 @@ function map(serverData){
 							            '        </div>' + 
 							            '    </div>' +    
 							            '</div>';
-
+	
 							// 커스텀 오버레이를 생성합니다
 							var customOverlay = new daum.maps.CustomOverlay({
 							    position: markerPosition,
 							    content: content   
 							});
-
+	
 							overlays.push(customOverlay);
 						});
 						
@@ -920,107 +805,292 @@ function map(serverData){
 								$('.closeInfo').on('click',function(){
 									overlays[index].setMap(null);
 								});
+								
+								$('.overLay-keyword').on('click',function(){
+									overlays[index].setMap(null);
+									var text = $(this).text().substring(1);
+									$('#text').val(text);
+									$.ajax({
+										url:"searchMap",
+										data:{text:text},
+										type:"get",
+										success:function(serverData){
+											overlays=[];
+											removeMarker(); 
+											addMarker(serverData);
+										}
+									});
+								});
 							});
 						});
 						return searchMapList; 
 					}
 				});
 			}
-		}
-
-		function panTo() {
-		 	// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
-		    if (navigator.geolocation) {
-		        
-		        // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-		        navigator.geolocation.getCurrentPosition(function(position) {
-		            
-		            var lat = position.coords.latitude, // 위도
-		                lon = position.coords.longitude; // 경도
-		            
-		            var locPosition = new daum.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-		            
-		         	// 이동할 위도 경도 위치를 생성합니다 
-				    var moveLatLon = new daum.maps.LatLng(37.513220, 127.058581);
-		            
-				 	// 지도 중심을 부드럽게 이동시킵니다
+			
+			// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+			function addMarker(serverData) {
+				if(typeof daum !== 'undefined'){
+					var text = $('#text').val();
+					$.ajax({
+						url:"searchMapDetail",
+						data:{text:text},
+						type:"get",
+						success:function(searchList){
+							var searchMapList = new ArrayList();
+							searchMapList = searchList;
+							// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+							$.each(serverData, function(index,item){
+								//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+								var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption),
+								markerPosition = new daum.maps.LatLng(item.latitude, item.longitude); // 마커가 표시될 위치입니다
+								//마커를 생성합니다
+								marker = new daum.maps.Marker({
+								position: markerPosition,
+								image: markerImage // 마커이미지 설정 
+								});
+								panTo(item.latitude,item.longitude);
+								marker.setMap(map);
+								markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+								
+								var image = searchMapList[index].image1;
+								var type = "";
+								var type1 = searchMapList[index].type1;
+								var type2 = searchMapList[index].type2;
+								var type3 = searchMapList[index].type3;
+								var type4 = searchMapList[index].type4;
+								var type5 = searchMapList[index].type5;
+								if(type1!=""){
+									type += type1;
+									if(type2!=""){
+										type += ", "+type2;
+										if(type3!=""){
+											type += ", "+type3;
+											if(type4!=""){
+												type += ", "+type4;
+												if(type5!=""){
+													type += ", "+type5;
+												}
+											}
+										}
+									}
+								}
+								var keyword = "";
+								var keyword1 = searchMapList[index].keyword1;
+								var keyword2 = searchMapList[index].keyword2;
+								var keyword3 = searchMapList[index].keyword3;
+								var keyword4 = searchMapList[index].keyword4;
+								var keyword5 = searchMapList[index].keyword5;
+								if(keyword1!=""){
+									keyword += '<a class="overLay-keyword">#'+keyword1+'</a> ';
+									if(keyword2!=""){
+										keyword += '<a class="overLay-keyword">#'+keyword2+'</a> ';
+										if(keyword3!=""){
+											keyword += '<a class="overLay-keyword">#'+keyword3+'</a> ';
+											if(keyword4!=""){
+												keyword += '<a class="overLay-keyword">#'+keyword4+'</a> ';
+												if(keyword5!=""){
+													keyword += '<a class="overLay-keyword">#'+keyword5+'</a> ';
+												}
+											}
+										}
+									}
+								}
+								// 커스텀 오버레이에 표시할 컨텐츠 입니다
+								// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
+								// 별도의 이벤트 메소드를 제공하지 않습니다 
+								var content = '<div class="overlay" id="overlay'+index+'">' + 
+								            '    <div class="info">' + 
+								            '        <div class="title">' + 
+								            			item.name+ 
+								            '            <div class="closeInfo" data-sno="'+index+'" title="닫기"></div>' + 
+								            '        </div>' + 
+								            '        <div class="body">' + 
+								            '            <div class="img">' +
+								            '                 <img class="img1" src="resources/images/userImage/'+item.id+'/board/'+item.title+'/'+image+'">' +
+								            '           </div>' + 
+								            '            <div class="desc">' + 
+								            '                <div class="ellipsis">'+item.spaceaddr1+'</div>' + 
+								            '                <div class="ellipsis">'+item.spaceaddr2+'</div>' +
+								            '                <div class="jibun ellipsis">'+type+'</div>' +
+								            '                <div class="jibun ellipsis">'+keyword+'</div>' +
+								            '                <a class="overLay-goBoard">자세히보기</a>' +
+								            '            </div>' + 
+								            '        </div>' + 
+								            '    </div>' +    
+								            '</div>';
+	
+								// 커스텀 오버레이를 생성합니다
+								var customOverlay = new daum.maps.CustomOverlay({
+								    position: markerPosition,
+								    content: content   
+								});
+	
+								overlays.push(customOverlay);
+							});
+							
+							// 마커에 클릭이벤트를 등록합니다
+							$.each(overlays, function(index,item){
+								// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+								daum.maps.event.addListener(markers[index], 'click', function() {
+									for(var i=0; i<overlays.length; i++){
+										overlays[i].setMap(null);
+									}
+									overlays[index].setMap(map);
+									
+									// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+									$('.closeInfo').on('click',function(){
+										overlays[index].setMap(null);
+									});
+									
+									$('.overLay-keyword').on('click',function(){
+										overlays[index].setMap(null);
+										var text = $(this).text().substring(1);
+										$('#text').val(text);
+										$.ajax({
+											url:"searchMap",
+											data:{text:text},
+											type:"get",
+											success:function(serverData){
+												removeMarker(); 
+												overlays=[];
+												addMarker(serverData);
+											}
+										});
+									});
+								});
+							});
+							return searchMapList; 
+						}
+					});
+				}
+			}
+	
+			function panTo(latitude,longitude) {
+			 	// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+			    if (navigator.geolocation) {
+			        
+			        // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+			        navigator.geolocation.getCurrentPosition(function(position) {
+			            
+			            var lat = position.coords.latitude, // 위도
+			                lon = position.coords.longitude; // 경도
+			            
+			            var locPosition = new daum.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+			            
+			         	// 이동할 위도 경도 위치를 생성합니다 
+					    var moveLatLon = new daum.maps.LatLng(37.513220, 127.058581);
+			            
+					 	// 지도 중심을 부드럽게 이동시킵니다
+					    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+					    if(latitude==undefined){
+					    	locPosition = new daum.maps.LatLng(lat, lon);
+					    } else {
+					    	locPosition = new daum.maps.LatLng(latitude, longitude);
+					    }
+					    map.panTo(locPosition);  
+					    
+			          });
+			        
+			    } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+			        
+			        var locPosition = new daum.maps.LatLng(33.450701, 126.570667);    
+			         
+			     	// 지도 중심을 부드럽게 이동시킵니다
 				    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
 				    map.panTo(locPosition);  
-				    
-		          });
-		        
-		    } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-		        
-		        var locPosition = new daum.maps.LatLng(33.450701, 126.570667);    
-		         
-		     	// 지도 중심을 부드럽게 이동시킵니다
-			    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-			    map.panTo(locPosition);  
-		    }
-		}      
-		
-		// 지도 위에 표시되고 있는 마커를 모두 제거합니다
-		function removeMarker() {
-		    for ( var i = 0; i < markers.length; i++ ) {
-		        markers[i].setMap(null);
-		    }   
-		    markers = [];
+			    }
+			}      
+			
+			// 지도 위에 표시되고 있는 마커를 모두 제거합니다
+			function removeMarker() {
+			    for ( var i = 0; i < markers.length; i++ ) {
+			        markers[i].setMap(null);
+			    }   
+			    markers = [];
+			}
+			
+			$('#map_btn1').on('click',function(){
+				$('#text').val("카페");
+				$.ajax({
+					url:"searchMap",
+					data:{text:"카페"},
+					type:"get",
+					success:function(serverData){
+						removeMarker(); 
+						overlays=[];
+						addMarker(serverData);
+					}
+				});
+			});
+			 
+			$('#map_btn2').on('click',function(){
+				$('#text').val("서점");
+				$.ajax({
+					url:"searchMap",
+					data:{text:"서점"},
+					type:"get",
+					success:function(serverData){
+						removeMarker(); 
+						overlays=[];
+						addMarker(serverData);
+					}
+				});
+			});
+			
+			$('#map_btn3').on('click',function(){
+				$('#text').val("꽃");
+				$.ajax({
+					url:"searchMap",
+					data:{text:"꽃"},
+					type:"get",
+					success:function(serverData){
+						removeMarker(); 
+						overlays=[];
+						addMarker(serverData);
+					}
+				});
+			});
+			
+			$('#map_btnMyPos').on('click', function(){
+				panTo();
+			});
+			
+			
+			$('#mapSearchBtn').on('click',function(){
+				var text = $('#mapSearchText').val();
+				$('#text').val(text);
+				$.ajax({
+					url:"searchMap",
+					data:{text:text},
+					type:"get",
+					success:function(serverData){
+						removeMarker(); 
+						overlays=[];
+						addMarker(serverData);
+						$('#mapSearchText').val("");
+					}
+				});
+			});
+			
+			$('#mapSearchText').on('keydown',function(key){
+				var text = $('#mapSearchText').val();
+				if(key.keyCode==13){
+					$('#text').val(text);
+					$.ajax({
+						url:"searchMap",
+						data:{text:text},
+						type:"get",
+						success:function(serverData){
+							removeMarker(); 
+							overlays=[];
+							addMarker(serverData);
+							$('#mapSearchText').val("");
+						}
+					});
+				}
+			});
 		}
-		
-		$('#map_btn1').on('click',function(){
-			$.ajax({
-				url:"searchMap",
-				data:{text:"악세사리"},
-				type:"get",
-				success:function(serverData){
-					removeMarker(); 
-					addMarker(serverData);
-				}
-			});
-		});
-		 
-		$('#map_btn2').on('click',function(){
-			$.ajax({
-				url:"searchMap",
-				data:{text:"카페"},
-				type:"get",
-				success:function(serverData){
-					removeMarker(); 
-					addMarker(serverData);
-				}
-			});
-		});
-		
-		$('#map_btn3').on('click',function(){
-			$.ajax({
-				url:"searchMap",
-				data:{text:"애견카페"},
-				type:"get",
-				success:function(serverData){
-					removeMarker(); 
-					addMarker(serverData);
-				}
-			});
-		});
-		
-		$('#map_btnMyPos').on('click', function(){
-			panTo();
-		});
-		
-		
-		$('#mapSearchBtn').on('click',function(){
-			var text = $('#mapSearchText').val();
-			$.ajax({
-				url:"searchMap",
-				data:{text:text},
-				type:"get",
-				success:function(serverData){
-					removeMarker(); 
-					addMarker(serverData);
-					$('#mapSearchText').val("");
-				}
-			});
-		});
 	}
 }
 
@@ -1996,7 +2066,11 @@ function boardDetail(){
 	
     //댓글작성
     $('#btnCommentWrite').on('click',function(){
-    	$('#modal-board-qna').css('display','block');
+    	var loginId = $('#sessionId').val();
+    	var boardId = $('#boardId').val();
+    	if(loginId!=boardId){
+    		$('#modal-board-qna').css('display','block');
+    	}
     });
     
     $('.closeQna').on('click',function(){
@@ -2008,9 +2082,134 @@ function boardDetail(){
     });
     
     $('#qna-regist').on('click',function(){
-    	//댓글작성하기만들것
-    	
+    	var boardnum = $('#board-num').val();
+    	var comments = $('#qnaInsertTextarea').val();
+    	var id = $('#sessionId').val();
+    	$.ajax({
+    		url:"insertQna",
+    		data:{boardnum:boardnum,
+    			  comments:comments,
+    			  id:id},
+    		type:"get",
+    		success:function(serverData){
+    			$('#modal-board-qna').css('display','none');
+    			var data = '';
+    			data += '<tr><th>작성자</th><th>질문제목</th><th>작성일자</th></tr>';
+    			$.each(serverData,function(index,item){
+    				data += '<tr>';
+        			data += '<td>'+item.nickname+'</td>';
+        			data += '<td>'+item.comments+'</td>';
+        			data += '<td>'+item.indate+'</td>';
+        			data += '</tr>';
+    			});
+    			$('#commentTable').html(data);
+    		}
+    	});
     });
+    
+    $('.goCommentsDetail').on('click',function(){
+    	var loginId = $('#sessionId').val();
+    	var boardId = $('#boardId').val();
+    	var qnaId = $(this).attr('qnaId');
+    	var qnaNum = $(this).attr('data-sno');
+    	var boardNum = $('#board-num').val();
+    	var boardName = $('#boardName').text();
+    	$.ajax({
+    		url:"goCommentsDetail",
+    		data:{qnanum:qnaNum,
+    			  boardnum:boardNum},
+    		type:"get",
+    		success:function(serverData){
+    			var data = '';
+    			if(loginId==boardId){
+	    			data = '<div class="modal-board-qnaReplyHeader">';
+		    		data += serverData.nickname+'님의 댓글 '+'<span class="closeReply">&times;</span>';
+		    		data += '</div>';
+					data += '<div class="modal-board-qnaReplyContent" id="modal-board-qnaContent">';
+					data += '<div class="modal-board-qnaReplyInsert" id="modal-baord-qnaInsert">';
+					data += '<div class="modal-board-qnaReplyQuestion" id="modal-board-qnaHead">';
+					data +=	'Q. '+serverData.comments+'</div>';
+					data += '<div class="modal-board-qnaReplyHead" id="modal-board-qnaHead">';
+					data +=	'답글달기</div>';
+					data += '<textarea class="replyInsertTextarea" id="replyInsertTextarea" maxlength="200" placeholder="답글을 입력하세요."></textarea>';
+					data += '</div>';
+					data += '<div class="modal-board-replybtn">';
+					data += '<a href="javascript:void(0);" id="reply-cancel"><span class="modal-board-qna-cancel">취소</span></a>';
+					data += '<a href="javascript:void(0);" id="reply-regist" qnaNum="'+qnaNum+'"><span class="modal-board-qna-regist">등록</span></a>';
+					data += '</div>';
+					data += '</div>';
+	    			$('.modal-board-qnaReply').html(data);
+	    			$('#modal-board-qnaReply').css('display','block');
+	    			$('.closeReply').on('click',function(){
+	    		    	$('#modal-board-qnaReply').css('display','none');
+	    		    });
+	    		    $('#reply-cancel').on('click',function(){
+	    		    	$('#modal-board-qnaReply').css('display','none');
+	    		    });
+    			} else if(loginId==qnaId) {
+    				data = '<div class="modal-board-qnaReplyHeader">';
+		    		data += serverData.nickname+'님의 댓글 '+'<span class="closeReply">&times;</span>';
+		    		data += '</div>';
+					data += '<div class="modal-board-qnaReplyContent" id="modal-board-qnaContent">';
+					data += '<div class="modal-board-qnaReplyInsert" id="modal-baord-qnaInsert">';
+					data += '<div class="modal-board-qnaReplyQuestion" id="modal-board-qnaHead">';
+					data +=	'Q. '+serverData.comments+'</div>';
+					data += '<div class="modal-board-qnaReplyHead" id="modal-board-qnaHead">';
+					data +=	boardName+'님의 답글</div>';
+					if(serverData.reply!=null){
+						data += '<div class="modal-board-qnaReplyComments">A.'+serverData.reply+'</div>';
+					} else {
+						data += '<div class="modal-board-qnaReplyComments">아직 '+boardName+'님이 답글을 달지 않았습니다.</div>';
+					}
+					data += '</div>';
+					data += '</div>';
+    				$('.modal-board-qnaReply').html(data);
+	    			$('#modal-board-qnaReply').css('display','block');
+	    			$('.closeReply').on('click',function(){
+	    		    	$('#modal-board-qnaReply').css('display','none');
+	    		    });
+	    		    $('#reply-cancel').on('click',function(){
+	    		    	$('#modal-board-qnaReply').css('display','none');
+	    		    });
+    			} else {
+    				alert("작성자만 볼 수 있습니다.");
+    			}
+    			
+    			$('#reply-regist').on('click',function(){
+    		    	var qnanum = $(this).attr('qnaNum');
+    		    	var boardnum = $('#board-num').val();
+    		    	var reply = $('#replyInsertTextarea').val();
+    		    	var id = $('#sessionId').val();
+    		    	$.ajax({
+    		    		url:"insertReply",
+    		    		data:{qnanum:qnanum,
+    		    			  boardnum:boardnum,
+    		    			  reply:reply,
+    		    			  id:id},
+    		    		type:"get",
+    		    		success:function(serverData){
+    		    			$('#modal-board-qna').css('display','none');
+    		    			var data = '';
+    		    			data += '<tr><th>작성자</th><th>질문제목</th><th>작성일자</th></tr>';
+    		    			$.each(serverData,function(index,item){
+    		    				data += '<tr>';
+    		        			data += '<td>'+item.nickname+'</td>';
+    		        			data += '<td>'+item.comments+'</td>';
+    		        			data += '<td>'+item.indate+'</td>';
+    		        			data += '</tr>';
+    		    			});
+    		    			$('#commentTable').html(data);
+    		    		}
+    		    	});
+    		    });
+    		}
+    	});
+    });
+    
+    
+    
+    
+    
 	
     // 계약창
     var contractSelect = $('.contract-select-li input:radio[name=contractType]');

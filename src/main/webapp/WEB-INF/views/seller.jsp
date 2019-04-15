@@ -115,7 +115,10 @@
    		</div>
     	<div class="board">
     		<div class="board-header">
-	    		<h2 class="board-name">${board.name}</h2>
+    			<input type="hidden" id="board-num" value="${board.boardnum}">
+	    		<input type="hidden" id="boardId" value="${board.id}">
+    			<input type="hidden" id="sessionId" value="${sessionMember.id}">
+	    		<h2 class="board-name" id="boardName">${board.name}</h2>
 	    		<h3 class="board-title">${board.title}</h3>
     		</div>
     		<div class="board-tag">
@@ -183,18 +186,22 @@
     		</div>
     		<div class="board-comment">
     			<a class="board-comment-write" id="btnCommentWrite" href="javascript:void(0);">질문 작성하기</a>
-    			<h3 class="board-h">이용후기</h3><hr class="board-hr">
-    			<table class="comment-table">
+    			<h3 class="board-h">Q&A</h3><hr class="board-hr">
+    			<table class="comment-table" id="commentTable">
     				<tr>
     					<th>작성자</th>
     					<th>질문제목</th>
     					<th>작성일자</th>
+    					<th>비고</th>
     				</tr>
+    				<c:forEach var="qna" items="${qnaList}">
     				<tr>
-    					<td>윤석호</td>
-    					<td><a href="#">카페에 방문해보고싶은데 11번출구로 나가면 되나요?</a></td>
-    					<td>2019-03-28</td>
+    					<td><input type="hidden" id="qnaNum" value="${qna.qnanum}">${qna.nickname}</td>
+    					<td class="commentsTitle"><a href="javascript:void(0);" class="goCommentsDetail" data-sno="${qna.qnanum}" qnaId="${qna.id}">${qna.comments}</a></td>
+    					<td>${qna.indate}</td>
+    					<td><c:if test="${sessionMember.id==qna.id}"><button class="udtCommentBtn" data-sno="${qna.qnanum}">수정</button><button class="delCommentBtn" data-sno="${qna.qnanum}">삭제</button></c:if></td>
     				</tr>
+    				</c:forEach>
     			</table>
     		</div>
     	</div>
@@ -214,6 +221,29 @@
   					<div class="board-image3"><c:if test="${!empty boardDetail[0].image3}"><img class="board-img" src="resources/images/userImage/${board.id}/board/${board.title}/${boardDetail[0].image3}"></c:if></div>
   				</div>
    		</div>
+	</div>
+	<div id="modal-board-qna" class="modal">
+   		<div class="modal-board-qna">
+    		<div class="modal-board-qnaHeader">
+	    		Q&A 작성하기<span class="closeQna">&times;</span> 
+    		</div>
+			<div class="modal-board-qnaContent" id="modal-board-qnaContent">
+				<div class="modal-board-qnaInsert" id="modal-baord-qnaInsert">
+					<div class="modal-board-qnaHead" id="modal-board-qnaHead">
+						질문
+			 		</div>
+			 		<textarea class="qnaInsertTextarea" id="qnaInsertTextarea" maxlength="200" placeholder="질문내용을 입력하세요."></textarea>
+				</div>
+				<div class="modal-board-qnabtn">
+					<a href="javascript:void(0);" id="qna-cancel"><span class="modal-board-qna-cancel">취소</span></a>
+					<a href="javascript:void(0);" id="qna-regist"><span class="modal-board-qna-regist">등록</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="modal-board-qnaReply" class="modal">
+   		<div class="modal-board-qnaReply">
+		</div>
 	</div>
 	<div class="contractWindow">
 		<h3 class="board-h">계약신청방식선택</h3>
