@@ -44,19 +44,11 @@
 				<button class="logout-btn" id="btnLogout">로그아웃</button>
 			</c:if>
 		</div>
-		<div class="sidenav-btn">
-			<a class="slide-btn" href="#">계약관리</a>
-			<a class="slide-btn" href="#">지원관리</a>
-			<a class="slide-btn" href="goProposal">제안서관리</a>
-			<a class="slide-btn" href="goUserBoard">내가쓴글</a>
-		</div>
 		<div class="sidenav-menu">
-			<a href="#">이용후기</a>
-			<a href="#">찜목록</a>
-			<a href="#">1:1문의</a>
-			<a href="#">FAQ</a>
-			<a href="#">공지사항</a>
-			<a href="#">서비스정보</a>
+			<a class="slide-btn" href="#">계약관리<i class="fas fa-chevron-right"></i></a>
+			<a class="slide-btn" href="#">지원관리<i class="fas fa-chevron-right"></i></a>
+			<a class="slide-btn" href="goProposal">제안서관리<i class="fas fa-chevron-right"></i></a>
+			<a class="slide-btn" href="goUserBoard">내가쓴글<i class="fas fa-chevron-right"></i></a>
 		</div>
 	</div>
 	

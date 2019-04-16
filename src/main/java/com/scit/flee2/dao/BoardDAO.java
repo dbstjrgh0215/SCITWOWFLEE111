@@ -256,5 +256,46 @@ public class BoardDAO {
 		return list;
 	}
 
+	public ArrayList<Board> searchSpace(String text){
+		ArrayList<Board> list = new ArrayList<Board>();
+		
+		BoardMapper bm = sqlSession.getMapper(BoardMapper.class);
+		
+		try {
+			list = bm.searchSpace("&"+text);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<Board> searchSeller(String text){
+		ArrayList<Board> list = new ArrayList<Board>();
+		
+		BoardMapper bm = sqlSession.getMapper(BoardMapper.class);
+		
+		try {
+			list = bm.searchSeller("&"+text);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<Board> searchAnother(String text){
+		ArrayList<Board> list = new ArrayList<Board>();
+		
+		BoardMapper bm = sqlSession.getMapper(BoardMapper.class);
+		
+		try {
+			list = bm.searchAnother(text);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 
 }

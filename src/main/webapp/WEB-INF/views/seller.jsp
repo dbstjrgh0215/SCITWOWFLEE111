@@ -204,23 +204,42 @@
     				</c:forEach>
     			</table>
     		</div>
-    	</div>
-    	<div class="sellerOtherBoard">
-   			<h3 class="board-h">이 상품을 판매하는 셀러의 다른 상품</h3><hr class="board-hr">
-   			<div class="board-image">
-  					<div class="board-image1"><c:if test="${!empty boardDetail[0].image1}"><img class="board-img" src="resources/images/userImage/${board.id}/board/${board.title}/${boardDetail[0].image1}"></c:if></div>
-  					<div class="board-image2"><c:if test="${!empty boardDetail[0].image2}"><img class="board-img" src="resources/images/userImage/${board.id}/board/${board.title}/${boardDetail[0].image2}"></c:if></div>
-  					<div class="board-image3"><c:if test="${!empty boardDetail[0].image3}"><img class="board-img" src="resources/images/userImage/${board.id}/board/${board.title}/${boardDetail[0].image3}"></c:if></div>
-  				</div>
-   		</div>
+    	</div> 
    		<div class="similarBoard">
    			<h3 class="board-h">비슷한 셀러</h3><hr class="board-hr">
-   			<div class="board-image">
-  					<div class="board-image1"><c:if test="${!empty boardDetail[0].image1}"><img class="board-img" src="resources/images/userImage/${board.id}/board/${board.title}/${boardDetail[0].image1}"></c:if></div>
-  					<div class="board-image2"><c:if test="${!empty boardDetail[0].image2}"><img class="board-img" src="resources/images/userImage/${board.id}/board/${board.title}/${boardDetail[0].image2}"></c:if></div>
-  					<div class="board-image3"><c:if test="${!empty boardDetail[0].image3}"><img class="board-img" src="resources/images/userImage/${board.id}/board/${board.title}/${boardDetail[0].image3}"></c:if></div>
-  				</div>
-   		</div>
+   			<div class="goSimilarDiv">
+	   			<a class="similarLeft"><i class="fas fa-chevron-left"></i></a>
+	   			<div class="goSimilarBoard">
+	   			<ul class="similar-ul" id="similar-ul">
+					<c:forEach var="recommend" items="${recommendSellerList}">
+					<li class="similar-li">
+		  			<article class="box_similar">
+		  				<div class="inner_similar" data-sno="${recommend.boardnum}" memType="${recommend.membertype}" style="cursor:pointer">
+							<div class="img_border">
+		  						<div class="img_area_similar" data-sno="${recommend.recommendNum}" id="img_area${recommend.recommendNum}">
+	  								<c:if test="${!empty recommend.similarImage1}"><img class="img_area_image_similar" src="resources/images/userImage/${recommend.id}/board/${recommend.title}/${recommend.similarImage1}"></c:if>
+		  						</div>
+				    		</div>
+							<div class="info_area">
+								<h4>${recommend.title}</h4>
+							</div>
+							<div class="tag_area">
+								<h5>키워드
+								<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty recommend.similarKeyword1}"><span>#${recommend.similarKeyword1}</span></c:if></a>
+								<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty recommend.similarKeyword2}"><span>#${recommend.similarKeyword2}</span></c:if></a>
+								<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty recommend.similarKeyword3}"><span>#${recommend.similarKeyword3}</span></c:if></a>
+								<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty recommend.similarKeyword4}"><span>#${recommend.similarKeyword4}</span></c:if></a>
+								<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty recommend.similarKeyword5}"><span>#${recommend.similarKeyword5}</span></c:if></a></h5>
+							</div>
+		  				</div>
+		  			</article>
+		  			</li>
+		  			</c:forEach>
+	   			</ul>
+				</div>
+				<a class="similarRight"><i class="fas fa-chevron-right"></i></a>
+			</div> 
+   		</div> 
 	</div>
 	<div id="modal-board-qna" class="modal">
    		<div class="modal-board-qna">

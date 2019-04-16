@@ -321,8 +321,8 @@ html, body {
 	/* 메뉴바 관련 */
 	.sidenav { 
 		display:none;
-		width:35%;
-		height:517px;
+		width:300px;
+		height:354px;
 		position: fixed;
 		z-index: 3;
 		top: 40px;
@@ -332,10 +332,10 @@ html, body {
 	}
 	.sidenav a {
 		font-size: 1.4em;
-		color: #2f4f4f;
+		color: white;
 		display: block;
 		transition: 0.3s; 
-		border:solid 1px;
+		border:solid 1px black;
 	}
 	.slideBtn {
 		transition: .5s;
@@ -364,6 +364,7 @@ html, body {
 		background-color:inherit;
 		font-size:1.4em;
 		border:none;
+	    color: black;
 	}
 	.sidenav-btn{
 		width:100%;
@@ -375,20 +376,21 @@ html, body {
 	.sidenav-btn a{
 		width:25%;
 	}
+	.sidenav-menu i{
+		float:right;
+		color:white;
+	}
 	.slide-btn{
-		padding : 40px 0;
+		padding : 10px 50px;
 	}
-	.sidenav-menu a{
-		padding: 8px 8px 8px 32px;
-	}
-
+	
 	.main-content{
 		width:100%; 
 		min-height: 100%;
 	    height: auto !important;
 	    height: 100%;
 	}
-	.event, .boardDetail-image {
+	.event, .boardDetail-image{
 		display:table;
 		text-align:center; 
 		margin: 0 auto; 
@@ -396,17 +398,17 @@ html, body {
 		height:30%;
 		position:relative;
 	}
-	.event-content{
+	.event-content, .goSimilarDiv{
 		width:100%;
 		height:400px;
 		overflow:hidden;
 	}
-	.board-content-image{
+	.board-content-image, .goSimilarBoard{
 		width:100%;
 		height:300px;
 		overflow:hidden;
 	}
-	.event-ul, .board-content-image-ul{
+	.event-ul, .board-content-image-ul, .similar-ul{
 		list-style: none;
 	    width: 500%;
 	    margin: 0;
@@ -416,10 +418,10 @@ html, body {
 	.board-content-image-ul{
 		top:-100px;
 	}
-	.event-li, .board-content-image-li{
+	.event-li, .board-content-image-li, .similar-li{
 		width:100%;
 	}
-	.event-content img, .board-content-image img{
+	.event-content img, .board-content-image img, .goSimilarBoard article{
 		width: 20%; 
 		float: left;
 		height:100%;
@@ -715,7 +717,26 @@ html, body {
 	    font-weight: bold;
 	    margin-top: 20px;
 	}
-	
+	.precaution{
+		margin-bottom: 25px;
+	    margin-top: 10px;
+	    width: 100%;
+	}
+	.precautionTable{
+		width:100%;
+	}
+	.precautionTable input {
+		width:80%;
+	}
+	.precautionTable button{
+		margin: 10px;
+	}
+	.precautionTable td{
+		display:none;
+	}
+	.td-precaution5{
+		padding-top:10px;
+	}
 	
 	
 	/* The Modal (background) */
@@ -1264,6 +1285,58 @@ html, body {
 	.similarBoard, .sellerOtherBoard{
 		margin: 30px 6%;
 	}
+	.goSimilarDiv{
+		width:100%;
+		display:inline-flex;
+	}
+	.similarLeft{
+		line-height: 310px;
+	    font-size: 30px;
+	    cursor: pointer;
+	    margin-right: 10px;
+	}
+	.similarRight{
+		line-height: 310px;
+	    font-size: 30px;
+	    cursor: pointer;
+	    margin-left: 15px;
+	}
+	.goSimilarBoard{
+		height:350px;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    padding:10px;
+	}
+	.box_similar{
+		width:auto;
+		max-width: 300px;
+	    display: inline-block;	
+	    
+	}
+	.inner_similar{
+		overflow:hidden;
+		border:solid 1px #dcdcdc;
+		background-color: #fefefe;
+	    height: 300px;
+		max-height: 300px;
+	}
+	.img_area_similar{
+		transform: scale(1);
+		-webkit-transform: scale(1);
+		-moz-transform: scale(1);
+		-ms-transform: scale(1);
+		-o-transform: scale(1);
+		transition: all 0.3s ease-in-out;   /* 부드러운 모션을 위해 추가*/
+		width: 300px;
+	    height: 200px;
+	    overflow: hidden;
+	}
+	.img_area_image_similar{
+		width:300px;
+		height:200px;
+	}
+	
 	
 	/* 공고문 상세페이지 계약창 */
 	.contract-intro{

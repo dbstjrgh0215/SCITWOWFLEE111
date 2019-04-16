@@ -25,4 +25,7 @@ public interface BoardMapper {
 	public int deleteBoard(int clickNo);
 	public ArrayList<Board> searchBoard(String text);
 	public int updateBoard(Board board);
+	public ArrayList<Board> searchSpace(String text);
+	public ArrayList<Board> searchSeller(String text);
+	public ArrayList<Board> searchAnother(String text);
 }

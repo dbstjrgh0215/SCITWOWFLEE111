@@ -367,6 +367,7 @@ $(function() {
 		img();
 		contractPeriodSet();
 		insertProposal();
+		precaution();
 	}
 	
 	if($('.udtProposal').length!=0){
@@ -1134,6 +1135,14 @@ function jqueryUI(){
 	$("#btnWriteProposal").button();
 }
 
+function precaution(){
+	$('.td-precaution1').css('display','block');
+	$('.addPrecaution').on('click',function(){
+		var addNo = $(this).attr('data-sno');
+		$('.td-precaution'+addNo).css('display','block');
+	});
+}
+
 function insertProposal(){
 	$('#title').on('keyup',function(){
 		var title=$('#title').val();
@@ -1150,6 +1159,7 @@ function insertProposal(){
 			}
 		});
 	});
+	
 	$('#btnProposalWrite').on('click',function(){
 		var membertype=$('#form_membertype').val();
 		var title=$('#title').val();
@@ -1160,7 +1170,12 @@ function insertProposal(){
 			}
 		}
 		var comments=$('#comments').val();
-		var precaution=$('#precaution').val();
+		var precaution="";
+		for(var i=1; i<=5; i++){
+			if($('#precaution'+i).val!=""){
+				precaution += "&"+$('#precaution'+i).val();
+			}
+		}
 		var name = $('#name').val();
 		var type = "";
 		for(var i=1; i<=5; i++){
@@ -1978,12 +1993,12 @@ function board_image(){
 }
 
 function boardDetail(){
-	var imgs;
-	var img_count;
-	var img_position = 1;
+	var imgs3;
+	var img_count3;
+	var img_position3 = 1;
 	
-	imgs = $(".boardDetail-image ul");
-	img_count = imgs.children().length;
+	imgs3 = $(".boardDetail-image ul");
+	img_count3 = imgs3.children().length;
 	
 	$('#board-content-image-slider-left').click(function(){
 		back();
@@ -1994,20 +2009,20 @@ function boardDetail(){
 	});
 	
 	function back() {
-		if(1<img_position){
-			imgs.animate({
+		if(1<img_position3){
+			imgs3.animate({
 				left:'+=100%'
 			});
-			img_position--;
+			img_position3--;
 		}
 	}
 	
 	function next() {
-		if(img_count>img_position){
-			imgs.animate({
+		if(img_count3>img_position3){
+			imgs3.animate({
 				left:'-=100%'
 			});
-			img_position++;
+			img_position3++;
 		}
 	}
 	
@@ -2206,9 +2221,74 @@ function boardDetail(){
     	});
     });
     
+    // 비슷한 공간 상세 페이지 이동
+    $('.inner_similar').on('click',function(){
+    	var boardnum = $(this).attr('data-sno');
+    	var memberType = $(this).attr('memType');
+    	if(memberType=="셀러"){
+    		location.href="goSellerDetail?boardnum="+boardnum;
+    	} else {
+    		location.href="goSpaceDetail?boardnum="+boardnum;
+    	}
+    });
     
+    var imgs;
+	var img_count;
+	var img_position = 1;
+	
+	imgs = $("#similar-ul");
+	img_count = imgs.children().length/2;
     
-    
+	if(img_count>1){
+		$('.similarLeft').on('click',function(){
+	    	if(1<img_position){
+				imgs.animate({
+					left:'+=60%'
+				});
+				img_position--;
+			}
+	    	
+	    });
+	    
+	    $('.similarRight').on('click',function(){
+	    	if(img_count>img_position){
+				imgs.animate({
+					left:'-=60%'
+				});
+				img_position++;
+			}
+	    });
+	}
+	
+	if($('#similar-ul2').length>0){
+		var imgs2;
+		var img_count2;
+		var img_position2 = 1;
+		
+		imgs2 = $("#similar-ul2");
+		img_count2 = imgs2.children().length/2;
+	    
+		if(img_count2>1){
+			$('.similarLeft').on('click',function(){
+		    	if(1<img_position2){
+					imgs2.animate({
+						left:'+=60%'
+					});
+					img_position2--;
+				}
+		    	
+		    });
+		    
+		    $('.similarRight').on('click',function(){
+		    	if(img_count2>img_position2){
+		    		imgs2.animate({
+						left:'-=60%'
+					});
+		    		img_position2++;
+				}
+		    });
+		}
+	}
     
 	
     // 계약창

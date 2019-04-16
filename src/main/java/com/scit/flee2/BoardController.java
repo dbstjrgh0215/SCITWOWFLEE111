@@ -519,6 +519,20 @@ public class BoardController {
 				contractPeriod = contractPeriod.substring(cnt);
 			}
 		}
+		String precaution = result.getPrecaution();
+		if(precaution!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				precaution = precaution.substring(cnt+1);
+				cnt = precaution.indexOf("&");
+				if(cnt==-1) {
+					map.put("precaution"+(j+1), precaution);
+					break;
+				}
+				map.put("precaution"+(j+1), precaution.substring(0, cnt));
+				precaution = precaution.substring(cnt);
+			}
+		}
 		
 		contentDetail.add(map);
 		model.addAttribute("contentDetail", contentDetail);
@@ -1108,6 +1122,119 @@ public class BoardController {
 			}
 		}
 		
+		String keywordSimilar1 = sellerMap.get("keyword1");
+		String keywordSimilar2 = sellerMap.get("keyword2");
+		String keywordSimilar3 = sellerMap.get("keyword3");
+		ArrayList<Board> list = boardDAO.searchSeller(keywordSimilar1);
+		for(int i=0;i<list.size();i++) {
+			if(list.get(i).getBoardnum()==boardnum) {
+				list.remove(i);
+			}
+		}
+		if(!keywordSimilar2.equals("")) {
+			list.addAll(boardDAO.searchSeller(keywordSimilar2));
+			for(int i=0;i<list.size();i++) {
+				if(list.get(i).getBoardnum()==boardnum) {
+					list.remove(i);
+				}
+			}
+		} 
+		if(!keywordSimilar3.equals("")) {
+			list.addAll(boardDAO.searchSeller(keywordSimilar3));
+			for(int i=0;i<list.size();i++) {
+				if(list.get(i).getBoardnum()==boardnum) {
+					list.remove(i);
+				}
+			}
+		}
+		for(int i=0;i<list.size();i++) {
+			for(int j=i+1;j<list.size();j++) {
+				if(list.get(i).getBoardnum()==list.get(j).getBoardnum()) {
+					list.remove(j);
+				}
+			}
+		}
+		if(list.size()>9) {
+			for(int j=8;j<list.size();j++) {
+				list.remove(j);
+			}
+		}
+		
+		ArrayList<HashMap<String,String>> recommendSellerList = new ArrayList<HashMap<String,String>>();
+		
+		for(int i=0; i<list.size(); i++) {		// keyword 자르는 구문
+			HashMap<String,String> recommendMap = new HashMap<String,String>();
+			String similarKeyword = list.get(i).getKeyword();
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				similarKeyword = similarKeyword.substring(cnt+1);
+				cnt = similarKeyword.indexOf("&");
+				if(cnt==-1) {
+					break;
+				}
+				recommendMap.put("similarKeyword"+(j+1), similarKeyword.substring(0, cnt));
+				similarKeyword = similarKeyword.substring(cnt);
+			}
+			
+			String similarImage = list.get(i).getImage();
+			for(int j=0; j<3; j++) {		// image 자르는 구문
+				int cnt = 0;
+				cnt = similarImage.indexOf("&");
+				if(cnt==-1) {
+					recommendMap.put("similarImage"+(j+1), similarImage);
+					break;
+				}
+				recommendMap.put("similarImage"+(j+1), similarImage.substring(0, cnt));
+				similarImage = similarImage.substring(cnt+1);
+			}
+			recommendMap.put("recommendNum","rs"+Integer.toString(i+1));
+			recommendMap.put("id",list.get(i).getId());
+			recommendMap.put("title",list.get(i).getTitle());
+			recommendMap.put("boardnum",Integer.toString(list.get(i).getBoardnum()));
+			recommendMap.put("membertype",list.get(i).getMembertype());
+			recommendSellerList.add(recommendMap);
+		}
+		
+		
+		ArrayList<HashMap<String,String>> anotherList = new ArrayList<HashMap<String,String>>();
+		ArrayList<Board> anotherResult = boardDAO.searchAnother(board.getId());
+		for(int i=0; i<anotherResult.size(); i++) {		// keyword 자르는 구문
+			HashMap<String,String> recommendMap = new HashMap<String,String>();
+			String anotherKeyword = anotherResult.get(i).getKeyword();
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				anotherKeyword = anotherKeyword.substring(cnt+1);
+				cnt = anotherKeyword.indexOf("&");
+				if(cnt==-1) {
+					break;
+				}
+				recommendMap.put("anotherKeyword"+(j+1), anotherKeyword.substring(0, cnt));
+				anotherKeyword = anotherKeyword.substring(cnt);
+			}
+			
+			String anotherImage = anotherResult.get(i).getImage();
+			for(int j=0; j<3; j++) {		// image 자르는 구문
+				int cnt = 0;
+				cnt = anotherImage.indexOf("&");
+				if(cnt==-1) {
+					recommendMap.put("anotherImage"+(j+1), anotherImage);
+					break;
+				}
+				recommendMap.put("anotherImage"+(j+1), anotherImage.substring(0, cnt));
+				anotherImage = anotherImage.substring(cnt+1);
+			}
+			recommendMap.put("recommendNum","rs"+Integer.toString(i+1));
+			recommendMap.put("id",anotherResult.get(i).getId());
+			recommendMap.put("title",anotherResult.get(i).getTitle());
+			recommendMap.put("boardnum",Integer.toString(anotherResult.get(i).getBoardnum()));
+			recommendMap.put("membertype",anotherResult.get(i).getMembertype());
+			anotherList.add(recommendMap);
+		}
+		
+		model.addAttribute("anotherList", anotherList);
+		
+		model.addAttribute("recommendSellerList", recommendSellerList);
+		
 		boardDetail.add(sellerMap);
 		ArrayList<Qna> qnaList = boardDAO.listQna(boardnum);
 		
@@ -1210,6 +1337,81 @@ public class BoardController {
 				offday = offday.substring(cnt);
 			}
 		}
+		
+		String keywordSimilar1 = spaceMap.get("keyword1");
+		String keywordSimilar2 = spaceMap.get("keyword2");
+		String keywordSimilar3 = spaceMap.get("keyword3");
+		ArrayList<Board> list = boardDAO.searchSpace(keywordSimilar1);
+		for(int i=0;i<list.size();i++) {
+			if(list.get(i).getBoardnum()==boardnum) {
+				list.remove(i);
+			}
+		}
+		if(!keywordSimilar2.equals("")) {
+			list.addAll(boardDAO.searchSpace(keywordSimilar2));
+			for(int i=0;i<list.size();i++) {
+				if(list.get(i).getBoardnum()==boardnum) {
+					list.remove(i);
+				}
+			}
+		} 
+		if(!keywordSimilar3.equals("")) {
+			list.addAll(boardDAO.searchSpace(keywordSimilar3));
+			for(int i=0;i<list.size();i++) {
+				if(list.get(i).getBoardnum()==boardnum) {
+					list.remove(i);
+				}
+			}
+		}
+		for(int i=0;i<list.size();i++) {
+			for(int j=i+1;j<list.size();j++) {
+				if(list.get(i).getBoardnum()==list.get(j).getBoardnum()) {
+					list.remove(j);
+				}
+			}
+		}
+		if(list.size()>9) {
+			for(int j=8;j<list.size();j++) {
+				list.remove(j);
+			}
+		}
+		
+		ArrayList<HashMap<String,String>> recommendSpaceList = new ArrayList<HashMap<String,String>>();
+		
+		for(int i=0; i<list.size(); i++) {		// keyword 자르는 구문
+			HashMap<String,String> recommendMap = new HashMap<String,String>();
+			String similarKeyword = list.get(i).getKeyword();
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				similarKeyword = similarKeyword.substring(cnt+1);
+				cnt = similarKeyword.indexOf("&");
+				if(cnt==-1) {
+					break;
+				}
+				recommendMap.put("similarKeyword"+(j+1), similarKeyword.substring(0, cnt));
+				similarKeyword = similarKeyword.substring(cnt);
+			}
+			
+			String similarImage = list.get(i).getImage();
+			for(int j=0; j<3; j++) {		// image 자르는 구문
+				int cnt = 0;
+				cnt = similarImage.indexOf("&");
+				if(cnt==-1) {
+					recommendMap.put("similarImage"+(j+1), similarImage);
+					break;
+				}
+				recommendMap.put("similarImage"+(j+1), similarImage.substring(0, cnt));
+				similarImage = similarImage.substring(cnt+1);
+			}
+			recommendMap.put("recommendNum","rs"+Integer.toString(i+1));
+			recommendMap.put("id",list.get(i).getId());
+			recommendMap.put("title",list.get(i).getTitle());
+			recommendMap.put("boardnum",Integer.toString(list.get(i).getBoardnum()));
+			recommendMap.put("membertype",list.get(i).getMembertype());
+			recommendSpaceList.add(recommendMap);
+		}
+		
+		model.addAttribute("recommendSpaceList", recommendSpaceList);
 		
 		boardDetail.add(spaceMap);
 		ArrayList<Qna> qnaList = boardDAO.listQna(boardnum);

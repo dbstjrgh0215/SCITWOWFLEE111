@@ -214,4 +214,40 @@
 		OR
 		NAME LIKE '%'||SUBSTR(#{text},2)||'%'
 	</select>
+	
+	<select id="searchSpace" parameterType="String" resultType="Board">
+	SELECT
+	*
+	FROM WOW_BOARD
+	WHERE
+		MEMBERTYPE = '공간제공자'
+		AND
+		KEYWORD LIKE '%'||#{text}||'%'
+		OR
+		MEMBERTYPE = '공간제공자'
+		AND
+		NAME LIKE '%'||SUBSTR(#{text},2)||'%'
+	</select>
+	
+	<select id="searchSeller" parameterType="String" resultType="Board">
+	SELECT
+	*
+	FROM WOW_BOARD
+	WHERE
+		MEMBERTYPE = '셀러'
+		AND
+		KEYWORD LIKE '%'||#{text}||'%'
+		OR
+		MEMBERTYPE = '셀러'
+		AND
+		NAME LIKE '%'||SUBSTR(#{text},2)||'%'
+	</select>
+	
+	<select id="searchAnother" parameterType="String" resultType="Board">
+	SELECT
+	*
+	FROM WOW_BOARD
+	WHERE
+		ID=#{id}
+	</select>
 </mapper>
