@@ -381,6 +381,7 @@ $(function() {
 		img();
 		contractPeriodSet();
 		proposal();
+		precaution();
 	}
 	
 	if($('#btnRegistBoard').length!=0){
@@ -397,6 +398,7 @@ $(function() {
 		img();
 		contractPeriodSet();
 		userBoard();
+		precaution();
 	}
 	
 	if($('#btnBoardUpdate').length!=0){
@@ -406,6 +408,7 @@ $(function() {
 		img();
 		contractPeriodSet();
 		userBoard();
+		precaution();
 	}
 	
 	if($('#contract-online').length!=0){
@@ -1136,6 +1139,11 @@ function jqueryUI(){
 }
 
 function precaution(){
+	for(var i=1; i<=5; i++){
+		if($('#precaution'+i).val()!=""){
+			$('.td-precaution'+i).css('display','block');
+		}
+	}
 	$('.td-precaution1').css('display','block');
 	$('.addPrecaution').on('click',function(){
 		var addNo = $(this).attr('data-sno');
@@ -1197,6 +1205,12 @@ function insertProposal(){
 				optime += "&"+$('#optime'+i).val();
 			}
 		}
+		var offday = "";
+		for(var i=1; i<=7; i++){
+			if($('#offdayContent'+i).val!=""){
+				offday += "&"+$('#offdayContent'+i).val();
+			}
+		}
 		var scale = $('#scale').val();
 
 		$('#form_title').val(title);
@@ -1217,6 +1231,9 @@ function insertProposal(){
 		}
 		if(scale!=null){
 			$('#form_scale').val(scale);
+		}
+		if(offday!=null){
+			$('#form_offday').val(offday);
 		}
 				
 	});
@@ -1369,17 +1386,22 @@ function userBoard(){
 			}
 		}
 		var comments=$('#comments').val();
-		var precaution=$('#precaution').val();
+		var precaution="";
+		for(var i=1; i<=5; i++){
+			if($('#precaution'+i).val!=""){
+				precaution += "&"+$('#precaution'+i).val();
+			}
+		}
 		var contractPeriod = "";
 		for(var i=1; i<=7; i++){
 			if($('#contractPeriod'+i).val!=""){
-				optime += "&"+$('#contractPeriod'+i).val();
+				contractPeriod += "&"+$('#contractPeriod'+i).val();
 			}
 		}
 		var offday = "";
 		for(var i=1; i<=7; i++){
 			if($('#offdayContent'+i).val!=""){
-				keyword += "&"+$('#offdayContent'+i).val();
+				offday += "&"+$('#offdayContent'+i).val();
 			}
 		}
 		if(membertype=='셀러'){
@@ -1579,6 +1601,17 @@ function contractPeriodSet(){
 function offdaySet(){
 	offdayFilter();
 	
+	for(var a=1; a<=7;a++){
+		if($('#offdayContent'+a).val()!=""){
+			for(var b=1; b<=7; b++){
+				if($('#offday'+b).text().substring(1)==$('#offdayContent'+a).val()){
+					$('#offday'+b).css('color','#F05E22');
+					$('#offday-icon'+b).css('color','#F05E22');
+				}
+			}
+		}
+	}
+	
 	function offdayFilter(){
 		$(".offday-a").on('click',function(){
 			var clickNo = $(this).attr('data-sno');
@@ -1587,7 +1620,7 @@ function offdaySet(){
 				$('#offday'+clickNo).css('color','gray');
 				$('#offday-icon'+clickNo).css('color','gray');
 				var offday = $('#offday'+clickNo).text();
-				$('#selectedoffday'+clickNo).remove();
+				$('#offdayContent'+clickNo).remove();
 				var offday = $('#offday'+clickNo).text();
 				for(var a=1; a<=5;a++){
 					if($('#offdayContent'+a).val()==offday.substring(1)){

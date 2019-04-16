@@ -411,6 +411,20 @@ public class BoardController {
 				contractPeriod = contractPeriod.substring(cnt);
 			}
 		}
+		String precaution = result.getPrecaution();
+		if(precaution!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				precaution = precaution.substring(cnt+1);
+				cnt = precaution.indexOf("&");
+				if(cnt==-1) {
+					map.put("precaution"+(j+1), precaution);
+					break;
+				}
+				map.put("precaution"+(j+1), precaution.substring(0, cnt));
+				precaution = precaution.substring(cnt);
+			}
+		}
 		
 		contentDetail.add(map);
 		model.addAttribute("contentDetail", contentDetail);
@@ -620,6 +634,34 @@ public class BoardController {
 				}
 				map.put("contractPeriod"+(j+1), contractPeriod.substring(0, cnt));
 				contractPeriod = contractPeriod.substring(cnt);
+			}
+		}
+		String offday = result.getOffday();
+		if(offday!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				offday = offday.substring(cnt+1);
+				cnt = offday.indexOf("&");
+				if(cnt==-1) {
+					map.put("offday"+(j+1), offday);
+					break;
+				}
+				map.put("offday"+(j+1), offday.substring(0, cnt));
+				offday = offday.substring(cnt);
+			}
+		}
+		String precaution = result.getPrecaution();
+		if(precaution!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				precaution = precaution.substring(cnt+1);
+				cnt = precaution.indexOf("&");
+				if(cnt==-1) {
+					map.put("precaution"+(j+1), precaution);
+					break;
+				}
+				map.put("precaution"+(j+1), precaution.substring(0, cnt));
+				precaution = precaution.substring(cnt);
 			}
 		}
 		
@@ -1104,9 +1146,6 @@ public class BoardController {
 				contractPeriod = contractPeriod.substring(cnt);
 			}
 		}
-		
-		
-		
 		String offday = board.getOffday();
 		if(offday!=null) {
 			for(int j=0; j<5; j++) {
@@ -1119,6 +1158,20 @@ public class BoardController {
 				}
 				sellerMap.put("offday"+(j+1), offday.substring(0, cnt));
 				offday = offday.substring(cnt);
+			}
+		}
+		String precaution = board.getPrecaution();
+		if(precaution!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				precaution = precaution.substring(cnt+1);
+				cnt = precaution.indexOf("&");
+				if(cnt==-1) {
+					sellerMap.put("precaution"+(j+1), precaution);
+					break;
+				}
+				sellerMap.put("precaution"+(j+1), precaution.substring(0, cnt));
+				precaution = precaution.substring(cnt);
 			}
 		}
 		
@@ -1335,6 +1388,20 @@ public class BoardController {
 				}
 				spaceMap.put("offday"+(j+1), offday.substring(0, cnt));
 				offday = offday.substring(cnt);
+			}
+		}
+		String precaution = board.getPrecaution();
+		if(precaution!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				precaution = precaution.substring(cnt+1);
+				cnt = precaution.indexOf("&");
+				if(cnt==-1) {
+					spaceMap.put("precaution"+(j+1), precaution);
+					break;
+				}
+				spaceMap.put("precaution"+(j+1), precaution.substring(0, cnt));
+				precaution = precaution.substring(cnt);
 			}
 		}
 		

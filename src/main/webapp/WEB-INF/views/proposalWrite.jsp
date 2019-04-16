@@ -186,10 +186,10 @@
 			        <h5>사진파일은 3개까지 등록가능합니다.</h5>
 			    </div>
 				<h4>운영시간</h4><br>
-				<select id="optime1"><option selected>오전</option><option>오후</option></select>
-				<select id="optime2"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option selected>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select>시 ~ 
-				<select id="optime3"><option>오전</option><option selected>오후</option></select>
-				<select id="optime4"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option selected>10</option><option>11</option><option>12</option></select>시<br>
+				<select id="optime1"><option <c:if test="${contentDetail[0].optime1=='오전'}">selected</c:if>>오전</option><option> <c:if test="${contentDetail[0].optime1=='오후'}">selected</c:if>오후</option></select>
+				<select id="optime2"><option <c:if test="${contentDetail[0].optime2==1}">selected</c:if>>1</option><option <c:if test="${contentDetail[0].optime2==2}">selected</c:if>>2</option><option <c:if test="${contentDetail[0].optime2==3}">selected</c:if>>3</option><option <c:if test="${contentDetail[0].optime2==4}">selected</c:if>>4</option><option <c:if test="${contentDetail[0].optime2==5}">selected</c:if>>5</option><option <c:if test="${contentDetail[0].optime2==6}">selected</c:if>>6</option><option <c:if test="${contentDetail[0].optime2==7}">selected</c:if>>7</option><option <c:if test="${contentDetail[0].optime2==8}">selected</c:if>>8</option><option <c:if test="${contentDetail[0].optime2==9}">selected</c:if>>9</option><option <c:if test="${contentDetail[0].optime2==10}">selected</c:if>>10</option><option <c:if test="${contentDetail[0].optime2==11}">selected</c:if>>11</option><option <c:if test="${contentDetail[0].optime2==12}">selected</c:if>>12</option></select>시 ~ 
+				<select id="optime3"><option <c:if test="${contentDetail[0].optime3=='오전'}">selected</c:if>>오전</option><option <c:if test="${contentDetail[0].optime3=='오후'}">selected</c:if>>오후</option></select>
+				<select id="optime4"><option <c:if test="${contentDetail[0].optime4==1}">selected</c:if>>1</option><option <c:if test="${contentDetail[0].optime4==2}">selected</c:if>>2</option><option <c:if test="${contentDetail[0].optime4==3}">selected</c:if>>3</option><option <c:if test="${contentDetail[0].optime4==4}">selected</c:if>>4</option><option <c:if test="${contentDetail[0].optime4==5}">selected</c:if>>5</option><option <c:if test="${contentDetail[0].optime4==6}">selected</c:if>>6</option><option <c:if test="${contentDetail[0].optime4==7}">selected</c:if>>7</option><option <c:if test="${contentDetail[0].optime4==8}">selected</c:if>>8</option><option <c:if test="${contentDetail[0].optime4==9}">selected</c:if>>9</option><option <c:if test="${contentDetail[0].optime4==10}">selected</c:if>>10</option><option <c:if test="${contentDetail[0].optime4==11}">selected</c:if>>11</option><option <c:if test="${contentDetail[0].optime4==12}">selected</c:if>>12</option></select>시<br>
 				<h4>규모</h4><br>
 				<span class="inputNorm"><input type="number" id="scale" step="any" value="${udtProposal.scale}"></span><br>
 				<h4>휴무일</h4><font>휴무일이 없는 경우 선택하지 않음</font><br>
@@ -228,8 +228,36 @@
 					<input type="hidden" id="contractPeriodContent3" value="${contentDetail[0].contractPeriod3}"><input type="hidden" id="contractPeriodContent5" value="${contentDetail[0].contractPeriod5}">
 					<input type="hidden" id="contractPeriodContent6" value="${contentDetail[0].contractPeriod6}"><input type="hidden" id="contractPeriodContent7" value="${contentDetail[0].contractPeriod7}">
 				</div>
-				<br><h4>주의사항</h4><br>
-				<textarea rows="10" cols="100" id="precaution">${udtProposal.precaution}</textarea><br>
+				<br><h4>주의사항</h4>
+				<div class="precaution">
+				<table class="precautionTable">
+				<tr>
+					<td class="td-precaution1">
+					<span class="inputNorm">1. <input type="text" id="precaution1" placeholder="한개이상 작성해야합니다." value="${contentDetail[0].precaution1}"></span><button class="addPrecaution" data-sno="2" type="button">추가</button>
+					</td>
+				</tr>
+				<tr>
+					<td class="td-precaution2">
+					<span class="inputNorm">2. <input type="text" id="precaution2" value="${contentDetail[0].precaution2}"></span><button class="addPrecaution" data-sno="3" type="button">추가</button>
+					</td>
+				</tr>
+				<tr>
+					<td class="td-precaution3">
+					<span class="inputNorm">3. <input type="text" id="precaution3" value="${contentDetail[0].precaution3}"></span><button class="addPrecaution" data-sno="4" type="button">추가</button>
+					</td>
+				</tr>
+				<tr>
+					<td class="td-precaution4">
+					<span class="inputNorm">4. <input type="text" id="precaution4" value="${contentDetail[0].precaution4}"></span><button class="addPrecaution" data-sno="5" type="button">추가</button>
+					</td>
+				</tr>
+				<tr>
+					<td class="td-precaution5">
+					<span class="inputNorm">5. <input type="text" id="precaution5" value="${contentDetail[0].precaution5}"></span>
+					</td>
+				</tr>
+				</table>
+				</div>
 				</c:if>
 				<c:if test="${sessionMember.membertype=='셀러'}">
 				<h4>셀러이름</h4><br>
@@ -305,27 +333,27 @@
 				<table class="precautionTable">
 				<tr>
 					<td class="td-precaution1">
-					<span class="inputNorm">1. <input type="text" id="precaution1" placeholder="한개이상 작성해야합니다."></span><button class="addPrecaution" data-sno="2" type="button">추가</button>
+					<span class="inputNorm">1. <input type="text" id="precaution1" placeholder="한개이상 작성해야합니다." value="${contentDetail[0].precaution1}"></span><button class="addPrecaution" data-sno="2" type="button">추가</button>
 					</td>
 				</tr>
 				<tr>
 					<td class="td-precaution2">
-					<span class="inputNorm">2. <input type="text" id="precaution2"></span><button class="addPrecaution" data-sno="3" type="button">추가</button>
+					<span class="inputNorm">2. <input type="text" id="precaution2" value="${contentDetail[0].precaution2}"></span><button class="addPrecaution" data-sno="3" type="button">추가</button>
 					</td>
 				</tr>
 				<tr>
 					<td class="td-precaution3">
-					<span class="inputNorm">3. <input type="text" id="precaution3"></span><button class="addPrecaution" data-sno="4" type="button">추가</button>
+					<span class="inputNorm">3. <input type="text" id="precaution3" value="${contentDetail[0].precaution3}"></span><button class="addPrecaution" data-sno="4" type="button">추가</button>
 					</td>
 				</tr>
 				<tr>
 					<td class="td-precaution4">
-					<span class="inputNorm">4. <input type="text" id="precaution4"></span><button class="addPrecaution" data-sno="5" type="button">추가</button>
+					<span class="inputNorm">4. <input type="text" id="precaution4" value="${contentDetail[0].precaution4}"></span><button class="addPrecaution" data-sno="5" type="button">추가</button>
 					</td>
 				</tr>
 				<tr>
 					<td class="td-precaution5">
-					<span class="inputNorm">5. <input type="text" id="precaution5"></span>
+					<span class="inputNorm">5. <input type="text" id="precaution5" value="${contentDetail[0].precaution5}"></span>
 					</td>
 				</tr>
 				</table>

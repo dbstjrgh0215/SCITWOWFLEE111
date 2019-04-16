@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>제안서 작성</title>
+<title>공고문 작성</title>
 	<link rel="stylesheet" href="resources/jqueryui/jquery-ui.css">
 	<link rel="stylesheet" href="resources/css/wow-css.css"> 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -228,8 +228,36 @@
 		<input type="hidden" id="contractPeriodContent3" value="${contentDetail[0].contractPeriod3}"><input type="hidden" id="contractPeriodContent5" value="${contentDetail[0].contractPeriod5}">
 		<input type="hidden" id="contractPeriodContent6" value="${contentDetail[0].contractPeriod6}"><input type="hidden" id="contractPeriodContent7" value="${contentDetail[0].contractPeriod7}">
 	</div>
-	<br><h4>주의사항</h4><br>
-	<textarea rows="10" cols="100" id="precaution">${selectProposal.precaution}${selectBoard.precaution}</textarea><br>
+	<br><h4>주의사항</h4>
+	<div class="precaution">
+		<table class="precautionTable">
+		<tr>
+			<td class="td-precaution1">
+			<span class="inputNorm">1. <input type="text" id="precaution1" placeholder="한개이상 작성해야합니다." value="${contentDetail[0].precaution1}"></span><button class="addPrecaution" data-sno="2" type="button">추가</button>
+			</td>
+		</tr>
+		<tr>
+			<td class="td-precaution2">
+			<span class="inputNorm">2. <input type="text" id="precaution2" value="${contentDetail[0].precaution2}"></span><button class="addPrecaution" data-sno="3" type="button">추가</button>
+			</td>
+		</tr>
+		<tr>
+			<td class="td-precaution3">
+			<span class="inputNorm">3. <input type="text" id="precaution3" value="${contentDetail[0].precaution3}"></span><button class="addPrecaution" data-sno="4" type="button">추가</button>
+			</td>
+		</tr>
+		<tr>
+			<td class="td-precaution4">
+			<span class="inputNorm">4. <input type="text" id="precaution4" value="${contentDetail[0].precaution4}"></span><button class="addPrecaution" data-sno="5" type="button">추가</button>
+			</td>
+		</tr>
+		<tr>
+			<td class="td-precaution5">
+			<span class="inputNorm">5. <input type="text" id="precaution5" value="${contentDetail[0].precaution5}"></span>
+			</td>
+		</tr>
+		</table>
+	</div>
 	</c:if>
 	<c:if test="${selectProposal.membertype=='셀러'||selectBoard.membertype=='셀러'}">
 	<h4>셀러이름</h4><br>
@@ -307,8 +335,36 @@
 		<input type="hidden" id="contractPeriodContent3" value="${contentDetail[0].contractPeriod3}"><input type="hidden" id="contractPeriodContent5" value="${contentDetail[0].contractPeriod5}">
 		<input type="hidden" id="contractPeriodContent6" value="${contentDetail[0].contractPeriod6}"><input type="hidden" id="contractPeriodContent7" value="${contentDetail[0].contractPeriod7}">
 	</div>
-	<br><h4>주의사항</h4><br>
-	<textarea rows="10" cols="100" id="precaution">${selectProposal.precaution}${selectBoard.precaution}</textarea><br>
+	<br><h4>주의사항</h4>
+	<div class="precaution">
+		<table class="precautionTable">
+		<tr>
+			<td class="td-precaution1">
+			<span class="inputNorm">1. <input type="text" id="precaution1" placeholder="한개이상 작성해야합니다." value="${contentDetail[0].precaution1}"></span><button class="addPrecaution" data-sno="2" type="button">추가</button>
+			</td>
+		</tr>
+		<tr>
+			<td class="td-precaution2">
+			<span class="inputNorm">2. <input type="text" id="precaution2" value="${contentDetail[0].precaution2}"></span><button class="addPrecaution" data-sno="3" type="button">추가</button>
+			</td>
+		</tr>
+		<tr>
+			<td class="td-precaution3">
+			<span class="inputNorm">3. <input type="text" id="precaution3" value="${contentDetail[0].precaution3}"></span><button class="addPrecaution" data-sno="4" type="button">추가</button>
+			</td>
+		</tr>
+		<tr>
+			<td class="td-precaution4">
+			<span class="inputNorm">4. <input type="text" id="precaution4" value="${contentDetail[0].precaution4}"></span><button class="addPrecaution" data-sno="5" type="button">추가</button>
+			</td>
+		</tr>
+		<tr>
+			<td class="td-precaution5">
+			<span class="inputNorm">5. <input type="text" id="precaution5" value="${contentDetail[0].precaution5}"></span>
+			</td>
+		</tr>
+		</table>
+		</div>
 	</c:if>
 	<c:if test="${!empty selectProposal}">
 	<button class="btnBoardWrite" id="btnBoardWrite">등록</button>

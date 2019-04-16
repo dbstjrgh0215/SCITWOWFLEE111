@@ -246,7 +246,11 @@
 				</tr>
 				<tr>
 					<td class="td-1"><h4>주의사항</h4></td>
-					<td class="td-2"><h4>${udtProposal.precaution}</h4></td>
+					<td class="td-2"><h4>1. ${contentDetail[0].precaution1}</h4> 
+					<c:if test="${!empty contentDetail[0].precaution2}"><h4>2. ${contentDetail[0].precaution2}</h4></c:if>
+					<c:if test="${!empty contentDetail[0].precaution3}"><h4>3. ${contentDetail[0].precaution3}</h4></c:if>
+					<c:if test="${!empty contentDetail[0].precaution4}"><h4>4. ${contentDetail[0].precaution4}</h4></c:if>
+					<c:if test="${!empty contentDetail[0].precaution5}"><h4>5. ${contentDetail[0].precaution5}</h4></c:if></td>
 				</tr>
 				</table><hr>
 				</div>

@@ -187,7 +187,28 @@
     			</div>
     			<div class="board-precaution">
     				<h3 class="board-h">계약시 주의사항</h3><hr class="board-hr">
-	    			<p class="board-comments">${board.precaution}</p>
+	    			<table>
+	    				<c:if test="${!empty boardDetail[0].precaution1}"><tr>
+	    					<td>1. </td>
+	    					<td>${boardDetail[0].precaution1}</td>
+	    				</tr></c:if>
+	    				<c:if test="${!empty boardDetail[0].precaution2}"><tr>
+	    					<td>2. </td>
+	    					<td>${boardDetail[0].precaution2}</td>
+	    				</tr></c:if>
+	    				<c:if test="${!empty boardDetail[0].precaution3}"><tr>
+	    					<td>3. </td>
+	    					<td>${boardDetail[0].precaution3}</td>
+	    				</tr></c:if>
+	    				<c:if test="${!empty boardDetail[0].precaution4}"><tr>
+	    					<td>4. </td>
+	    					<td>${boardDetail[0].precaution4}</td>
+	    				</tr></c:if>
+    					<c:if test="${!empty boardDetail[0].precaution5}"><tr>
+    						<td>5. </td>
+    						<td>${boardDetail[0].precaution5}</td>
+   						</tr></c:if>
+    				</table>
     			</div>
     			<div class="board-map">
     				<h3 class="board-h">공간위치</h3><hr class="board-hr">
