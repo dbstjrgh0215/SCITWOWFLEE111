@@ -98,20 +98,20 @@
 	<insert id="insertBoard" parameterType="Board">
 	INSERT INTO WOW_BOARD
 	<if test="membertype=='셀러'">
-	(BOARDNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, CONTRACTPERIOD, PRICE, STOCK)
+	(BOARDNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, CONTRACTPERIOD, PRICE, STOCK, CURRENTS)
 	VALUES
-	(WOW_BOARD_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{precaution}, #{name}, #{type}, #{contractperiod}, #{price}, #{stock})
+	(WOW_BOARD_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{precaution}, #{name}, #{type}, #{contractperiod}, #{price}, #{stock}, 1)
 	</if>
 	<if test="membertype=='공간제공자'">
-	(BOARDNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, OPTIME, OFFDAY, CONTRACTPERIOD, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE)
+	(BOARDNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, OPTIME, OFFDAY, CONTRACTPERIOD, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE, CURRENTS)
 	VALUES
-	(WOW_BOARD_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{precaution}, #{name}, #{type}, #{optime}, #{offday}, #{contractperiod}, #{scale}, #{spaceaddr1}, #{spaceaddr2}, #{latitude}, #{longitude})
+	(WOW_BOARD_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{precaution}, #{name}, #{type}, #{optime}, #{offday}, #{contractperiod}, #{scale}, #{spaceaddr1}, #{spaceaddr2}, #{latitude}, #{longitude}, 1)
 	</if>
 	</insert>
 	
 	<select id="listUserBoard" parameterType="Member" resultType="Board">
 	SELECT
-	BOARDNUM, ID, TITLE, IMAGE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, PRICE, STOCK, OPTIME, OFFDAY, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE, RECOMMEND
+	BOARDNUM, ID, TITLE, IMAGE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, CONTRACTPERIOD, PRICE, STOCK, OPTIME, OFFDAY, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE, RECOMMEND, CURRENTS, COUNT, ZZIMCOUNT, QNACOUNT 
 	FROM WOW_BOARD
 	WHERE ID=#{id}
 	ORDER BY BOARDNUM DESC
@@ -119,7 +119,7 @@
 	
 	<select id="listBoard" parameterType="String" resultType="Board">
 	SELECT
-	BOARDNUM, ID, TITLE, IMAGE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, PRICE, STOCK, OPTIME, OFFDAY, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE, RECOMMEND
+	BOARDNUM, ID, TITLE, IMAGE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, CONTRACTPERIOD, PRICE, STOCK, OPTIME, OFFDAY, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE, RECOMMEND, CURRENTS, COUNT, ZZIMCOUNT, QNACOUNT
 	FROM WOW_BOARD
 	WHERE MEMBERTYPE=#{membertype}
 	ORDER BY BOARDNUM DESC
@@ -127,7 +127,7 @@
 	
 	<select id="selectBoard" parameterType="Integer" resultType="Board">
 	SELECT
-	*
+	BOARDNUM, ID, TITLE, IMAGE, TO_CHAR(INDATE,'YYYY-MM-DD') AS INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, CONTRACTPERIOD, PRICE, STOCK, OPTIME, OFFDAY, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE, RECOMMEND, CURRENTS, COUNT, ZZIMCOUNT, QNACOUNT
 	FROM WOW_BOARD
 	WHERE BOARDNUM=#{boardnum}
 	</select>
@@ -171,6 +171,24 @@
 		BOARDNUM = #{boardnum}
 	</update>
 	
+	<update id="updateCnt" parameterType="Integer">
+	UPDATE WOW_BOARD
+	SET COUNT = COUNT+1
+	WHERE BOARDNUM=#{boardnum}
+	</update>
+	
+	<update id="updateCntZzim" parameterType="HashMap">
+	UPDATE WOW_BOARD
+	SET ZZIMCOUNT = ZZIMCOUNT+#{updown}
+	WHERE BOARDNUM=#{boardnum}
+	</update>
+	
+	<update id="updateCntQna" parameterType="HashMap">
+	UPDATE WOW_BOARD
+	SET QNACOUNT = QNACOUNT+#{updown}
+	WHERE BOARDNUM=#{boardnum}
+	</update>
+	
 	<delete id="deleteBoard" parameterType="Integer">
 	DELETE
 	FROM WOW_BOARD
@@ -196,6 +214,10 @@
 	FROM WOW_BOARD_QNA
 	WHERE BOARDNUM=#{boardnum}
 	ORDER BY QNANUM DESC
+	</select>
+	
+	<select id="countQna" parameterType="Integer" resultType="Integer">
+	select count(*) from wow_board_qna where boardnum=#{boardnum}
 	</select>
 	
 	<select id="goQnaDetail" parameterType="Integer" resultType="Qna">
@@ -249,5 +271,170 @@
 	FROM WOW_BOARD
 	WHERE
 		ID=#{id}
+	</select>
+	
+	<select id="searchPopular" resultType="Board">
+	SELECT
+	*
+	FROM WOW_BOARD
+	WHERE COUNT>10
+	</select>
+	
+	<insert id="insertRequest" parameterType="Request">
+	INSERT INTO WOW_CONTRACT_REQUEST
+	(REQUESTNUM, ID, NICKNAME, BOARDNUM, <if test="proposalnum!=null">PROPOSALNUM,</if> CONTRACTPERIOD, REQUESTDATE)
+	VALUES
+	(WOW_CONTRACT_REQUEST_SEQ.NEXTVAL, #{id}, (SELECT NICKNAME FROM WOW_MEMBERINFO WHERE ID=#{id}), #{boardnum}, <if test="proposalnum!=null">#{proposalnum},</if> #{contractperiod}, SYSDATE)
+	</insert>
+	
+	<select id="listRequest" parameterType="Integer" resultType="Request">
+	SELECT
+	*
+	FROM
+	WOW_CONTRACT_REQUEST
+	WHERE
+	BOARDNUM=#{boardnum}
+	ORDER BY REQUESTNUM DESC
+	</select>
+	
+	<select id="myRequest" parameterType="String" resultType="Request">
+	SELECT
+	REQUESTNUM, ID, BOARDNUM, PROPOSALNUM, CONTRACTPERIOD, APPROVAL, TO_CHAR(REQUESTDATE,'YYYY-MM-DD') AS REQUESTDATE, TO_CHAR(APPROVALDATE,'YYYY-MM-DD') AS APPROVALDATE
+	FROM
+	WOW_CONTRACT_REQUEST
+	WHERE
+	ID=#{id}
+	ORDER BY REQUESTNUM DESC
+	</select>
+	
+	<update id="clickApproval" parameterType="HashMap">
+	UPDATE WOW_CONTRACT_REQUEST
+	SET 
+	<if test="select=='승인'">
+	APPROVAL = '1',
+	</if>
+	<if test="select=='거절'">
+	APPROVAL = '0',
+	</if>
+	APPROVALDATE = SYSDATE
+	WHERE
+	REQUESTNUM = #{requestnum}
+	</update>
+	
+	<select id="countApproval" parameterType="Integer" resultType="Integer">
+	select count(*) from wow_contract_request where boardnum=#{boardnum} and approval is null
+	</select>
+	
+	<insert id="insertZzim" parameterType="Zzim">
+		INSERT INTO WOW_ZZIMLIST
+		(ZZIMNO,ID,BOARDNUM,ZZIMDATE)
+		VALUES
+		(WOW_ZZIMLIST_SEQ.NEXTVAL,#{id},#{boardnum},SYSDATE)
+	</insert>
+	
+	<select id="countZzim" parameterType="Integer" resultType="Integer">
+	select count(*) from wow_zzimlist where boardnum=#{boardnum}
+	</select>
+	
+	<delete id="deleteZzim" parameterType="Zzim">
+	DELETE FROM WOW_ZZIMLIST
+	WHERE ID=#{id} AND BOARDNUM=#{boardnum}
+	</delete>
+	
+	<select id="checkZzim" parameterType="Zzim" resultType="Zzim">
+	SELECT * FROM WOW_ZZIMLIST
+	WHERE ID=#{id} AND BOARDNUM=#{boardnum}
+	</select>
+	
+	<select id="zzimList" parameterType="String" resultType="Integer">
+	SELECT BOARDNUM FROM WOW_ZZIMLIST
+	WHERE ID=#{id}
+	ORDER BY BOARDNUM DESC
+	</select>
+	
+	<insert id="insertNotice" parameterType="Notice">
+	INSERT INTO WOW_NOTICE
+	(NOTICENUM, ID, RECEIVEID, MESSAGE, INDATE, CONFIRM, GO)
+	VALUES
+	(WOW_NOTICE_SEQ.NEXTVAL, #{id}, #{receiveid}, #{message}, SYSDATE, #{confirm}, #{go})
+	</insert>
+	
+	<insert id="insertContract" parameterType="Contract">
+	INSERT INTO WOW_CONTRACTINFO
+	(CONTRACTNUM, SELLERID, SPACERID, STATE, CONTRACTPERIOD, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE, SPACETYPE, SELLERTYPE)
+	VALUES
+	(WOW_CONTRACTINFO_SEQ.NEXTVAL, #{sellerId}, #{spacerId}, '1', #{contractPeriod}, #{spaceaddr1}, #{spaceaddr2}, #{latitude}, #{longitude}, #{spaceType}, #{sellerType})
+	</insert>
+	
+	<select id="listContract" parameterType="String" resultType="Contract">
+	SELECT
+	CONTRACTNUM, SELLERID, SPACERID, STATE, STOCKCOUNT, SOLDCOUNT, ORDERCOUNT, SALES, TO_CHAR(STARTDATE,'YYYY-MM-DD') AS STARTDATE, TO_CHAR(ENDDATE,'YYYY-MM-DD') AS ENDDATE, CONTRACTPERIOD, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE, SPACETYPE, SELLERTYPE
+	FROM WOW_CONTRACTINFO
+	WHERE SELLERID=#{id} OR SPACERID=#{id}
+	</select>
+	
+	<update id="updateContract" parameterType="Contract">
+	UPDATE
+	WOW_CONTRACTINFO
+	SET
+	STATE = 1
+	<if test="stockCount!=0">, STOCKCOUNT=#{stockCount}</if>
+	<if test="soldCount!=0">, SOLDCOUNT=#{soldCount}</if>
+	<if test="orderCount!=0">, ORDERCOUNT=#{orderCount}</if>
+	<if test="sales!=0">, SALES=#{sales}</if>
+	WHERE CONTRACTNUM=#{contractnum}
+	</update>
+	
+	<update id="startContract" parameterType="Contract">
+	UPDATE
+	WOW_CONTRACTINFO
+	SET
+	STARTDATE = SYSDATE,
+	ENDDATE = SYSDATE+#{endDate}
+	WHERE CONTRACTNUM=#{contractnum}
+	</update>
+	
+	<select id="searchNickName" parameterType="String" resultType="String">
+	SELECT
+	NICKNAME
+	FROM WOW_MEMBERINFO
+	WHERE ID=#{id}
+	</select>
+	
+	<select id="countContract" parameterType="String" resultType="Integer">
+	select count(*) from wow_contractinfo where sellerid=#{id} or spacerid=#{id} and state=1
+	</select>
+	
+	<select id="selectContract" parameterType="Integer" resultType="Contract">
+	SELECT * FROM WOW_CONTRACTINFO
+	WHERE CONTRACTNUM=#{contractnum}
+	</select>
+	
+	<select id="selectSellerInfo" parameterType="String" resultType="Seller">
+	SELECT * FROM WOW_SELLERINFO
+	WHERE ID=#{id}
+	</select>
+	
+	<select id="selectSpaceInfo" parameterType="String" resultType="Space">
+	SELECT * FROM WOW_SPACEINFO
+	WHERE ID=#{id}
+	</select>
+	
+	<select id="selectProductInfo" parameterType="Integer" resultType="Product">
+	SELECT * FROM WOW_PRODUCTINFO
+	WHERE SELLERNUM=#{sellernum}
+	</select>
+	
+	<insert id="insertHanasi" parameterType="Hanasi">
+	INSERT INTO WOW_CONTRACTHANASI
+	(HANASINUM, CONTRACTNUM, SENDID, RECEIVEID, SENDNICKNAME, RECEIVENICKNAME, MESSAGE, INDATE)
+	VALUES
+	(WOW_CONTRACTHANASI_SEQ.NEXTVAL, #{contractnum}, #{sendId}, #{receiveId}, #{sendNickname}, #{receiveNickname}, #{message}, SYSDATE)
+	</insert>
+	
+	<select id="listHanasi" parameterType="Integer" resultType="Hanasi">
+	SELECT * FROM WOW_CONTRACTHANASI
+	WHERE CONTRACTNUM=#{contractnum}
+	ORDER BY HANASINUM ASC
 	</select>
 </mapper>

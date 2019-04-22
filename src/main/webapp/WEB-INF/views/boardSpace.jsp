@@ -37,6 +37,9 @@
 						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty recommend.keyword4}"><span>#${recommend.keyword4}</span></c:if></a>
 						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty recommend.keyword5}"><span>#${recommend.keyword5}</span></c:if></a></h5>
 					</div>
+					<div class="detail_area">
+						<h5><i class="fas fa-heart"></i> ${recommend.cntZzim} <i class="fas fa-eye"></i> ${recommend.count} <i class="far fa-comment-dots"></i> ${recommend.cntQna}</h5>
+					</div>
   				</div>
   			</article>
   			</c:forEach>
@@ -76,6 +79,9 @@
 						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty space.keyword3}"><span>#${space.keyword3}</span></c:if></a>
 						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty space.keyword4}"><span>#${space.keyword4}</span></c:if></a>
 						<a href="javascript:void(0);" class="clickKeyword"><c:if test="${!empty space.keyword5}"><span>#${space.keyword5}</span></c:if></a></h5>
+					</div>
+					<div class="detail_area">
+						<h5><i class="fas fa-heart"></i> ${space.cntZzim} <i class="fas fa-eye"></i> ${space.count} <i class="far fa-comment-dots"></i> ${space.cntQna}</h5>
 					</div>
   				</div>
   			</article>

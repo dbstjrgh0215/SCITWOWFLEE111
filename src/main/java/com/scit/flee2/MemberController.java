@@ -1,8 +1,6 @@
 package com.scit.flee2;
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,11 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.scit.flee2.dao.MemberDAO;
 import com.scit.flee2.vo.Member;
+import com.scit.flee2.vo.Notice;
 import com.scit.flee2.vo.Product;
 import com.scit.flee2.vo.Seller;
 import com.scit.flee2.vo.Space;
@@ -43,15 +40,63 @@ public class MemberController {
 				Product product = memberDAO.sessionProduct(id);
 				hs.setAttribute("sessionType", seller);
 				hs.setAttribute("sessionProd", product);
+				
 			} else if(result.getMembertype().equals("공간제공자")) {
 				Space space = memberDAO.sessionSpace(id);
 				hs.setAttribute("sessionType", space);
 			}
-			
+			ArrayList<Notice> listNewNotice = memberDAO.listNewNotice(id);
+			ArrayList<Notice> listOldNotice = memberDAO.listOldNotice(id);
+			ArrayList<String> listNewNickname = new ArrayList<String>();
+			ArrayList<String> listOldNickname = new ArrayList<String>();
+			for(int i=0;i<listNewNotice.size();i++) {
+				String nickname = memberDAO.noticeNickname(listNewNotice.get(i).getId());
+				listNewNickname.add(nickname);
+			}
+			for(int i=0;i<listOldNotice.size();i++) {
+				String nickname = memberDAO.noticeNickname(listOldNotice.get(i).getId());
+				listOldNickname.add(nickname);
+			}
+			hs.setAttribute("listNewNickname", listNewNickname);
+			hs.setAttribute("listNewNotice", listNewNotice);
+			hs.setAttribute("listOldNickname", listOldNickname);
+			hs.setAttribute("listOldNotice", listOldNotice);
 			hs.setAttribute("sessionMember", result);
+			
+			int cntNewNotice = memberDAO.countNewNotice(id);
+			hs.setAttribute("cntNewNotice", cntNewNotice);
+			
 			return "success";
 		}
 	}
+	
+	@RequestMapping(value="/updateHome", method=RequestMethod.GET)
+	public String updateHome(HttpSession hs) {
+		Member mem = (Member) hs.getAttribute("sessionMember");
+		String id = mem.getId();
+		ArrayList<Notice> listNewNotice = memberDAO.listNewNotice(id);
+		ArrayList<Notice> listOldNotice = memberDAO.listOldNotice(id);
+		ArrayList<String> listNewNickname = new ArrayList<String>();
+		ArrayList<String> listOldNickname = new ArrayList<String>();
+		for(int i=0;i<listNewNotice.size();i++) {
+			String nickname = memberDAO.noticeNickname(listNewNotice.get(i).getId());
+			listNewNickname.add(nickname);
+		}
+		for(int i=0;i<listOldNotice.size();i++) {
+			String nickname = memberDAO.noticeNickname(listOldNotice.get(i).getId());
+			listOldNickname.add(nickname);
+		}
+		hs.setAttribute("listNewNickname", listNewNickname);
+		hs.setAttribute("listNewNotice", listNewNotice);
+		hs.setAttribute("listOldNickname", listOldNickname);
+		hs.setAttribute("listOldNotice", listOldNotice);
+		
+		int cntNewNotice = memberDAO.countNewNotice(id);
+		hs.setAttribute("cntNewNotice", cntNewNotice);
+		
+		return "redirect:/goHome";
+	}
+	
 	
 	public Member login(Member mem) {
 		Member result = new Member();
@@ -169,5 +214,23 @@ public class MemberController {
 		}
 		
 		return "signEnd";
+	}
+	
+	@RequestMapping(value="/goAllConfirm", method=RequestMethod.GET)
+	public @ResponseBody String goAllConfirm(String id) {
+		memberDAO.goAllConfirm(id);
+		return "success";
+	}
+	
+	@RequestMapping(value="/updateConfirm", method=RequestMethod.GET)
+	public @ResponseBody String updateConfirm(int noticenum) {
+		memberDAO.updateConfirm(noticenum);
+		return "success";
+	}
+
+	@RequestMapping(value="/deleteNotice", method=RequestMethod.GET)
+	public String deleteNotice(int noticenum) {
+		memberDAO.deleteNotice(noticenum);
+		return "redirect:/goHome";
 	}
 }

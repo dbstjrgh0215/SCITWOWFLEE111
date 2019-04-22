@@ -1,11 +1,20 @@
 package com.scit.flee2.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.scit.flee2.vo.Board;
+import com.scit.flee2.vo.Contract;
+import com.scit.flee2.vo.ContractHanasi;
 import com.scit.flee2.vo.Member;
+import com.scit.flee2.vo.Notice;
+import com.scit.flee2.vo.Product;
 import com.scit.flee2.vo.Proposal;
 import com.scit.flee2.vo.Qna;
+import com.scit.flee2.vo.Request;
+import com.scit.flee2.vo.Seller;
+import com.scit.flee2.vo.Space;
+import com.scit.flee2.vo.Zzim;
 
 public interface BoardMapper {
 	public int insertProposal(Proposal prop);
@@ -21,11 +30,39 @@ public interface BoardMapper {
 	public int insertReply(Qna qna);
 	public ArrayList<Qna> listQna(int boardnum);
 	public ArrayList<Qna> goQnaDetail(int qnanum);
+	public int countQna(int boardnum);
 	public int updateProposal(Proposal prop);
 	public int deleteBoard(int clickNo);
 	public ArrayList<Board> searchBoard(String text);
 	public int updateBoard(Board board);
+	public int updateCnt(int boardnum);
+	public int updateCntZzim(HashMap<String,Integer> map);
+	public int updateCntQna(HashMap<String,Integer> map);
 	public ArrayList<Board> searchSpace(String text);
 	public ArrayList<Board> searchSeller(String text);
 	public ArrayList<Board> searchAnother(String text);
+	public ArrayList<Board> searchPopular();
+	public int insertRequest(Request req);
+	public ArrayList<Request> listRequest(int boardnum);
+	public ArrayList<Request> myRequest(String id);
+	public int clickApproval(HashMap<String,String> map);
+	public int countApproval(int boardnum);
+	public int insertZzim(Zzim zzim);
+	public int countZzim(int boardnum);
+	public int deleteZzim(Zzim zzim);
+	public Zzim checkZzim(Zzim zzim);
+	public ArrayList<Integer> zzimList(String id);
+	public int insertNotice(Notice notice);
+	public int insertContract(Contract contract);
+	public ArrayList<Contract> listContract(String id);
+	public int updateContract(Contract contract);
+	public int startContract(Contract contract);
+	public String searchNickName(String id);
+	public int countContract(String id);
+	public Contract selectContract(int contractnum);
+	public Seller selectSellerInfo(String id);
+	public Space selectSpaceInfo(String id);
+	public Product selectProductInfo(int sellernum);
+	public int insertHanasi(ContractHanasi hanasi);
+	public ArrayList<ContractHanasi> listHanasi(int contractnum);
 }

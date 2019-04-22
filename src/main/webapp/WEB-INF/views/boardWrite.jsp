@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>공고문 작성</title>
-	<link rel="stylesheet" href="resources/jqueryui/jquery-ui.css">
+	<link rel="icon" href="resources/images/favicon.ico" type="image/x-icon">
 	<link rel="stylesheet" href="resources/css/wow-css.css"> 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
@@ -20,34 +20,47 @@
 		<div class="btn-header">
 	        <button id="btnSearchM"><i class="fas fa-search"></i></button>
 	        <button id="btnNotice"><i class="fas fa-bell"></i></button>
+	        <c:if test="${!empty cntNewNotice&&cntNewNotice!=0}">
+	        	<span class="cntNewNotice">${cntNewNotice}</span>
+	        </c:if>
 	        <button id="btnSlide"><i class="fas fa-bars"></i></button> 
         </div>
 	</div>
 	
 	<div id="sidenav" class="sidenav">
 		<div class="side-login">
-			<i class="fas fa-user-circle"></i><br>
-			<c:if test="${sessionMember==null}">
+			<c:if test="${sessionMember.membertype=='셀러'}">
+				<div class="profileIcon" style="background-color:darkslateblue;">
+					<img src="resources/images/seller.png">
+				</div>
+			</c:if>
+			<c:if test="${sessionMember.membertype=='공간제공자'}">
+				<div class="profileIcon" style="background-color:lightcoral;">
+					<img src="resources/images/spacer.png">
+				</div>
+			</c:if>
+			<c:if test="${sessionMember.membertype=='일반사용자'}">
+				<div class="profileIcon" style="background-color:indigo;">
+					<img src="resources/images/user.png">
+				</div>
+			</c:if>
+			<c:if test="${sessionMember.membertype==null}">
+				<div class="profileIcon" style="background-color:indigo;">
+					<img src="resources/images/user.png">
+				</div>
 				<a class="login-btn" href="goLogin">로그인해주세요!</a>
-			</c:if>   
+			</c:if>
 			<c:if test="${sessionMember!=null}">
 				${sessionMember.nickname}님
 				<button class="logout-btn" id="btnLogout">로그아웃</button>
 			</c:if>
 		</div>
-		<div class="sidenav-btn">
-			<a class="slide-btn" href="#">계약관리</a>
-			<a class="slide-btn" href="#">지원관리</a>
-			<a class="slide-btn" href="goProposal">제안서관리</a>
-			<a class="slide-btn" href="goUserBoard">내가쓴글</a>
-		</div>
 		<div class="sidenav-menu">
-			<a href="#">이용후기</a>
-			<a href="#">찜목록</a>
-			<a href="#">1:1문의</a>
-			<a href="#">FAQ</a>
-			<a href="#">공지사항</a>
-			<a href="#">서비스정보</a>
+			<a class="slide-btn" href="goZzimList">찜목록<i class="fas fa-chevron-right"></i></a>
+			<a class="slide-btn" href="goContract">계약관리<i class="fas fa-chevron-right"></i></a>
+			<a class="slide-btn" href="goRequest">지원관리<i class="fas fa-chevron-right"></i></a>
+			<a class="slide-btn" href="goProposal">제안서관리<i class="fas fa-chevron-right"></i></a>
+			<a class="slide-btn" href="goUserBoard">내가쓴글<i class="fas fa-chevron-right"></i></a>
 		</div>
 	</div>
 	<div id="searchFilter" class="search">
@@ -101,6 +114,7 @@
 <div class="wrap">     
     <div class="main-content" id="main-content">
     <div class="board-write">
+    <span class="boardWriteHeader">공고문 작성</span>
 	<c:if test="${!empty selectProposal.proposalnum}">
 	<form action="insertBoard" method="post" id="boardWriteForm" enctype="multipart/form-data">
 	</c:if>
@@ -118,7 +132,7 @@
 	<input type="hidden" id="form_keyword" name="keyword" value="${selectProposal.keyword}${selectBoard.keyword}">
 	<input type="hidden" id="form_name" name="name" value="${selectProposal.name}${selectBoard.name}">
 	<input type="hidden" id="form_type" name="type" value="${selectProposal.type}${selectBoard.type}">
-	<input type="hidden" id="form_type" name="contractperiod" value="${selectProposal.contractperiod}${selectBoard.contractperiod}">
+	<input type="hidden" id="form_contractPeriod" name="contractperiod" value="${selectProposal.contractperiod}${selectBoard.contractperiod}">
 	<input type="hidden" id="form_price" name="price" value="${selectProposal.price}${selectBoard.price}">
 	<input type="hidden" id="form_stock" name="stock" value="${selectProposal.stock}${selectBoard.stock}">
 	<input type="hidden" id="form_optime" name="optime" value="${selectProposal.optime}${selectBoard.optime}">
@@ -366,19 +380,30 @@
 		</table>
 		</div>
 	</c:if>
-	<c:if test="${!empty selectProposal}">
-	<button class="btnBoardWrite" id="btnBoardWrite">등록</button>
-	</c:if>
-	<c:if test="${!empty selectBoard}">
-	<button class="btnBoardUpdate" id="btnBoardUpdate">수정</button>
-	</c:if>
+	<div class="writeBtn">
+		<c:if test="${!empty selectProposal}">
+		<button class="btnBoardWrite" id="btnBoardWrite">등록</button>
+		</c:if>
+		<c:if test="${!empty selectBoard}">
+		<button class="btnBoardUpdate" id="btnBoardUpdate">수정</button>
+		</c:if>
+	</div>
 </div>
 </form>
 	</div>
 	</div>
     <footer class="site-footer">
 		<div class="main-footer">
-			푸터
+			<div class="footerDiv">
+				<img src="resources/images/logo.png">
+				<span>WOWFLEE는 모든 상업관계자 분들을 응원합니다.</span>
+				<div class="footerNav">
+					<a>공지사항</a>
+					<a>1:1문의</a>
+					<a>이용약관</a>
+					<a>서비스정보</a>
+				</div>
+			</div>
 		</div>
 	</footer>
 </div>	

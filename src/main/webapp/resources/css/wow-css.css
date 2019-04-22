@@ -24,12 +24,18 @@ html, body {
 	a:hover{
 		color: #FFAF0A;
 	}
+	img{
+		width:90px;
+	}
 	button{
 		background-color:white;
-	    padding: 0 10px;
-    	border: 1px solid #c6c6c6;
     	border-radius:2px;
     	margin-bottom: 5px;
+    	background-color: #dedede;
+	    padding: 10px;
+	    border: 0;
+	    box-shadow: 0 2px 1px rgba(0, 0, 0, .25);
+	    cursor:pointer;
 	}
 	h1, h2, h3, h4, h5, h6 {
 		font-family: "Open Sans", Arial, sans-serif;
@@ -78,7 +84,7 @@ html, body {
 	.site-header{
 		height:90px;
 		width:100%;
-		z-index:2;
+		z-index:3;
 	}
 	.goBoard{
 		height:42px;
@@ -137,10 +143,27 @@ html, body {
 		background-color:inherit;
 		border:none;
 		padding:0px 15px;
+		cursor:pointer;
+		box-shadow:none;
+		outline: none;
 	}
 	.btn-header i{
 		font-size:20px; 
 		color:black;
+	}
+	.cntNewNotice{
+	    position: absolute;
+	    right: 55px;
+	    top: 2px;
+	    border-radius: 15px;
+	    width: 20px;
+	    height: 20px;
+	    text-align: center;
+	    z-index: 2;
+	    background: #F05E22;
+	    color: white;
+	    font-weight: bold;
+	    cursor:pointer;
 	}
 	.main-header a{
 		font-size:1.8em;
@@ -179,7 +202,7 @@ html, body {
 	.site-footer{
 		display: block;
 	    position: relative;
-	    height:150px;
+	    height:120px;
 	    margin-top:50px;
 	    background-color: #ebebeb;
 	    color: #656565;
@@ -187,6 +210,22 @@ html, body {
 	.site-footer img{
 		width:100px;
 		padding:18px;
+	}
+	.footerDiv span{
+	    position: relative;
+	    top: -50px;
+	    left: 30px;
+	}
+	.footerNav{
+	    float: right;
+	    line-height: 90px;
+	    padding: 18px;
+	}
+	.footerNav a{
+		padding: 0 15px;
+		color:#656565;
+		cursor:pointer;
+		text-decoration: underline !important;
 	}
 	/* 검색 관련 */
 	.search { 
@@ -212,7 +251,7 @@ html, body {
 	}
 	.searchOpen{
 		display:block;
-		height:600px;
+		height:450px;
 		width:100%;
 		position: fixed;
 		z-index: 3;
@@ -297,38 +336,148 @@ html, body {
 	/* 알림 관련 */
 	.notice { 
 		display:none;
-		height:517px;
-		width:35%;
+		height: 500px;
+   	 	width: 400px;
 		position: fixed;
 		z-index: 3;
 		top: 40px;
 		right: 0;
-		background-color: #FF0000;
-		overflow-y: hidden;
+		background-color: #FADCA5;
+		border:solid 1px;
+	    box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+	    overflow:hidden;
 	}
 	.notice-header{
 		width:100%;
 		display:inline-flex;
+		background-color:white;
+		border-bottom: solid 1px #dddfe2;
 	}
-	.notice-name{
-		width:80%;
+	.notice-headerName{
 		font-size:1.3em;
+		margin:0;
+		padding:5px 10px;
+	}
+	.notice-headerName2{
+		font-size:1em;
+		margin:0;
+		padding:3px 10px;
+	}
+	.goAllConfirm{
+		position: absolute;
+	    right: 5px;
+	    font-size: 12px;
+	    text-decoration: underline !important;
+	    color: black;
+	    cursor:pointer;
 	}
 	.notice-back{
 		width:20%;
 	}
+	.newNotice-header, .oldNotice-header{
+		width:100%;
+		display:inline-flex;
+		background-color:#FAC87D;
+		border-bottom: solid 1px #dddfe2;
+	}
+	.newNotice-content ul {
+		list-style:none;
+		padding:0;
+		margin:0;
+	}
+	.newNoticeContent, .oldNoticeContent{
+		width:100%;
+		height:60px;
+		padding:5px;
+		border-bottom: solid 1px #dddfe2;
+		background-color: #FF9D6E;
+		cursor:pointer;
+	}
+	.oldNoticeContent{
+		background-color: inherit;
+	}
+	.checkNotice{
+		
+	}
+	.noticeProfile{
+	    border-radius: 70px;
+	    padding: 10px;
+	    width: 30px;
+	    height: 30px;
+	    margin: 0 auto;
+	    background-color:indigo;
+	}
+	.noticeProfile img{
+		width:30px;
+	}
+	.noticeContentTable td{
+	    padding: 0 5px;
+	    font-size: 12px;
+	}
+	.updateConfirm, .noConfirm{
+        position: absolute;
+	    right: 0;
+	    padding: 10px 20px;
+	    margin-top:-68px;
+	    cursor: pointer;
+	    display:none;
+	}
+	.deleteNotice{
+	   position: absolute;
+	    right: 0;
+	    padding: 10px 21px;
+    	margin-top: -45px;
+	    cursor: pointer;
+	    display:none;
+	}
+	.updateConfirm i, .noConfirm i, .deleteNotice i{
+		color:black;
+	}
+	/*scrollbar 꾸미기*/
+	::-webkit-scrollbar {
+		width: 8px; 
+		height: 8px; 
+		border: 3px solid #fff; 
+	}
+	::-webkit-scrollbar-button:start:decrement, ::-webkit-scrollbar-button:end:increment {
+		display: block; 
+		height: 10px; 
+		background: url('./images/bg.png') #efefef;
+	}
+	::-webkit-scrollbar-track {
+		background: #efefef; 
+		-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,.2);
+	}
+	::-webkit-scrollbar-thumb {
+		height: 50px; 
+		width: 50px; 
+		background: rgba(0,0,0,.2); 
+		-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,.1);
+	}
+	
 	
 	/* 메뉴바 관련 */
 	.sidenav { 
 		display:none;
 		width:300px;
-		height:354px;
+		height:396px;
 		position: fixed;
 		z-index: 3;
 		top: 40px;
 		right: 0;
 		background-color: #F05E22;
 		overflow-x: hidden;
+		box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+	}
+	.profileIcon{
+	    border-radius: 70px;
+	    padding: 20px;
+	    width: 100px;
+	    height: 100px;
+	    margin: 0 auto;
+	    margin-top: 10px;
+        margin-bottom: 5px;
+	    background-color:indigo;
 	}
 	.sidenav a {
 		font-size: 1.4em;
@@ -366,6 +515,12 @@ html, body {
 		border:none;
 	    color: black;
 	}
+	.logout-btn{
+		padding: 2px 5px;
+	    background-color: #f05e22;
+	    color: white;
+	    box-shadow: 0 1px 1px rgba(0, 0, 0, .25);
+	}
 	.sidenav-btn{
 		width:100%;
 		height:100px;  
@@ -402,6 +557,7 @@ html, body {
 		width:100%;
 		height:400px;
 		overflow:hidden;
+	    margin-top: 5px;
 	}
 	.board-content-image, .goSimilarBoard{
 		width:100%;
@@ -424,7 +580,7 @@ html, body {
 	.event-content img, .board-content-image img, .goSimilarBoard article{
 		width: 20%; 
 		float: left;
-		height:100%;
+		height:140%;
 		min-height: 300px;
 	}
 	.event-slider a, .board-content-image-slider a{
@@ -463,7 +619,7 @@ html, body {
 		text-align:left;
 	}
 	.progressTable{
-		margin:40px 0px;
+		margin-bottom:40px;
 		text-align:center;
 		border-spacing:0px;
 	}
@@ -500,7 +656,7 @@ html, body {
 	}
 	/*키워드*/
 	.td-keyword1{
-		width:170px;
+		width:100px;
 	    padding: 10px 0 210px 0;
 	}
 	.td-keyword2{
@@ -525,6 +681,7 @@ html, body {
 	    width: 120px;
 	    height: 30px;
 	    line-height: 30px;
+	    box-shadow: 0 2px 3px rgba(0, 0, 0, .25);
 	}
 	.span-keyword i, .span-type i{
 		color:gray;
@@ -536,6 +693,8 @@ html, body {
 	#keywordRegist, #typeRegist{
 		margin-left:5px;
 		margin-right:10px;
+	    padding: 10px;
+	    border: 0;
 	}
 	#keywordSelected .td-2 button,
 	#typeSelected .td-2 button{
@@ -544,6 +703,10 @@ html, body {
 	#keywordSelected .td-2 a,
 	#typeSelected .td-2 a{
 		color:gray;
+		font-weight: bold;
+	}
+	#imageClear{
+		font-weight:bold;
 	}
 	#keywordDetail{
 		display:inline-flex;
@@ -558,6 +721,7 @@ html, body {
 	    border-radius: 10px;
 	    background-color: #F05E22;
 	    color: white;
+	    font-size: 0.8em;
 	}
 	.keywordSpan a{
 		color:white;
@@ -595,15 +759,24 @@ html, body {
 		text-align:left;
 	}
 	.td-tel input{
-		width:100px;
+		width:91px;
 		font-size:1.4em;
 		border:none;
 	}
-	.signUpbtn{
-    	width: 80%;
+	.btnSearchAddress{
+	    padding: 5px;
+    	margin-left: 10px;
+	    padding: 10px;
+	    border: 0;
+	    box-shadow: 0 2px 1px rgba(0, 0, 0, .25);
 	}
 	.signUpbtn button{
-		width:50%;  
+		font-size: 1.4em;
+	    padding: 15px 39%;
+	    background-color: #F05E22;
+	    color: white;
+	    font-weight: bold;
+	    margin-top: 20px;  
 	}
 	.imgs_wrap{
 		display:inline-flex;
@@ -639,8 +812,12 @@ html, body {
 	.signEnd{
 		text-align:center; 
 	}
+	.signEndLogo{
+		width: 400px;
+	    margin-top: 20px;
+	}
 	
-	
+		
 	/*제안서 관리, 공고문 관리*/
 	.proposal, .userBoard{
 		text-align:center;
@@ -664,6 +841,10 @@ html, body {
 		position:absolute;
 		right:10%;
 		padding:3px 10px;
+	}
+	.udtuserBoard, .deluserBoard,
+	.udtProposal, .delProposal, .btnGoBoardWrite{
+		padding: 5px 10px;
 	}
 	.proposalDiv, .userBoardDiv{
 	    position: relative;
@@ -787,16 +968,55 @@ html, body {
 	.closeQna:hover,
 	.closeQna:focus{
 	}
+	.proposalHeader, .boardWriteHeader{
+		font-size: 1.8em;
+	    padding: 20px;
+	    font-weight: bold;
+	}
 	.proposalBtn{
 		position: relative;
 		text-align:right;
+		display: flex;
+		padding:20px;
+	}
+	.writeBtn{
+		padding:20px 0;
+	}
+	.writeBtn button{
+		width:100%;
+	}
+	.proposalBtn .udtProposal, .proposalBtn .delProposal{
+		width:50%;
+		background-color:#F05E22;
+		border-radius:10px;
+		color:white;
+		border:solid 1px #c8c8c8;
 	}
 	.modal-proposalContent, .modal-userBoard-proposalListContent{
 		text-align:center;
 	}
 	.boardWriteContent, .proposalWriteContent{
-	    display: inline-block;
-    	text-align: left;
+        display: inline-block;
+	    text-align: left;
+	    border: solid 2px #F05E22;
+	    border-radius: 10px;
+	    background-color: white;
+	    padding: 40px 13%;
+	    margin-top: 15px;
+	    box-shadow: 0 2px 1px rgba(0, 0, 0, .25);
+	}
+	.boardWriteContent span, .proposalWriteContent span,
+	.boardWriteContent textarea, .proposalWriteContent textarea{
+		background-color:white;
+		box-shadow: 0 2px 3px rgba(0, 0, 0, .25);
+	}
+	.boardWriteContent button, .proposalWriteContent button{
+		box-shadow: 0 2px 3px rgba(0, 0, 0, .25);
+		background-color:#F05E22;
+		color:white;
+	}
+	#selectKeyword i{
+		color:white;
 	}
 	.boardWriteContent h4, .proposalWriteContent h4{
 		margin-bottom:0;
@@ -853,6 +1073,9 @@ html, body {
 	.span-offday a{
 	    color:gray;
 	}
+	.btnProposalWrite{
+		width:100%;
+	}
 	.btnBoardWrite{
 		margin-top:1.33em;
 		float:right;
@@ -864,30 +1087,44 @@ html, body {
 	.keywordTable-bw{
 		width:100%;
 	}
+	.keywordTable-bw .td-keyword1{
+		width:110px;
+	}
+	.keywordTable-bw .td-keyword1 h5{
+		font-size:0.9em;
+	}
 	.keywordTable-bw .td-keyword2{
-		width:510px;
+		width:350px;
 		padding:0;
 	}
 	.proposalDetail{
-	    width: 90%;
+	    width: 70%;
     	margin: 0 auto;
+    	border: solid 2px #F05E22;
+	    border-radius: 10px;
+	    background-color: white;
+	    margin-top: 15px;
+	    padding: 10px 40px;
+    	font-size: 1.2em;
+	    box-shadow: 0 2px 1px rgba(0, 0, 0, .25);
 	}
 	.proposalDetailTable, .seller-ProposalDetail, .space-ProposalDetail{
 		text-align:left;
 		width:100%;
+		padding:10px;
 	}
 	.proposalDetailTable #keywordDetail{
 		width:580px;
 	}
 	.proposal-image{
 		width: 100%;
-	    height: 250px;
+	    height: 150px;
 	    display: inline-flex;
 	    margin-top: 20px;
 	}
 	.proposal-image1, .proposal-image2,
 	.proposal-image3{
-		width: 250px;
+		width: 150px;
 	}
 	.proposal-image1 img, .proposal-image2 img,
 	.proposal-image3 img{
@@ -923,9 +1160,11 @@ html, body {
         text-align: center;
         padding: 10px;
         background-color: #F05E22;
-        color: #fff;
+        color: white;
+        font-weight:bold;
         text-decoration: none;
         border-radius: 5px;
+        box-shadow: 0 2px 1px rgba(0, 0, 0, .25);
     }
     .imgs_wrap {
         border: 2px solid #A8A8A8;
@@ -934,6 +1173,7 @@ html, body {
         padding-bottom: 10px;
         width: 360px;
         height: 100px;
+        box-shadow:0 2px 1px rgba(0, 0, 0, .25);
     }
     .imgs_wrap img {
         width: 100px;
@@ -943,13 +1183,97 @@ html, body {
     }
     
     
+	/*지원 관리*/
+	.profileIcon-request{
+		border: solid 1px white;
+	    border-radius: 70px;
+	    padding: 10px;
+	    width: 40px;
+	    height: 40px;
+	    margin: 0 auto;
+	    margin-top: 10px;
+	    background-color:indigo;
+	}
+	.profileIcon-request img{
+		width:40px;
+	}
+	.request, .contract{
+		margin-top:50px;
+	    width: 90%;
+  	  	margin: 0 auto;
+	}
+	.contract button{
+		padding: 5px 10px;
+	}
+	.request-header, .contract-header{
+	    width: 90%;
+	    margin: 0 auto;
+	    text-align:center;
+	}
+	.requestHeaderTable, .contractHeaderTable{
+		width:100%;
+		height:45%;
+	    border: solid 1px;
+		padding:10px;
+	}
+    .td-requestProfileImage{
+    	width:30%;
+    }
+    .requestHeaderTable i{
+    	font-size:8em;
+    }
+    .td-requestHeader{
+    	width:35%;
+    }
+    .request-explain{
+    	background-color: #ffa07a;
+	    text-align: left;
+	    padding: 10px 5%;
+    }
+    .requestList, .userRequest, .userContract{
+    	width:90%;
+    	margin:0 auto;
+    }
+    .requestTable, .listRequestTable, .requestResult, .contractTable{
+    	width:100%;
+		height:100%;
+		padding:10px;
+		border-top: solid 1px;
+    	border-bottom: solid 1px;
+	    margin: 0 auto;
+    }
+    .listRequestTable, .requestResult{
+    	background-color: gray;
+    }
+    .requestTable td, .listRequestTable td, .requestResult td, .contractTable td{
+    	width:20%;
+    }
+    .td-boardTitle{
+    	width:80%;
+    }
+    .clickListRequest, .clickListMyRequest{
+    	cursor:pointer;
+    }
+    .listRequestUserProfile{
+    	width:20%;
+    	text-align:center;
+    }
+    .listLine{
+    	border-bottom:solid 1px black;
+    }
+    .goContractDetail{
+    	cursor:pointer;
+    }
+    .goHanasi{
+    	cursor:pointer;
+    }
     
     /*게시판*/
     .r-bSeller, .r-bSpace, .r-bProduct,
     .bSeller, .bSpace, .bProduct{
     	width:90%;
     	height:auto;
-		margin: 10px 5%;
+		margin: 10px auto;
     }
     .r-bSeller-header, .r-bSpace-header, .r-bProduct-header,
     .bSeller-header, .bSpace-header, .bProduct-header{
@@ -975,6 +1299,7 @@ html, body {
 		background-color: #fefefe;
 	    height: 300px;
 		max-height: 300px;
+		box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
 	}    
 	.img_border{
 	    width: 350px;
@@ -1073,16 +1398,32 @@ html, body {
     	text-align:left;
     }
     .info_area h4{
-    	margin: 15px;
+    	margin: 10px 15px;
     }
     .tag_area{
-    
+    	
     }
     .tag_area h5{
-    	margin: 15px;
+    	overflow: hidden;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+    	margin: 10px 15px;
     }
     .tag_area a{
     	margin : 0 5px;
+    }
+    .detail_area h5{
+    	margin: 10px 15px;
+    	text-align:right;
+    }
+    .fa-heart{
+    	color:red;
+    }
+    .fa-eye{
+    	color:black;
+    }
+    .fa-comment-dots{
+    	color:black;
     }
     
     /* 공고문 상세 페이지 */
@@ -1090,7 +1431,7 @@ html, body {
     	width:55%;
     	height:auto;
   	    padding: 10px;
-  	    margin: 30px 5%;
+  	    margin: 0 5%;
     }
     .contractWindow, .contractWindow2{
    	    width: 28%;
@@ -1136,6 +1477,7 @@ html, body {
 		height:250px;
 		display:inline-flex;
 		margin-top:20px;
+		padding: 10px;
 	}
 	.board-image1, .board-image2, .board-image3{
 		width:33%;
@@ -1147,15 +1489,28 @@ html, body {
 	#staticMap{
 		width:550px;
 		height:350px;
+		margin-left: 10px;
 	}
-	/* 이용후기 */
+	.board-comments, .boardInfoTable td,
+	.boardPrecautionTable td, .board-address,
+	.comment-table td{
+		font-size:14px;
+		padding:10px;
+	}
+	.board-comments{
+		white-space: pre-wrap;
+	}
+	
+	
+	/* Q&A */
 	.board-comment-write{
 	    position: relative;
 	    left: 85%;
 	    top: 45px;
 	    padding: 10px;
-	    border: solid 1px;
 	    border-radius: 30px;
+	    background-color:#F05E22;
+	    color:white;
 	}
 	.modal-board-qna{
 		position: fixed;
@@ -1170,7 +1525,7 @@ html, body {
 	.modal-board-qnaReply{
 		position: fixed;
 	    display: block;
-	    top: 50%;
+	    top: 45%;
 	    left: 50%;
 	    margin-bottom: 0px;
 	    width: 600px;
@@ -1178,7 +1533,7 @@ html, body {
 	    transform: translate(-50%, -50%);
 	}
 	.modal-board-qnaHeader, .modal-board-qnaReplyHeader{
-		padding: 20px 25px;
+		padding: 20px 25px 8px;
 	    border-radius: 12px 12px 0 0;
 	    background: #F05E22;
 	    font-size: 20px; 
@@ -1194,10 +1549,10 @@ html, body {
 	}
 	.modal-board-qnaReplyContent{
 	    border-radius: 0 0 12px 12px;
-	    padding: 24px 26px 26px;
+	    padding: 26px 30px 30px;
 	    vertical-align: middle;
 	    background-color:white;
-        height: 350px;
+        height: 430px;
 	}
 	.modal-board-qnaInsert, .modal-board-qnaReplyInsert{
 	    margin-top: 0;
@@ -1207,35 +1562,53 @@ html, body {
 	}
 	.modal-board-qnaReplyQuestion{
 		vertical-align: top;
-		width:100%;
-		padding-bottom: 15px;
-		font-size: 15px;
+	    width: 100%;
+	    font-size: 15px;
+	    height: 100px;
+	    border: solid 2px #FFD9E4;
+	    padding: 15px;
+	    border-radius: 15px;
 	}
-	.modal-board-qnaReplyComments{
-		font-size:15px;
+	.modal-board-qnaReplyComments,.replyInsertTextarea{
+	    font-size: 15px;
+	    border: solid 2px lightblue;
+	    height: 100px;
+	    padding-bottom: 15px;
+	    padding: 15px;
+	    width: 100%;
+	    border-radius: 15px;
 	}
-	.modal-board-qnaHead, .modal-board-qnaReplyHead{
+	.modal-board-qnaHead{
 		vertical-align: top;
 		width:100%;
 		padding-bottom: 15px;
 		font-size: 20px;
 	}
-	.qnaInsertTextarea, .replyInsertTextarea{
-		height: 125px;
+	.modal-board-qnaReplyHead{
+		vertical-align: top;
+		width:100%;
+		padding-bottom: 15px;
+		font-size: 20px;
+		margin-top: 20px;
+	}
+	.qnaInsertTextarea{
+		height: 100px;
 	    display: inline-block;
 	    position: relative;
 	    width: 100%;
 	    background-color: white;
-	    padding: 15px 16px;
    		vertical-align: top;
-   		font-size: 14px;
+   		font-size: 15px;
+   		border: solid 2px #FFD9E4;
+	    padding: 15px;
+	    border-radius: 15px;
 	}
 	.modal-board-qnabtn{
 		margin-top:40px;
 	}
 	.modal-board-replybtn{
 	    position: relative;
-	    top: 50px;
+	    top: 40px;
 	}
 	.modal-board-qnabtn span{
 		border: solid 1px;
@@ -1245,7 +1618,7 @@ html, body {
 	}
 	.modal-board-replybtn span{
 		border: solid 1px;
-	    padding: 25px 105px;
+	    padding: 15px 105px;	
 	    border-radius: 10px;
 	    font-size: 1.4em;
 	}
@@ -1258,9 +1631,13 @@ html, body {
 	    background-color: #F05E22;
 	    color: white;
 	}
-	.closeQna{
+	.closeQna, .closeReply{
 		float: right;
     	font-size: 2em;
+	}
+	.udtCommentBtn, .delCommentBtn{
+		padding:5px 10px;
+		border: solid 1px lightgray;
 	}
 	
 	
@@ -1293,7 +1670,7 @@ html, body {
 		line-height: 310px;
 	    font-size: 30px;
 	    cursor: pointer;
-	    margin-right: 10px;
+	    margin-right:10px;
 	}
 	.similarRight{
 		line-height: 310px;
@@ -1320,6 +1697,7 @@ html, body {
 		background-color: #fefefe;
 	    height: 300px;
 		max-height: 300px;
+		box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
 	}
 	.img_area_similar{
 		transform: scale(1);
@@ -1371,16 +1749,25 @@ html, body {
 	.contract-selected-li select{
 		border:none;
 	}
-	.selectedContractType, .goContract{
+	.selectedContractType, .goContractRequest{
 		float:right;
 	}
 	.goContract{
-	    border: solid 1px #F05E22;
+	    float: right;
+    	padding: 5px;
+	}
+	.goContractRequest{
     	padding: 8px;
+    	cursor:pointer;
 	}
 	.selectedContractType{
 		color:#FFAF0A;
 	}
+	.modal-board-online{
+		
+	}
+	
+	
 	
 	/* 검색 상세 페이지 */
 	.searchPage{
@@ -1536,43 +1923,59 @@ html, body {
 	/* 지도 관련 */
 	.map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:15px;}
 	.map_wrap {position:relative;width:100%;height:350px;}
-	.overlay .info {width: 350px;height:200px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
-    .overlay .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
-    .info .title {padding: 10px 0 0 10px;height: 30px;background: #F05E22;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
-    .info .closeInfo {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+	.overlay .info {width: 350px;height:169px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+    .overlay .info:nth-child(1) {border: 0;box-shadow: 0px 3px 8px #888;}
+    .info .title {padding: 5px 0 0 10px;height: 25px;background: #F05E22;font-size: 15px;font-weight: bold;}
+    .info .closeInfo {position: absolute;top: 6px;right: 10px;color: #888;width: 17px;height: 17px;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
     .info .closeInfo:hover {cursor: pointer;}
-    .info .body {height:180px;position: relative;overflow: hidden;}
-    .info .desc {position: relative;height: 75px;top:20px;left:150px;}
-    .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
-    .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
-    .info .img {position: absolute;top: 10px;left: 10px;width: 130px;height: 130px;border: 1px solid #ddd;color: #888;overflow: hidden;}
-    .img1{width:130px;height:130px;}
+    .info .body {height:140px;position: relative;overflow: hidden;}
+    .info .desc {position: relative;height: 75px;top:10px;left:150px;}
+    .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;font-size:13px;white-space: nowrap;}
+    .desc .jibun {font-size: 13px;color: #888;margin-top: -2px;}
+    .info .img {position: absolute;top: -1px;left: -1px;width: 140px;height: 140px;color: #888;overflow: hidden;}
+    .img1{width:140px;height:140px;}
     .info .link {color: #5085BB;}
+    .map_search_header{
+   	    z-index: 1;
+	    width: 100%;
+	    height: 8%;
+	    background-color: #FFD700;
+	    position: absolute;
+	    top: 0;
+    }
+    .map_search_header h2{
+    	color: black;
+	    font-size: 1.5em;
+	    padding: 17px;
+    }
 	.map_category{
 		position:absolute;
-		top:10%;
+		top:15%;
 		right:5%; 
 		width:250px;
-		height:315px;  
+		height:350px;  
 		z-index:1; 
 		background-color:rgba(255,255,255,0.7);
 	    border: solid 2px #F05E22;
     	border-radius: 8px;
 	}
-	
 	.map_category ul{
 		display:inline-flex; 
 		list-style:none;
 		padding:1px;
+	}
+	.map_category li{
+	
 	}
 	.map_category button{
 		border:none;
 		background-color:inherit;
 	}
 	.map_header{
-	    background-color: rgba(255,255,0,0.5);
+	    background-color: rgba(255,215,0,0.5);
     	width: 100%;
    	    padding-bottom: 10px;
+   	    color:black;
 	}
 	.map_header img{
 		width:50px;
@@ -1588,6 +1991,9 @@ html, body {
 	.category_header {
 		display: -webkit-inline-box;
   		line-height: 40px;
+	}
+	.category_header h5{
+		color:black;
 	}
 	.map_header span{
 	    margin: 5px;
@@ -1611,6 +2017,14 @@ html, body {
     	cursor:pointer;
     	outline:0;
 	}
+	.map_category_btn{
+		width:100%;
+		height:80px;
+	}
+	.map_category_btn2{
+		width:100%;
+		height:60px;
+	}
 	.category_content i {
 		font-size: 30px;
 	}
@@ -1628,4 +2042,311 @@ html, body {
 	}
 	.overLay-goBoard{
 		color:yellow;
+		cursor: pointer;
+		font-size:13px;
+	}
+	.backMap{
+	    position: absolute;
+	    right: 20px;
+	    top: 12px;
+	    cursor:pointer;
+	}
+	.backMap i:hover{
+		color:#777777;
+	}
+	.backMap i {
+		color:black;
+		font-size:30px;
+	}
+	
+	
+	/* 찜 관련 */
+	.detailIcon{
+	    background-color: inherit;
+	    border: none;
+	    position: absolute;
+	    right: 5%;
+	    margin-top:20px;
+	    font-size:25px;
+	    padding: 0 2%;
+	}
+	.board-content-zzim{
+		background-color:inherit;
+		border:none;
+		padding:0;
+		box-shadow: none;
+	}
+	.detailIcon i{
+		font-size:30px;
+		color:black;
+	}
+	.board-content-zzim i{
+		color:red;
+		cursor:pointer;
+	}
+
+	
+	/* 계약 관리 페이지 */
+	.btnOtherContract{
+	    float: right;
+	    position: relative;
+	    bottom: 20px;
+	    margin: 0;
+	}
+	.modal-contractDetail, .modal-contractHanasi{
+		position: fixed;
+	    display: block;
+	    top: 50%;
+	    left: 50%;
+	    margin-bottom: 0px;
+	    width: 80%;
+	    height: 70%;
+	    transform: translate(-50%, -50%);
+	}
+	.modal-contractHeader, .modal-hanasiHeader{
+	    padding: 20px 25px 30px;
+	    border-radius: 12px 12px 0 0;
+	    background-color:white;
+	    font-size: 20px;
+	    color: white;
+	    height: 40px;
+	    box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+	}
+	.closeContract, .closeHanasi{
+		color: black;
+	    text-decoration: none;
+	    cursor: pointer;
+	    float: right;
+    	font-size: 2em;
+   	    position: absolute;
+	    right: 25px;
+	    top: 25px;
+	}
+	.modal-contractContent{
+		border-radius: 0 0 12px 12px;
+	    padding: 24px 26px 26px;
+	    vertical-align: middle;
+	    background-color: oldlace;
+	    height: 70%;
+	    box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+	}
+	.modal-hanasiContent{
+	    padding: 24px 26px 26px;
+	    vertical-align: middle;
+	    background-color: white;
+	    height: 60%;
+	    box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+	    overflow-y:scroll;
+	    overflow-x:hidden;
+	    background-color:oldlace;
+	}
+	.modal-hanasiInput{
+		border-radius: 0 0 12px 12px;
+	    padding: 24px 26px 26px;
+	    vertical-align: middle;
+	    background-color: white;
+	    box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+	}
+	.contractHeader{
+		margin:10px 0;
+	    width: 85%;
+	    position: absolute;
+	    right: 50px;
+	    top: 20px;
+	    color: darkslategrey;
+	}
+	.imgContract{
+	    position: absolute;
+	    top: 5px;
+	    left: 0;
+	}
+	.contractDetailTable{
+	    width: 100%;
+	    height: 100%;
+	    margin: 0 auto;
+	    font-size: 13px;
+	}
+	.contractDetailTable button{
+		padding: 3px 10px;
+    	margin-left: 5px;
+	}
+	.td-contractDetail1{
+		width:50%;
+		padding:10px;
+	}
+	.td-contractDetail2{
+		width:50%;
+	}
+	.btnInsertOrder, .btnInsertSales, .btnInsertSold,
+	.startContract, .btnInsertStock{
+		cursor:pointer;
+	}
+	.insertDiv{
+		width: 120px;
+	    height: 200px;
+	    background-color: white;
+	    position: absolute;
+	    border: solid 2px;
+	    border-radius:5px;
+	    box-shadow:0 3px 8px rgba(0, 0, 0, .25);
+	    display:none;
+	}
+	.insertDiv input {
+		width: 60px;
+	    padding: 2px 5px;
+	    margin: 2px 1px;
+	}
+	.insertDiv button{
+		border:none;
+		padding:0;
+		cursor:pointer;
+		outline: none;
+	}
+	.insertTable {
+	    text-align: center;
+    	width: 100%;
+	}
+	.insertTable button{
+		padding:10px;
+		background-color:white;
+		box-shadow:none;
+	}
+	.insertDiv button{
+		background-color:white;
+		box-shadow:none;
+	}
+	.span-hanasiInput{
+		padding: 5px;
+    	border: solid 2px bisque;
+	}
+	.hanasiInputText{
+		width:90%;
+		border:none;
+	}
+	.btnHanasiInput{
+        padding: 6px 15px;
+	    position: relative;
+	    left: 5px;
+	    top: -2px;
+	    border: none;
+	    margin: 0;
+	    background-color:bisque;
+	    box-shadow: none;
+	}
+	.btnHansiInput i{
+		color:black;
+		font-size:14px;
+	}
+	.ul-hanasi{
+		list-style:none;
+		padding:0;
+		display:grid;
+	}
+	.li-hanasi, .li-hanasiMe{
+		width:100%;
+		height:80px;
+	}
+	.hanasiTable{
+	    width: 88%;
+	    margin: 0 auto;
+	}
+	.receiveProfile{
+		width:40px;
+	}
+	.hanasiProfile{
+		width:6%;
+	}
+	.hanasiMessage{
+		float:left;
+	}
+	.span-message{
+		padding:10px;
+		float: left;
+		border-radius:10px;
+		background-color:bisque;
+	}
+	.span-message2{
+		padding:10px;
+		float:right;
+		border-radius:10px;
+		background-color:white;
+	}
+	.hanasiProfile2{
+		width:6%;
+	}
+	.hanasiMessage2{
+		float:right;
+	}
+	.hanasiNickname{
+		position:relative;
+		font-weight:bold;
+		bottom:15px;
+		
+	}
+	.hanasiNickname2{
+		float:right;
+		position: relative;
+	    left: 45px;
+	    bottom: 15px;
+	    font-weight:bold;
+	}
+	.hanasiDate{
+		position: relative;
+		font-size: 10px;
+	    top: -5px;
+	    left: 5px;
+	}
+	.hanasiDate2{
+		position: relative;
+		float:right;
+	    font-size: 10px;
+	    top: -5px;
+	    right: 5px;
+	}
+	
+	
+	
+	.li-hanasi img{
+		width:40px;
+	    position: relative;
+    	top: 10px;
+    	right:10px;
+	}
+	.li-hanasiMe img{
+		width:40px;
+	    position: relative;
+    	bottom: 30px;
+    	left: 70px;
+	}
+	.hanasiMe{
+		float:right;
+	}
+	.hanasiNickName{
+	    position: relative;
+	    top: 10px;
+    	right: 15px;
+	}
+	.myNickName{
+	    position: relative;
+	    top: 60px;
+    	left: 65px;
+	}
+	.myDate{
+		position: relative;
+	    top: 25px;
+    	right: 61px;
+	}
+	.hanasiContent{
+		padding:10px;
+		border:solid 1px;
+		position: relative;
+	    bottom: 90px;
+    	left: 55px;
+	}
+	.hanasiMyContent{
+		padding:10px;
+		border:solid 1px;
+		position: relative;
+		float:right;
+		left:60px;
 	}

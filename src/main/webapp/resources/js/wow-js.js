@@ -76,6 +76,16 @@ $(function() {
 		if(status != 'block'){   
 			document.getElementById("notice").style.display = 'block';
 		}
+		notice();
+	});
+	
+	$('.cntNewNotice').on('click',function(){
+		var status = document.getElementById("notice").style.display;
+		barclose();
+		if(status != 'block'){   
+			document.getElementById("notice").style.display = 'block';
+		}
+		notice();
 	});
 	
 	$("#btnSlide").on("click", function(){  
@@ -190,7 +200,7 @@ $(function() {
 		});
 	});
 	
-	$('#checkId').on('click',function(){
+	$('#signId').on('keyup',function(){
 		var signId = $('#signId').val();
 		$.ajax({
 			url:"checkId",
@@ -415,6 +425,13 @@ $(function() {
 		boardDetail();
 	}
 	
+	if($('.request').length!=0){
+		request();
+	}
+	
+	if($('.contract').length!=0){
+		contract();
+	}
 });
 
 function extraInfo(){
@@ -422,7 +439,7 @@ function extraInfo(){
 		var id = $("#id").val();
 		var membertype = $("#membertype").val();
 		var name = $("#name").val();
-		var tel = $("#tel").val();
+		var tel = $("#signPhone1").val()+"-"+$("#signPhone2").val()+"-"+$("#signPhone3").val();
 		var type = "";
 		for(var i=1; i<=5; i++){
 			if($('#typeContent'+i).val!=""){
@@ -444,7 +461,7 @@ function extraInfo(){
 		
 		$('#type').val(type);
 		$('#selectedKeyword').val(keyword);
-		
+		$('#tel').val(tel);
 		$("#imgForm").submit();
 		
 	});
@@ -781,7 +798,7 @@ function map(serverData){
 							            '                <div class="ellipsis">'+item.spaceaddr2+'</div>' +
 							            '                <div class="jibun ellipsis">'+type+'</div>' +
 							            '                <div class="jibun ellipsis">'+keyword+'</div>' +
-							            '                <a class="overLay-goBoard">자세히보기</a>' +
+							            '                <a class="overLay-goBoard" data-sno="'+item.boardnum+'">자세히보기</a>' +
 							            '            </div>' + 
 							            '        </div>' + 
 							            '    </div>' +    
@@ -824,6 +841,11 @@ function map(serverData){
 											addMarker(serverData);
 										}
 									});
+								});
+								
+								$('.overLay-goBoard').on('click',function(){
+									var clickNo = $(this).attr('data-sno');
+									location.href="goSpaceDetail?boardnum="+clickNo;
 								});
 							});
 						});
@@ -918,7 +940,7 @@ function map(serverData){
 								            '                <div class="ellipsis">'+item.spaceaddr2+'</div>' +
 								            '                <div class="jibun ellipsis">'+type+'</div>' +
 								            '                <div class="jibun ellipsis">'+keyword+'</div>' +
-								            '                <a class="overLay-goBoard">자세히보기</a>' +
+								            '                <a class="overLay-goBoard" data-sno="'+item.boardnum+'">자세히보기</a>' +
 								            '            </div>' + 
 								            '        </div>' + 
 								            '    </div>' +    
@@ -959,8 +981,14 @@ function map(serverData){
 												removeMarker(); 
 												overlays=[];
 												addMarker(serverData);
+												$('#searchResult').html(text+"(으)로 검색한 결과입니다.");
 											}
 										});
+									});
+									
+									$('.overLay-goBoard').on('click',function(){
+										var clickNo = $(this).attr('data-sno');
+										location.href="goSpaceDetail?boardnum="+clickNo;
 									});
 								});
 							});
@@ -969,6 +997,7 @@ function map(serverData){
 					});
 				}
 			}
+			
 	
 			function panTo(latitude,longitude) {
 			 	// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
@@ -1024,6 +1053,7 @@ function map(serverData){
 						removeMarker(); 
 						overlays=[];
 						addMarker(serverData);
+						$('#searchResult').html("카페(으)로 검색한 결과입니다.");
 					}
 				});
 			});
@@ -1038,20 +1068,67 @@ function map(serverData){
 						removeMarker(); 
 						overlays=[];
 						addMarker(serverData);
+						$('#searchResult').html("서점(으)로 검색한 결과입니다.");
 					}
 				});
 			});
 			
 			$('#map_btn3').on('click',function(){
-				$('#text').val("꽃");
+				$('#text').val("소품샵");
 				$.ajax({
 					url:"searchMap",
-					data:{text:"꽃"},
+					data:{text:"소품샵"},
 					type:"get",
 					success:function(serverData){
 						removeMarker(); 
 						overlays=[];
 						addMarker(serverData);
+						$('#searchResult').html("소품샵(으)로 검색한 결과입니다.");
+					}
+				});
+			});
+			
+			$('#map_btn4').on('click',function(){
+				$('#text').val("바");
+				$.ajax({
+					url:"searchMap",
+					data:{text:"바"},
+					type:"get",
+					success:function(serverData){
+						removeMarker(); 
+						overlays=[];
+						addMarker(serverData);
+						$('#searchResult').html("바(으)로 검색한 결과입니다.");
+					}
+				});
+			});
+			
+			$('#map_btn5').on('click',function(){
+				$('#text').val("레스토랑");
+				$.ajax({
+					url:"searchMap",
+					data:{text:"레스토랑"},
+					type:"get",
+					success:function(serverData){
+						removeMarker(); 
+						overlays=[];
+						addMarker(serverData);
+						$('#searchResult').html("레스토랑(으)로 검색한 결과입니다.");
+					}
+				});
+			});
+			
+			$('#map_btn6').on('click',function(){
+				$('#text').val("복합문화공간");
+				$.ajax({
+					url:"searchMap",
+					data:{text:"복합문화공간"},
+					type:"get",
+					success:function(serverData){
+						removeMarker(); 
+						overlays=[];
+						addMarker(serverData);
+						$('#searchResult').html("복합문화공간(으)로 검색한 결과입니다.");
 					}
 				});
 			});
@@ -1060,6 +1137,19 @@ function map(serverData){
 				panTo();
 			});
 			
+			$('#map_btn8').on('click',function(){
+				$.ajax({
+					url:"searchPopular",
+					data:{type:"space"},
+					type:"get",
+					success:function(serverData){
+						removeMarker(); 
+						overlays=[];
+						addMarker(serverData);
+						$('#searchResult').html("인기있는 장소로 검색한 결과입니다.");
+					}
+				});
+			});
 			
 			$('#mapSearchBtn').on('click',function(){
 				var text = $('#mapSearchText').val();
@@ -1072,6 +1162,7 @@ function map(serverData){
 						removeMarker(); 
 						overlays=[];
 						addMarker(serverData);
+						$('#searchResult').html(text+"(으)로 검색한 결과입니다.");
 						$('#mapSearchText').val("");
 					}
 				});
@@ -1093,6 +1184,10 @@ function map(serverData){
 						}
 					});
 				}
+			});
+			
+			$('.backMap').on('click',function(){
+				history.back();
 			});
 		}
 	}
@@ -1283,7 +1378,12 @@ function proposal(){
 			}
 		}
 		var comments=$('#comments').val();
-		var precaution=$('#precaution').val();
+		var precaution="";
+		for(var i=1; i<=5; i++){
+			if($('#precaution'+i).val!=""){
+				precaution += "&"+$('#precaution'+i).val();
+			}
+		}
 		var name = $('#name').val();
 		var type = "";
 		for(var i=1; i<=5; i++){
@@ -1333,6 +1433,7 @@ function proposal(){
 		if(scale!=null){
 			$('#form_scale').val(scale);
 		}
+		
 	});
 }
 
@@ -1394,8 +1495,8 @@ function userBoard(){
 		}
 		var contractPeriod = "";
 		for(var i=1; i<=7; i++){
-			if($('#contractPeriod'+i).val!=""){
-				contractPeriod += "&"+$('#contractPeriod'+i).val();
+			if($('#contractPeriodContent'+i).val!=""){
+				contractPeriod += "&"+$('#contractPeriodContent'+i).val();
 			}
 		}
 		var offday = "";
@@ -1481,6 +1582,12 @@ function userBoard(){
 				}
 			}
 		});
+		var type="";
+		for(var i=1; i<=5; i++){
+			if($('#typeContent'+i).val!=""){
+				type += "&"+$('#typeContent'+i).val();
+			}
+		}
 		var keyword = "";
 		for(var i=1; i<=5; i++){
 			if($('#keywordContent'+i).val!=""){
@@ -1488,17 +1595,22 @@ function userBoard(){
 			}
 		}
 		var comments=$('#comments').val();
-		var precaution=$('#precaution').val();
+		var precaution="";
+		for(var i=1; i<=5; i++){
+			if($('#precaution'+i).val!=""){
+				precaution += "&"+$('#precaution'+i).val();
+			}
+		}
 		var contractPeriod = "";
 		for(var i=1; i<=7; i++){
-			if($('#contractPeriod'+i).val!=""){
-				optime += "&"+$('#contractPeriod'+i).val();
+			if($('#contractPeriodContent'+i).val!=""){
+				contractPeriod += "&"+$('#contractPeriodContent'+i).val();
 			}
 		}
 		var offday = "";
 		for(var i=1; i<=7; i++){
 			if($('#offdayContent'+i).val!=""){
-				keyword += "&"+$('#offdayContent'+i).val();
+				offday += "&"+$('#offdayContent'+i).val();
 			}
 		}
 		if(membertype=='셀러'){
@@ -1814,8 +1926,8 @@ function keywordSet(){
 					for(var i=1; i<=15; i++){
 						var status = $("#selectedKeyword"+i).length;
 						if(status!=0) {
+							$('#keywordIcon'+i).css('color','#F05E22');
 							$('#keyword'+i).css('color','#F05E22');
-							$('#keyword-icon'+i).css('color','#F05E22');
 						}
 					}
 					$("#selectKeyword i").attr('class','fas fa-chevron-up');
@@ -1841,7 +1953,7 @@ function keywordSet(){
 			var status = document.getElementById("keyword"+clickNo).style.color;
 			if(status=='rgb(240, 94, 34)'){
 				$('#keyword'+clickNo).css('color','gray');
-				$('#keyword-icon'+clickNo).css('color','gray');
+				$('#keywordIcon'+clickNo).css('color','gray');
 				var keyword = $('#keyword'+clickNo).text();
 				$('#selectedKeyword'+clickNo).remove();
 				var keyword = $('#keyword'+clickNo).text();
@@ -1863,7 +1975,7 @@ function keywordSet(){
 					alert("5개이상선택할수없습니다.");
 				} else{
 					$('#keyword'+clickNo).css('color','#F05E22');
-					$('#keyword-icon'+clickNo).css('color','#F05E22');
+					$('#keywordIcon'+clickNo).css('color','#F05E22');
 					var keyword = $('#keyword'+clickNo).text();
 					$('#keywordSelected .td-2').append("<button type='button' id='selectedKeyword"+clickNo+"'>"+keyword.substring(1)
 							+"<a href='javascript:void(0);' data-sno='"+clickNo+"' key='"+keyword.substring(1)+"' id='deleteKeyword"+clickNo+"' class='keyword-del'>　X</a></button>");
@@ -1891,7 +2003,7 @@ function keywordSet(){
 		$('.keyword-del').on('click',function(){
 			var delNo = $(this).attr('data-sno');
 			$('#keyword'+delNo).css('color','gray');
-			$('#keyword-icon'+delNo).css('color','gray');
+			$('#keywordIcon'+delNo).css('color','gray');
 			var keyword = $('#keyword'+delNo).text();
 			$('#selectedKeyword'+delNo).remove();
 			var delKeyword = $(this).attr('key');
@@ -2133,126 +2245,170 @@ function boardDetail(){
     	var boardnum = $('#board-num').val();
     	var comments = $('#qnaInsertTextarea').val();
     	var id = $('#sessionId').val();
+    	var membertype = $('#boardType').val();
+    	var go = "goHome";
+    	if(membertype=="셀러"){
+			go = "goSellerDetail?boardnum="+boardnum;
+		} else if(membertype=="공간제공자") {
+			go = "goSpaceDetail?boardnum="+boardnum;
+		}
+		var receiveId = $('#boardId').val();
     	$.ajax({
     		url:"insertQna",
     		data:{boardnum:boardnum,
     			  comments:comments,
-    			  id:id},
+    			  id:id,
+    			  go:go,
+    			  receiveId:receiveId},
     		type:"get",
     		success:function(serverData){
     			$('#modal-board-qna').css('display','none');
     			var data = '';
-    			data += '<tr><th>작성자</th><th>질문제목</th><th>작성일자</th></tr>';
+    			data += '<tr><th>작성자</th><th>질문제목</th><th>작성일자</th><th>비고</th></tr>';
     			$.each(serverData,function(index,item){
     				data += '<tr>';
-        			data += '<td>'+item.nickname+'</td>';
-        			data += '<td>'+item.comments+'</td>';
-        			data += '<td>'+item.indate+'</td>';
+        			data += '<td><input type="hidden" id="qnaNum" value="'+item.qnanum+'">'+item.nickname+'</td>'
+					data += '<td class="commentsTitle"><a href="javascript:void(0);" class="goCommentsDetail" data-sno="'+item.qnanum+'" qnaId="'+item.id+'">'+item.comments+'</a></td>'
+					data += '<td>'+item.indate+'</td>'
+					if(id==item.id){
+						data += '<td><button class="udtCommentBtn" data-sno="'+item.qnanum+'">수정</button><button class="delCommentBtn" data-sno="'+item.qnanum+'">삭제</button></td>'
+					} else {
+						data += '<td></td>'
+					}
         			data += '</tr>';
     			});
     			$('#commentTable').html(data);
+    			goCommentsDetail();
     		}
     	});
     });
     
-    $('.goCommentsDetail').on('click',function(){
-    	var loginId = $('#sessionId').val();
-    	var boardId = $('#boardId').val();
-    	var qnaId = $(this).attr('qnaId');
-    	var qnaNum = $(this).attr('data-sno');
-    	var boardNum = $('#board-num').val();
-    	var boardName = $('#boardName').text();
-    	$.ajax({
-    		url:"goCommentsDetail",
-    		data:{qnanum:qnaNum,
-    			  boardnum:boardNum},
-    		type:"get",
-    		success:function(serverData){
-    			var data = '';
-    			if(loginId==boardId){
-	    			data = '<div class="modal-board-qnaReplyHeader">';
-		    		data += serverData.nickname+'님의 댓글 '+'<span class="closeReply">&times;</span>';
-		    		data += '</div>';
-					data += '<div class="modal-board-qnaReplyContent" id="modal-board-qnaContent">';
-					data += '<div class="modal-board-qnaReplyInsert" id="modal-baord-qnaInsert">';
-					data += '<div class="modal-board-qnaReplyQuestion" id="modal-board-qnaHead">';
-					data +=	'Q. '+serverData.comments+'</div>';
-					data += '<div class="modal-board-qnaReplyHead" id="modal-board-qnaHead">';
-					data +=	'답글달기</div>';
-					data += '<textarea class="replyInsertTextarea" id="replyInsertTextarea" maxlength="200" placeholder="답글을 입력하세요."></textarea>';
-					data += '</div>';
-					data += '<div class="modal-board-replybtn">';
-					data += '<a href="javascript:void(0);" id="reply-cancel"><span class="modal-board-qna-cancel">취소</span></a>';
-					data += '<a href="javascript:void(0);" id="reply-regist" qnaNum="'+qnaNum+'"><span class="modal-board-qna-regist">등록</span></a>';
-					data += '</div>';
-					data += '</div>';
-	    			$('.modal-board-qnaReply').html(data);
-	    			$('#modal-board-qnaReply').css('display','block');
-	    			$('.closeReply').on('click',function(){
-	    		    	$('#modal-board-qnaReply').css('display','none');
+    goCommentsDetail();
+    function goCommentsDetail(){
+	    $('.goCommentsDetail').on('click',function(){
+	    	var loginId = $('#sessionId').val();
+	    	var boardId = $('#boardId').val();
+	    	var qnaId = $(this).attr('qnaId');
+	    	var qnaNum = $(this).attr('data-sno');
+	    	var boardNum = $('#board-num').val();
+	    	var boardName = $('#boardName').text();
+	    	$.ajax({
+	    		url:"goCommentsDetail",
+	    		data:{qnanum:qnaNum,
+	    			  boardnum:boardNum},
+	    		type:"get",
+	    		success:function(serverData){
+	    			var data = '';
+	    			if(loginId==boardId){
+		    			data = '<div class="modal-board-qnaReplyHeader">';
+			    		data += serverData.nickname+'님의 댓글 '+'<span class="closeReply">&times;</span>';
+			    		data += '</div>';
+						data += '<div class="modal-board-qnaReplyContent" id="modal-board-qnaContent">';
+						data += '<div class="modal-board-qnaReplyInsert" id="modal-baord-qnaInsert">';
+						data += '<div class="modal-board-qnaHead" id="modal-board-qnaHead">';
+						data +=	serverData.nickname+'님의 댓글</div>';
+						data += '<div class="modal-board-qnaReplyQuestion" id="modal-board-qnaHead">';
+						data +=	'Q. '+serverData.comments+'</div>';
+						if(serverData.reply==null){
+							data += '<div class="modal-board-qnaReplyHead" id="modal-board-qnaHead">';
+							data +=	'답글달기<input type="hidden" id="receiveId" value="'+serverData.id+'"></div>';
+							data += '<textarea class="replyInsertTextarea" id="replyInsertTextarea" maxlength="200" placeholder="답글을 입력하세요."></textarea>';
+							data += '</div>';
+							data += '<div class="modal-board-replybtn">';
+							data += '<a href="javascript:void(0);" id="reply-cancel"><span class="modal-board-qna-cancel">취소</span></a>';
+							data += '<a href="javascript:void(0);" id="reply-regist" qnaNum="'+qnaNum+'"><span class="modal-board-qna-regist">등록</span></a>';
+							data += '</div>';
+						} else {
+							data += '<div class="modal-board-qnaReplyHead" id="modal-board-qnaHead">';
+							data +=	boardName+'님의 답글</div>';
+							data += '<div class="modal-board-qnaReplyComments">A. '+serverData.reply+'</div>';
+						}
+						data += '</div>';
+		    			$('.modal-board-qnaReply').html(data);
+		    			$('#modal-board-qnaReply').css('display','block');
+		    			$('.closeReply').on('click',function(){
+		    		    	$('#modal-board-qnaReply').css('display','none');
+		    		    });
+		    		    $('#reply-cancel').on('click',function(){
+		    		    	$('#modal-board-qnaReply').css('display','none');
+		    		    });
+	    			} else if(loginId==qnaId) {
+	    				data = '<div class="modal-board-qnaReplyHeader">';
+			    		data += serverData.nickname+'님의 댓글 '+'<span class="closeReply">&times;</span>';
+			    		data += '</div>';
+						data += '<div class="modal-board-qnaReplyContent" id="modal-board-qnaContent">';
+						data += '<div class="modal-board-qnaReplyInsert" id="modal-baord-qnaInsert">';
+						data += '<div class="modal-board-qnaReplyQuestion" id="modal-board-qnaHead">';
+						data +=	'Q. '+serverData.comments+'</div>';
+						data += '<div class="modal-board-qnaReplyHead" id="modal-board-qnaHead">';
+						data +=	boardName+'님의 답글</div>';
+						if(serverData.reply!=null){
+							data += '<div class="modal-board-qnaReplyComments">A. '+serverData.reply+'</div>';
+						} else {
+							data += '<div class="modal-board-qnaReplyComments">아직 '+boardName+'님이 답글을 달지 않았습니다.</div>';
+						}
+						data += '</div>';
+						data += '</div>';
+	    				$('.modal-board-qnaReply').html(data);
+	    				$('.modal-board-qnaReplyContent').css('height','330px');
+		    			$('#modal-board-qnaReply').css('display','block');
+		    			$('.closeReply').on('click',function(){
+		    		    	$('#modal-board-qnaReply').css('display','none');
+		    		    });
+		    		    $('#reply-cancel').on('click',function(){
+		    		    	$('#modal-board-qnaReply').css('display','none');
+		    		    });
+	    			} else {
+	    				alert("작성자만 볼 수 있습니다.");
+	    			}
+	    			
+	    			$('#reply-regist').on('click',function(){
+	    		    	var qnanum = $(this).attr('qnaNum');
+	    		    	var boardnum = $('#board-num').val();
+	    		    	var reply = $('#replyInsertTextarea').val();
+	    		    	var id = $('#sessionId').val();
+	    		    	var go = "goHome";
+	    		    	var membertype = $('#boardType').val();
+	    		    	if(membertype=="셀러"){
+	    					go = "goSellerDetail?boardnum="+boardnum;
+	    				} else if(membertype=="공간제공자") {
+	    					go = "goSpaceDetail?boardnum="+boardnum;
+	    				}
+	    				var receiveId = $('#receiveId').val();
+	    		    	$.ajax({
+	    		    		url:"insertReply",
+	    		    		data:{qnanum:qnanum,
+	    		    			  boardnum:boardnum,
+	    		    			  reply:reply,
+	    		    			  id:id,
+	    		    			  go:go,
+	    		    			  receiveId:receiveId},
+	    		    		type:"get",
+	    		    		success:function(serverData){
+	    		    			$('#modal-board-qnaReply').css('display','none');
+	    		    			var data = '';
+	    		    			data += '<tr><th>작성자</th><th>질문제목</th><th>작성일자</th><th>비고</th></tr>';
+	    		    			$.each(serverData,function(index,item){
+	    		    				data += '<tr>';
+	    		        			data += '<td><input type="hidden" id="qnaNum" value="'+item.qnanum+'">'+item.nickname+'</td>'
+	    							data += '<td class="commentsTitle"><a href="javascript:void(0);" class="goCommentsDetail" data-sno="'+item.qnanum+'" qnaId="'+item.id+'">'+item.comments+'</a></td>'
+	    							data += '<td>'+item.indate+'</td>'
+	    							if(id==item.id){
+	    								data += '<td><button class="udtCommentBtn" data-sno="'+item.qnanum+'">수정</button><button class="delCommentBtn" data-sno="'+item.qnanum+'">삭제</button></td>'
+	    							} else {
+	    								data += '<td></td>'
+	    							}
+	    		        			data += '</tr>';
+	    		    			});
+	    		    			$('#commentTable').html(data);
+	    		    			goCommentsDetail();
+	    		    		}
+	    		    	});
 	    		    });
-	    		    $('#reply-cancel').on('click',function(){
-	    		    	$('#modal-board-qnaReply').css('display','none');
-	    		    });
-    			} else if(loginId==qnaId) {
-    				data = '<div class="modal-board-qnaReplyHeader">';
-		    		data += serverData.nickname+'님의 댓글 '+'<span class="closeReply">&times;</span>';
-		    		data += '</div>';
-					data += '<div class="modal-board-qnaReplyContent" id="modal-board-qnaContent">';
-					data += '<div class="modal-board-qnaReplyInsert" id="modal-baord-qnaInsert">';
-					data += '<div class="modal-board-qnaReplyQuestion" id="modal-board-qnaHead">';
-					data +=	'Q. '+serverData.comments+'</div>';
-					data += '<div class="modal-board-qnaReplyHead" id="modal-board-qnaHead">';
-					data +=	boardName+'님의 답글</div>';
-					if(serverData.reply!=null){
-						data += '<div class="modal-board-qnaReplyComments">A.'+serverData.reply+'</div>';
-					} else {
-						data += '<div class="modal-board-qnaReplyComments">아직 '+boardName+'님이 답글을 달지 않았습니다.</div>';
-					}
-					data += '</div>';
-					data += '</div>';
-    				$('.modal-board-qnaReply').html(data);
-	    			$('#modal-board-qnaReply').css('display','block');
-	    			$('.closeReply').on('click',function(){
-	    		    	$('#modal-board-qnaReply').css('display','none');
-	    		    });
-	    		    $('#reply-cancel').on('click',function(){
-	    		    	$('#modal-board-qnaReply').css('display','none');
-	    		    });
-    			} else {
-    				alert("작성자만 볼 수 있습니다.");
-    			}
-    			
-    			$('#reply-regist').on('click',function(){
-    		    	var qnanum = $(this).attr('qnaNum');
-    		    	var boardnum = $('#board-num').val();
-    		    	var reply = $('#replyInsertTextarea').val();
-    		    	var id = $('#sessionId').val();
-    		    	$.ajax({
-    		    		url:"insertReply",
-    		    		data:{qnanum:qnanum,
-    		    			  boardnum:boardnum,
-    		    			  reply:reply,
-    		    			  id:id},
-    		    		type:"get",
-    		    		success:function(serverData){
-    		    			$('#modal-board-qna').css('display','none');
-    		    			var data = '';
-    		    			data += '<tr><th>작성자</th><th>질문제목</th><th>작성일자</th></tr>';
-    		    			$.each(serverData,function(index,item){
-    		    				data += '<tr>';
-    		        			data += '<td>'+item.nickname+'</td>';
-    		        			data += '<td>'+item.comments+'</td>';
-    		        			data += '<td>'+item.indate+'</td>';
-    		        			data += '</tr>';
-    		    			});
-    		    			$('#commentTable').html(data);
-    		    		}
-    		    	});
-    		    });
-    		}
-    	});
-    });
+	    		}
+	    	});
+	    });
+    }
     
     // 비슷한 공간 상세 페이지 이동
     $('.inner_similar').on('click',function(){
@@ -2344,6 +2500,110 @@ function boardDetail(){
     		}
     	});
     });
+    
+    $('#goContractRequest').on('click',function(){
+    	var boardnum = $('#board-num').val();
+    	var id = $('#sessionId').val();
+    	var boardId = $('#boardId').val();
+    	var contractperiod = $('#contractPeriod').val();
+    	
+    	$(".close2").on('click',function(){
+    		location.href="goSpaceDetail?boardnum="+boardnum;
+    	});
+    	
+    	var selectedContractType = $('.selectedContractType').text();
+    	if(selectedContractType==""){
+    		alert("신청방식을 선택하여주세요!");
+    	} else if(selectedContractType=="온라인 신청") {
+    		$('#modal-userBoard-proposalList').css('display','block');
+    		$("input:radio[name=selectProposal]").change(function(){
+    			var checked_radio = $(this).val();
+    			$.ajax({
+    		    	url:"selectProposal",
+    		    	data:{proposalnum:checked_radio},
+    		    	type:"get",
+    		    	success:function(serverData){
+    		    		$('#userBoardWrite').html(serverData);
+    		    	}
+    		    });
+    			
+    		});
+    		$('#btnGoRequest').on('click',function(){
+    			var checked_radio_check = $("input:radio[name=selectProposal]").prop("checked");
+    			var checked_radio = $("input:radio[name=selectProposal]:checked").val();
+    			if(checked_radio==false){
+    				alert('선택해주세요!');
+    				return false;
+    			} 
+    			$.ajax({
+        			url:"insertRequest",
+        			data:{id:id,
+        				  boardnum:boardnum,
+        				  proposalnum:checked_radio,
+        				  contractperiod:contractperiod,
+        				  boardId:boardId},
+        			type:"get",
+        			success:function(serverData){
+        				$('#modal-userBoard-proposalList').css('display','none');
+        			}
+        		});
+    		});
+    	} else {
+    		$.ajax({
+    			url:"insertRequest",
+    			data:{id:id,
+    				  boardnum:boardnum,
+    				  contractperiod:contractperiod,
+    				  boardId:boardId},
+    			type:"get",
+    			success:function(serverData){
+    				$('#modal-userBoard-proposalList').css('display','none');
+    			}
+    		});
+    	}
+    });
+    
+  //찜
+	$("#board-content-zzim").on('click',function(){
+		var status = $(this).val();
+		var boardnum = $("#board-num").val(); 
+		var id = $("#sessionId").val();
+		var boardId = $('#boardId').val();
+		var membertype=$('#boardType').val();
+		var go = "goHome";
+		if(membertype=="셀러"){
+			go = "goSellerDetail?boardnum="+boardnum;
+		} else if(membertype=="공간제공자") {
+			go = "goSpaceDetail?boardnum="+boardnum;
+		}
+		var zzim = {'boardnum':boardnum,'id':id, 'go':go, 'boardId':boardId};
+		var zzimCount = Number($('#zzimCount').text());
+		if(status==1){
+			$.ajax({
+				url:'deleteZzim',
+				data:zzim,
+				type:'get',
+				success:function(serverData){
+					$('#board-content-zzim').html('<i class="far fa-heart" title="찜하기"></i>');
+					$('#board-content-zzim').val("0");
+					zzimCount=zzimCount-1;
+					$('#zzimCount').html(zzimCount);
+				}
+			});
+		} else {
+			$.ajax({
+				url:'insertZzim',
+				data:zzim,
+				type:'get',
+				success:function(serverData){
+					$('#board-content-zzim').html('<i class="fas fa-heart" title="찜취소"></i>');
+					$('#board-content-zzim').val("1");
+					zzimCount=zzimCount+1;
+					$('#zzimCount').html(zzimCount);
+				}
+			});
+		}
+	});
 }
 
 function img(){
@@ -2414,8 +2674,1207 @@ function img(){
         
     }
 	
-	
+}
 
+function request(){
+	$('.clickListRequest').on('click',function(){
+		var clickNo = $(this).attr('data-sno');
+		$.ajax({
+			url:"listRequest",
+			data:{clickNo:clickNo},
+			type:"get",
+			success:function(serverData){
+				$('.listRequestTable').empty();
+				$('.listRequestTable').css('background-color','gray');
+				var data = '<tr class="listRequestUser" id="listRequestUser${board.boardnum}l"><td colspan="5" class="listLine">지원자목록 <i class="fas fa-level-down-alt"></i></td></tr>';
+				if(serverData==""){
+					data += '<tr><td colspan="5">현재 지원자가 없습니다.</td></tr>'
+				} else {
+					$.each(serverData, function(index,item){
+						var approval = '<td class="td-listRequest" id="listRequestApproval'+item.requestnum+'" rowspan="2"><button class="btnApproval" data-sno="'+item.requestnum+'" id="btnApproval">OK</button><button class="btnRefuse" data-sno="'+item.requestnum+'" id="btnRefuse">SORRY</button></td>';
+						if(item.approval=="1"){
+							approval = '<td class="td-listRequest" id="listRequestApproval'+item.requestnum+'" rowspan="2">계약요청이 승인되었습니다.</td>';
+						} else if(item.approval=="0"){
+							approval = '<td class="td-listRequest" id="listRequestApproval'+item.requestnum+'" rowspan="2">계약요청이 거절되었습니다.</td>';
+						}
+						var requestType = "오프라인 신청";
+						var goProposal = "";
+						if(item.proposalnum!=""){
+							requestType = "온라인 신청"
+							goProposal = '<a href="goProposalDetail?clickNo='+item.proposalnum+'">제안서 보러가기</a>';
+						}
+						data += '<tr class="listRequestUser" id="listRequestUser'+item.boardnum+'">';
+						data += '<td class="listRequestUserProfile" rowspan="2"><div class="profileIcon-request"><img src="resources/images/seller.png"></div></td>';
+						data += '<td class="td-listRequest">'+item.nickname+' '+'</td>';
+						data += '<td class="td-listRequest">'+goProposal+'<input type="hidden" id="requestId'+item.requestnum+'" value="'+item.id+'"></td>';
+						data += approval;
+						data += '</tr>';
+						data += '<tr class="listRequestUser" id="listRequestUser'+item.boardnum+'a">';
+						data += '<td class="td-listRequest">'+requestType+'('+item.contractperiod+')'+'<input type="hidden" id="contractPeriod'+item.requestnum+'" value="'+item.contractperiod+'"></td>';
+						data += '<td class="td-listRequest">계약 요청일 : '+item.requestdate+'</td>';
+						data += '</tr>';
+						data += '<tr><td colspan="4" class="listLine"></td></tr>';
+					});
+				}
+				$('#listRequestTable'+clickNo).append(data);
+				$('#listRequestTable'+clickNo).css('background-color','white');
+				$('#listRequestTable'+clickNo+' .listRequestUser').css('display','table-row');
+				
+				$('.btnApproval').on('click',function(){
+					var clickNo = $(this).attr('data-sno');
+					var go = "goRequest";
+					var receiveId = $('#requestId'+clickNo).val();
+					var contractPeriod = $('#contractPeriod'+clickNo).val();
+					$.ajax({
+						url:"clickApproval",
+						data:{requestnum:clickNo,
+							  select:"승인",
+							  go:go,
+							  receiveId:receiveId,
+							  contractPeriod:contractPeriod},
+						type:"get",
+						success:function(serverData){
+						}
+					});
+					$('#listRequestApproval'+clickNo).html("계약요청이 승인되었습니다.");
+				});
+				
+				$('.btnRefuse').on('click',function(){
+					var clickNo = $(this).attr('data-sno');
+					var go = "goRequest";
+					var receiveId = $('#requestId'+clickNo).val();
+					$.ajax({
+						url:"clickApproval",
+						data:{requestnum:clickNo,
+							  select:"거절",
+							  go:go,
+							  receiveId:receiveId},
+						type:"get",
+						success:function(serverData){
+						}
+					});
+					$('#listRequestApproval'+clickNo).html("계약요청이 거절되었습니다.");
+				});
+			}
+		});
+		
+	});
+	
+	$('.clickListMyRequest').on('click',function(){
+		var clickNo = $(this).attr('data-sno');
+		$.ajax({
+			url:"listMyRequest",
+			data:{clickNo:clickNo},
+			type:"get",
+			success:function(serverData){
+				$('.requestResult').empty();
+				$('.requestResult').css('background-color','gray');
+				var data = '<tr class="listRequestUser" id="listRequestUser${board.boardnum}l"><td colspan="5" class="listLine">지원결과 <i class="fas fa-level-down-alt"></i></td></tr>';
+				if(serverData==""){
+					data += '<tr><td colspan="5">현재 지원자가 없습니다.</td></tr>'
+				} else {
+					$.each(serverData, function(index,item){
+						var approval = item.approval;
+						if(approval==null){
+							approval = "아직 성사여부가 결정되지 않았습니다.";
+						} else if(approval=='1') {
+							approval = "계약요청이 승인되었습니다.";
+						} else {
+							approval = "계약요청이 거절되었습니다.";
+						}
+						data += '<tr><td colspan="5">'+approval+'</td></tr>';
+					});
+				}
+				$('#requestResultTable'+clickNo).append(data);
+				$('#requestResultTable'+clickNo).css('background-color','white');
+				$('#requestResultTable'+clickNo+' .listRequestUser').css('display','table-row');
+			}
+		});
+		
+	});
+}
+
+function notice(){
+	$('.notice').on('mouseenter',function(){
+		$('.notice').css('overflow-y','auto');
+		$('.updateConfirm').css('display','block');
+		$('.noConfirm').css('display','block');
+		$('.deleteNotice').css('display','block');
+	});
+	$('.notice').on('mouseleave',function(){
+		$('.notice').css('overflow-y','hidden');
+		$('.updateConfirm').css('display','none');
+		$('.noConfirm').css('display','none');
+		$('.deleteNotice').css('display','none');
+	});
+	
+	$('.goAllConfirm').on('click',function(){
+		var id=$(this).attr('data-sno');
+		$.ajax({
+			url:"goAllConfirm",
+			data:{id:id},
+			type:"get",
+			success:function(serverData){
+				location.href="updateHome";
+			}
+		});
+	});
+	
+	$('.checkNotice').on('click',function(){
+		var clickNo = $(this).attr('data-sno');
+		var go = $(this).attr('go');
+		$.ajax({
+			url:"updateConfirm",
+			data:{noticenum:clickNo},
+			type:"get",
+			success:function(serverData){
+				$('#checkNotice'+clickNo).css('background-color','#FADCA5');
+			}
+		});
+		location.href=go;
+	});
+	
+	$('.updateConfirm').on('click',function(){
+		var clickNo = $(this).attr('data-sno');
+		
+		$.ajax({
+			url:"updateConfirm",
+			data:{noticenum:clickNo},
+			type:"get",
+			success:function(serverData){
+				$('#checkNotice'+clickNo).css('background-color','#FADCA5');
+				location.href="updateHome";
+			}
+		});
+	});
+	
+	$('.deleteNotice').on('click',function(){
+		var clickNo = $(this).attr('data-sno');
+		
+		$.ajax({
+			url:"deleteNotice",
+			data:{noticenum:clickNo},
+			type:"get",
+			success:function(serverData){
+				location.href="updateHome";
+			}
+		});
+	});
+}
+
+function contract(){
+	$('.goContractDetail').on('click',function(){
+		var contractNum = $(this).attr('data-sno');
+		$.ajax({
+			url:"selectContract",
+			data:{contractnum:contractNum},
+			type:"get",
+			success:function(serverData){
+				var data = "";
+				var content = "";
+				var sellerId = serverData.sellerId;
+				var spacerId = serverData.spacerId;
+				var sessionId = $('#sessionId').val();
+				var sellerNickname = "";
+				var spacerNickname = "";
+				$.ajax({
+					url:"searchNickname",
+					data:{sellerId:sellerId,
+						  spacerId:spacerId},
+					type:"get",
+					success:function(search){
+						$.each(search,function(index,item){
+							if(sellerNickname==""){
+								sellerNickname=item;
+							} else {
+								spacerNickname=item;
+							}
+						});
+						data += '<img class="imgContract" src="resources/images/logo.png"><h5 class="contractHeader">'+sellerNickname+"X"+spacerNickname+'</h5><span class="closeContract">&times;</span>';
+						$('#modal-contractHeader').html(data);
+						
+						$('.closeContract').on('click',function(){
+							$('#modal-contractDetail').css('display','none');
+						});
+						
+						content += '<table class="contractDetailTable">';
+						content += '<tr>';
+						content += '<td class="td-contractDetail1">공간이름 : '+spacerNickname+'</td>';
+						content += '<td class="td-contractDetail2">공간분류 : '+serverData.spaceType+'</td>';
+						content += '</tr>';
+						content += '<tr>';
+						content += '<td class="td-contractDetail1" colspan="2">상세주소 : '+serverData.spaceaddr1+' '+serverData.spaceaddr2+'</td>'
+						content += '</tr>';
+						content += '<tr>';
+						content += '<td class="td-contractDetail1">셀러이름 : '+sellerNickname+'</td>';
+						content += '<td class="td-contractDetail2">셀러분류 : '+serverData.sellerType+'</td>';
+						content += '</tr>';
+						content += '<tr>';
+						content += '<td class="td-contractDetail1">계약기간 : '+serverData.contractPeriod+'<input type="hidden" id="contractPeriod" value="'+serverData.contractPeriod+'"></td>';
+						content += '</tr>';
+						content += '<tr>';
+						content += '<td class="td-contractDetail1">현재 재고수 : '+serverData.stockCount+'개';
+						if(sessionId==sellerId){
+							content += '<button type="button" class="btnInsertStock" data-sno="'+serverData.contractnum+'">입고</button>';
+							content += '<div class="insertDiv" id="insertDivStock"><input type="number" class="insertAmount" id="insertAmountStock"><button type="button" id="insertBtnStock">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+						}
+						content += '</td>';
+						content += '<td class="td-contractDetail2">추가 요청수 : '+serverData.orderCount+'개';
+						if(sessionId==spacerId){
+							content += '<button type="button" class="btnInsertOrder" data-sno="'+serverData.contractnum+'">요청</button>';
+							content += '<div class="insertDiv" id="insertDivOrder"><input type="number" class="insertAmount" id="insertAmountOrder"><button type="button" id="insertBtnOrder">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+						}
+						content += '</td>';
+						content += '</tr>';
+						content += '<tr>';
+						content += '<td class="td-contractDetail1">판매수 : '+serverData.soldCount+'개';
+						if(sessionId==spacerId){
+							content += '<button type="button" class="btnInsertSold" data-sno="'+serverData.contractnum+'">입력</button>';
+							content += '<div class="insertDiv" id="insertDivSold"><input type="number" class="insertAmount" id="insertAmountSold"><button type="button" id="insertBtnSold">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+						}
+						content += '</td>';
+						content += '<td class="td-contractDetail2">판매액 : '+serverData.sales+'원';
+						if(sessionId==spacerId){
+							content += '<button type="button" class="btnInsertSales" data-sno="'+serverData.contractnum+'">입력</button>';
+							content += '<div class="insertDiv" id="insertDivSales"><input type="number" class="insertAmount" id="insertAmountSales"><button type="button" id="insertBtnSales">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+						}
+						content += '</td>';
+						content += '</tr>';
+						content += '<tr>';
+						if(serverData.startDate==null){
+							content += '<td class="td-contractDetail1">시작일 : 공간제공자가 시작버튼을 누르면 계약이 진행됩니다.';
+							if(sessionId=spacerId){
+								content += '<button type="button" class="startContract" data-sno="'+serverData.contractnum+'">판매 시작</button>';
+							}
+							content += '</td>';
+							content += '<td class="td-contractDetail2">종료일 : 시작버튼을 누르면 계약 기간만큼 계약이 진행됩니다.</td>';
+						} else {
+							content += '<td class="td-contractDetail1">시작일 : '+serverData.startDate+'</td>';
+							content += '<td class="td-contractDetail2">종료일 : '+serverData.endDate+'</td>';
+						}
+						content += '</tr>';
+						content += '</table>';
+						
+						$('#modal-contractContent').html(content);
+						
+						insertDiv();
+						
+					}
+				});
+			}
+		});
+		$('#modal-contractDetail').css('display','block');
+		
+	});
+	
+	function insertDiv(){
+		var amount = "";
+		$('.1').on('click',function(){
+			amount = $('.insertAmount').val();
+			$('.insertAmount').val(amount+1);
+		});
+		
+		$('.2').on('click',function(){
+			amount = $('.insertAmount').val();
+			$('.insertAmount').val(amount+2);
+		});
+		$('.3').on('click',function(){
+			amount = $('.insertAmount').val();
+			$('.insertAmount').val(amount+3);
+		});
+		$('.4').on('click',function(){
+			amount = $('.insertAmount').val();
+			$('.insertAmount').val(amount+4);
+		});
+		$('.5').on('click',function(){
+			amount = $('.insertAmount').val();
+			$('.insertAmount').val(amount+5);
+		});
+		$('.6').on('click',function(){
+			amount = $('.insertAmount').val();
+			$('.insertAmount').val(amount+6);
+		});
+		$('.7').on('click',function(){
+			amount = $('.insertAmount').val();
+			$('.insertAmount').val(amount+7);
+		});
+		$('.8').on('click',function(){
+			amount = $('.insertAmount').val();
+			$('.insertAmount').val(amount+8);
+		});
+		$('.9').on('click',function(){
+			amount = $('.insertAmount').val();
+			$('.insertAmount').val(amount+9);
+		});
+		$('.0').on('click',function(){
+			amount = $('.insertAmount').val();
+			$('.insertAmount').val(amount+0);
+		});
+		$('.C').on('click',function(){
+			$('.insertAmount').val("");
+		});
+		
+		$('.btnInsertSales').on('click',function(){
+			var status = document.getElementById("insertDivSales").style.display;
+			if(status=='block'){
+				$('#insertDivSales').css('display','none');
+			} else {
+				$('#insertDivSales').css('display','block');
+				var contractnum = $(this).attr('data-sno');
+				$('#insertBtnSales').off('click');
+				$('#insertBtnSales').on('click',function(){
+					var sales = $('#insertAmountSales').val(); 
+					$.ajax({
+						url:"updateContract",
+						data:{contractnum:contractnum,
+							  sales:sales},
+						type:"get",
+						success:function(serverData){
+							var data = "";
+							var content = "";
+							var sellerId = serverData.sellerId;
+							var spacerId = serverData.spacerId;
+							var sessionId = $('#sessionId').val();
+							var sellerNickname = "";
+							var spacerNickname = "";
+							$.ajax({
+								url:"searchNickname",
+								data:{sellerId:sellerId,
+									  spacerId:spacerId},
+								type:"get",
+								success:function(search){
+									$.each(search,function(index,item){
+										if(sellerNickname==""){
+											sellerNickname=item;
+										} else {
+											spacerNickname=item;
+										}
+									});
+									data += '<img class="imgContract" src="resources/images/logo.png"><h5 class="contractHeader">'+sellerNickname+"X"+spacerNickname+'</h5><span class="closeContract">&times;</span>';
+									$('#modal-contractHeader').html(data);
+									
+									$('.closeContract').on('click',function(){
+										$('#modal-contractDetail').css('display','none');
+									});
+									
+									content += '<table class="contractDetailTable">';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">공간이름 : '+spacerNickname+'</td>';
+									content += '<td class="td-contractDetail2">공간분류 : '+serverData.spaceType+'</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1" colspan="2">상세주소 : '+serverData.spaceaddr1+' '+serverData.spaceaddr2+'</td>'
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">셀러이름 : '+sellerNickname+'</td>';
+									content += '<td class="td-contractDetail2">셀러분류 : '+serverData.sellerType+'</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">계약기간 : '+serverData.contractPeriod+'<input type="hidden" id="contractPeriod" value="'+serverData.contractPeriod+'"></td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">현재 재고수 : '+serverData.stockCount+'개';
+									if(sessionId==sellerId){
+										content += '<button type="button" class="btnInsertStock" data-sno="'+serverData.contractnum+'">입고</button>';
+										content += '<div class="insertDiv" id="insertDivStock"><input type="number" class="insertAmount" id="insertAmountStock"><button type="button" id="insertBtnStock">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '<td class="td-contractDetail2">추가 요청수 : '+serverData.orderCount+'개';
+									if(sessionId==spacerId){
+										content += '<button type="button" class="btnInsertOrder" data-sno="'+serverData.contractnum+'">요청</button>';
+										content += '<div class="insertDiv" id="insertDivOrder"><input type="number" class="insertAmount" id="insertAmountOrder"><button type="button" id="insertBtnOrder">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">판매수 : '+serverData.soldCount+'개';
+									if(sessionId==spacerId){
+										content += '<button type="button" class="btnInsertSold" data-sno="'+serverData.contractnum+'">입력</button>';
+										content += '<div class="insertDiv" id="insertDivSold"><input type="number" class="insertAmount" id="insertAmountSold"><button type="button" id="insertBtnSold">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '<td class="td-contractDetail2">판매액 : '+serverData.sales+'원';
+									if(sessionId==spacerId){
+										content += '<button type="button" class="btnInsertSales" data-sno="'+serverData.contractnum+'">입력</button>';
+										content += '<div class="insertDiv" id="insertDivSales"><input type="number" class="insertAmount" id="insertAmountSales"><button type="button" id="insertBtnSales">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '</tr>';
+									content += '<tr>';
+									if(serverData.startDate==null){
+										content += '<td class="td-contractDetail1">시작일 : 공간제공자가 시작버튼을 누르면 계약이 진행됩니다.';
+										if(sessionId=spacerId){
+											content += '<button type="button" class="startContract" data-sno="'+serverData.contractnum+'">판매 시작</button>';
+										}
+										content += '</td>';
+										content += '<td class="td-contractDetail2">종료일 : 시작버튼을 누르면 계약 기간만큼 계약이 진행됩니다.</td>';
+									} else {
+										content += '<td class="td-contractDetail1">시작일 : '+serverData.startDate+'</td>';
+										content += '<td class="td-contractDetail2">종료일 : '+serverData.endDate+'</td>';
+									}
+									content += '</tr>';
+									content += '</table>';
+									
+									$('#modal-contractContent').html(content);
+									
+									insertDiv();
+								}
+							});
+						}
+					});
+					$('.insertAmount').val("");
+					$('#insertDivSales').css('display','none');
+				});
+			}
+		});
+		
+		$('.btnInsertSold').on('click',function(){
+			var status = document.getElementById("insertDivSold").style.display;
+			if(status=='block'){
+				$('#insertDivSold').css('display','none');
+			} else {
+				$('#insertDivSold').css('display','block');
+				var contractnum = $(this).attr('data-sno');
+				$('#insertBtnSold').off('click');
+				$('#insertBtnSold').on('click',function(){
+					var soldCount = $('#insertAmountSold').val(); 
+					$.ajax({
+						url:"updateContract",
+						data:{contractnum:contractnum,
+							  soldCount:soldCount},
+						type:"get",
+						success:function(serverData){
+							var data = "";
+							var content = "";
+							var sellerId = serverData.sellerId;
+							var spacerId = serverData.spacerId;
+							var sessionId = $('#sessionId').val();
+							var sellerNickname = "";
+							var spacerNickname = "";
+							$.ajax({
+								url:"searchNickname",
+								data:{sellerId:sellerId,
+									  spacerId:spacerId},
+								type:"get",
+								success:function(search){
+									$.each(search,function(index,item){
+										if(sellerNickname==""){
+											sellerNickname=item;
+										} else {
+											spacerNickname=item;
+										}
+									});
+									data += '<img class="imgContract" src="resources/images/logo.png"><h5 class="contractHeader">'+sellerNickname+"X"+spacerNickname+'</h5><span class="closeContract">&times;</span>';
+									$('#modal-contractHeader').html(data);
+									
+									$('.closeContract').on('click',function(){
+										$('#modal-contractDetail').css('display','none');
+									});
+									
+									content += '<table class="contractDetailTable">';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">공간이름 : '+spacerNickname+'</td>';
+									content += '<td class="td-contractDetail2">공간분류 : '+serverData.spaceType+'</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1" colspan="2">상세주소 : '+serverData.spaceaddr1+' '+serverData.spaceaddr2+'</td>'
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">셀러이름 : '+sellerNickname+'</td>';
+									content += '<td class="td-contractDetail2">셀러분류 : '+serverData.sellerType+'</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">계약기간 : '+serverData.contractPeriod+'<input type="hidden" id="contractPeriod" value="'+serverData.contractPeriod+'"></td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">현재 재고수 : '+serverData.stockCount+'개';
+									if(sessionId==sellerId){
+										content += '<button type="button" class="btnInsertStock" data-sno="'+serverData.contractnum+'">입고</button>';
+										content += '<div class="insertDiv" id="insertDivStock"><input type="number" class="insertAmount" id="insertAmountStock"><button type="button" id="insertBtnStock">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '<td class="td-contractDetail2">추가 요청수 : '+serverData.orderCount+'개';
+									if(sessionId==spacerId){
+										content += '<button type="button" class="btnInsertOrder" data-sno="'+serverData.contractnum+'">요청</button>';
+										content += '<div class="insertDiv" id="insertDivOrder"><input type="number" class="insertAmount" id="insertAmountOrder"><button type="button" id="insertBtnOrder">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">판매수 : '+serverData.soldCount+'개';
+									if(sessionId==spacerId){
+										content += '<button type="button" class="btnInsertSold" data-sno="'+serverData.contractnum+'">입력</button>';
+										content += '<div class="insertDiv" id="insertDivSold"><input type="number" class="insertAmount" id="insertAmountSold"><button type="button" id="insertBtnSold">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '<td class="td-contractDetail2">판매액 : '+serverData.sales+'원';
+									if(sessionId==spacerId){
+										content += '<button type="button" class="btnInsertSales" data-sno="'+serverData.contractnum+'">입력</button>';
+										content += '<div class="insertDiv" id="insertDivSales"><input type="number" class="insertAmount" id="insertAmountSales"><button type="button" id="insertBtnSales">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '</tr>';
+									content += '<tr>';
+									if(serverData.startDate==null){
+										content += '<td class="td-contractDetail1">시작일 : 공간제공자가 시작버튼을 누르면 계약이 진행됩니다.';
+										if(sessionId=spacerId){
+											content += '<button type="button" class="startContract" data-sno="'+serverData.contractnum+'">판매 시작</button>';
+										}
+										content += '</td>';
+										content += '<td class="td-contractDetail2">종료일 : 시작버튼을 누르면 계약 기간만큼 계약이 진행됩니다.</td>';
+									} else {
+										content += '<td class="td-contractDetail1">시작일 : '+serverData.startDate+'</td>';
+										content += '<td class="td-contractDetail2">종료일 : '+serverData.endDate+'</td>';
+									}
+									content += '</tr>';
+									content += '</table>';
+									
+									$('#modal-contractContent').html(content);
+									
+									insertDiv();
+								}
+							});
+						}
+					});
+					$('.insertAmount').val("");
+					$('#insertDivSold').css('display','none');
+				});
+			}
+		});
+		
+		$('.btnInsertStock').on('click',function(){
+			var status = document.getElementById("insertDivStock").style.display;
+			if(status=='block'){
+				$('#insertDivStock').css('display','none');
+			} else {
+				$('#insertDivStock').css('display','block');
+				var contractnum = $(this).attr('data-sno');
+				$('#insertBtnStock').off('click');
+				$('#insertBtnStock').on('click',function(){
+					var stockCount = $('#insertAmountStock').val(); 
+					$.ajax({
+						url:"updateContract",
+						data:{contractnum:contractnum,
+							  stockCount:stockCount},
+						type:"get",
+						success:function(serverData){
+							var data = "";
+							var content = "";
+							var sellerId = serverData.sellerId;
+							var spacerId = serverData.spacerId;
+							var sessionId = $('#sessionId').val();
+							var sellerNickname = "";
+							var spacerNickname = "";
+							$.ajax({
+								url:"searchNickname",
+								data:{sellerId:sellerId,
+									  spacerId:spacerId},
+								type:"get",
+								success:function(search){
+									$.each(search,function(index,item){
+										if(sellerNickname==""){
+											sellerNickname=item;
+										} else {
+											spacerNickname=item;
+										}
+									});
+									data += '<img class="imgContract" src="resources/images/logo.png"><h5 class="contractHeader">'+sellerNickname+"X"+spacerNickname+'</h5><span class="closeContract">&times;</span>';
+									$('#modal-contractHeader').html(data);
+									
+									$('.closeContract').on('click',function(){
+										$('#modal-contractDetail').css('display','none');
+									});
+									
+									content += '<table class="contractDetailTable">';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">공간이름 : '+spacerNickname+'</td>';
+									content += '<td class="td-contractDetail2">공간분류 : '+serverData.spaceType+'</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1" colspan="2">상세주소 : '+serverData.spaceaddr1+' '+serverData.spaceaddr2+'</td>'
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">셀러이름 : '+sellerNickname+'</td>';
+									content += '<td class="td-contractDetail2">셀러분류 : '+serverData.sellerType+'</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">계약기간 : '+serverData.contractPeriod+'<input type="hidden" id="contractPeriod" value="'+serverData.contractPeriod+'"></td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">현재 재고수 : '+serverData.stockCount+'개';
+									if(sessionId==sellerId){
+										content += '<button type="button" class="btnInsertStock" data-sno="'+serverData.contractnum+'">입고</button>';
+										content += '<div class="insertDiv" id="insertDivStock"><input type="number" class="insertAmount" id="insertAmountStock"><button type="button" id="insertBtnStock">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '<td class="td-contractDetail2">추가 요청수 : '+serverData.orderCount+'개';
+									if(sessionId==spacerId){
+										content += '<button type="button" class="btnInsertOrder" data-sno="'+serverData.contractnum+'">요청</button>';
+										content += '<div class="insertDiv" id="insertDivOrder"><input type="number" class="insertAmount" id="insertAmountOrder"><button type="button" id="insertBtnOrder">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">판매수 : '+serverData.soldCount+'개';
+									if(sessionId==spacerId){
+										content += '<button type="button" class="btnInsertSold" data-sno="'+serverData.contractnum+'">입력</button>';
+										content += '<div class="insertDiv" id="insertDivSold"><input type="number" class="insertAmount" id="insertAmountSold"><button type="button" id="insertBtnSold">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '<td class="td-contractDetail2">판매액 : '+serverData.sales+'원';
+									if(sessionId==spacerId){
+										content += '<button type="button" class="btnInsertSales" data-sno="'+serverData.contractnum+'">입력</button>';
+										content += '<div class="insertDiv" id="insertDivSales"><input type="number" class="insertAmount" id="insertAmountSales"><button type="button" id="insertBtnSales">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '</tr>';
+									content += '<tr>';
+									if(serverData.startDate==null){
+										content += '<td class="td-contractDetail1">시작일 : 공간제공자가 시작버튼을 누르면 계약이 진행됩니다.';
+										if(sessionId=spacerId){
+											content += '<button type="button" class="startContract" data-sno="'+serverData.contractnum+'">판매 시작</button>';
+										}
+										content += '</td>';
+										content += '<td class="td-contractDetail2">종료일 : 시작버튼을 누르면 계약 기간만큼 계약이 진행됩니다.</td>';
+									} else {
+										content += '<td class="td-contractDetail1">시작일 : '+serverData.startDate+'</td>';
+										content += '<td class="td-contractDetail2">종료일 : '+serverData.endDate+'</td>';
+									}
+									content += '</tr>';
+									content += '</table>';
+									
+									$('#modal-contractContent').html(content);
+									
+									insertDiv();
+								}
+							});
+						}
+					});
+					$('.insertAmount').val("");
+					$('#insertDivStock').css('display','none');
+				});
+			}
+		});
+		
+		$('.btnInsertOrder').on('click',function(){
+			var status = document.getElementById("insertDivOrder").style.display;
+			if(status=='block'){
+				$('#insertDivOrder').css('display','none');
+			} else {
+				$('#insertDivOrder').css('display','block');
+				var contractnum = $(this).attr('data-sno');
+				$('#insertBtnOrder').off('click');
+				$('#insertBtnOrder').on('click',function(){
+					var orderCount = $('#insertAmountOrder').val(); 
+					$.ajax({
+						url:"updateContract",
+						data:{contractnum:contractnum,
+							  orderCount:orderCount},
+						type:"get",
+						success:function(serverData){
+							var data = "";
+							var content = "";
+							var sellerId = serverData.sellerId;
+							var spacerId = serverData.spacerId;
+							var sessionId = $('#sessionId').val();
+							var sellerNickname = "";
+							var spacerNickname = "";
+							$.ajax({
+								url:"searchNickname",
+								data:{sellerId:sellerId,
+									  spacerId:spacerId},
+								type:"get",
+								success:function(search){
+									$.each(search,function(index,item){
+										if(sellerNickname==""){
+											sellerNickname=item;
+										} else {
+											spacerNickname=item;
+										}
+									});
+									data += '<img class="imgContract" src="resources/images/logo.png"><h5 class="contractHeader">'+sellerNickname+"X"+spacerNickname+'</h5><span class="closeContract">&times;</span>';
+									$('#modal-contractHeader').html(data);
+									
+									$('.closeContract').on('click',function(){
+										$('#modal-contractDetail').css('display','none');
+									});
+									
+									content += '<table class="contractDetailTable">';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">공간이름 : '+spacerNickname+'</td>';
+									content += '<td class="td-contractDetail2">공간분류 : '+serverData.spaceType+'</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1" colspan="2">상세주소 : '+serverData.spaceaddr1+' '+serverData.spaceaddr2+'</td>'
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">셀러이름 : '+sellerNickname+'</td>';
+									content += '<td class="td-contractDetail2">셀러분류 : '+serverData.sellerType+'</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">계약기간 : '+serverData.contractPeriod+'<input type="hidden" id="contractPeriod" value="'+serverData.contractPeriod+'"></td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">현재 재고수 : '+serverData.stockCount+'개';
+									if(sessionId==sellerId){
+										content += '<button type="button" class="btnInsertStock" data-sno="'+serverData.contractnum+'">입고</button>';
+										content += '<div class="insertDiv" id="insertDivStock"><input type="number" class="insertAmount" id="insertAmountStock"><button type="button" id="insertBtnStock">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '<td class="td-contractDetail2">추가 요청수 : '+serverData.orderCount+'개';
+									if(sessionId==spacerId){
+										content += '<button type="button" class="btnInsertOrder" data-sno="'+serverData.contractnum+'">요청</button>';
+										content += '<div class="insertDiv" id="insertDivOrder"><input type="number" class="insertAmount" id="insertAmountOrder"><button type="button" id="insertBtnOrder">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="td-contractDetail1">판매수 : '+serverData.soldCount+'개';
+									if(sessionId==spacerId){
+										content += '<button type="button" class="btnInsertSold" data-sno="'+serverData.contractnum+'">입력</button>';
+										content += '<div class="insertDiv" id="insertDivSold"><input type="number" class="insertAmount" id="insertAmountSold"><button type="button" id="insertBtnSold">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '<td class="td-contractDetail2">판매액 : '+serverData.sales+'원';
+									if(sessionId==spacerId){
+										content += '<button type="button" class="btnInsertSales" data-sno="'+serverData.contractnum+'">입력</button>';
+										content += '<div class="insertDiv" id="insertDivSales"><input type="number" class="insertAmount" id="insertAmountSales"><button type="button" id="insertBtnSales">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+									}
+									content += '</td>';
+									content += '</tr>';
+									content += '<tr>';
+									if(serverData.startDate==null){
+										content += '<td class="td-contractDetail1">시작일 : 공간제공자가 시작버튼을 누르면 계약이 진행됩니다.';
+										if(sessionId=spacerId){
+											content += '<button type="button" class="startContract" data-sno="'+serverData.contractnum+'">판매 시작</button>';
+										}
+										content += '</td>';
+										content += '<td class="td-contractDetail2">종료일 : 시작버튼을 누르면 계약 기간만큼 계약이 진행됩니다.</td>';
+									} else {
+										content += '<td class="td-contractDetail1">시작일 : '+serverData.startDate+'</td>';
+										content += '<td class="td-contractDetail2">종료일 : '+serverData.endDate+'</td>';
+									}
+									content += '</tr>';
+									content += '</table>';
+									
+									$('#modal-contractContent').html(content);
+									
+									insertDiv();
+								}
+							});
+						}
+					});
+					$('.insertAmount').val("");
+					$('#insertDivOrder').css('display','none');
+				});
+			}
+		});
+		
+		$('.startContract').on('click',function(){
+			var contractnum=$(this).attr('data-sno');
+			var contractPeriod=$('#contractPeriod').val();
+			var endDate = "";
+			if(contractPeriod=='1주'){
+				endDate = "7";
+			} else if(contractPeriod=="2주"){
+				endDate = "14";
+			} else if(contractPeriod=="1개월"){
+				endDate = "30";
+			} else if(contractPeriod=="2개월"){
+				endDate = "60";
+			} else if(contractPeriod=="3개월"){
+				endDate = "90";
+			} else if(contractPeriod=="6개월"){
+				endDate = "180";
+			} else if(contractPeriod=="1년"){
+				endDate = "365";
+			}
+			$.ajax({
+				url:"startContract",
+				data:{contractnum:contractnum,
+					  endDate:endDate},
+				type:"get",
+				success:function(serverData){
+					var data = "";
+					var content = "";
+					var sellerId = serverData.sellerId;
+					var spacerId = serverData.spacerId;
+					var sessionId = $('#sessionId').val();
+					var sellerNickname = "";
+					var spacerNickname = "";
+					$.ajax({
+						url:"searchNickname",
+						data:{sellerId:sellerId,
+							  spacerId:spacerId},
+						type:"get",
+						success:function(search){
+							$.each(search,function(index,item){
+								if(sellerNickname==""){
+									sellerNickname=item;
+								} else {
+									spacerNickname=item;
+								}
+							});
+							data += '<img class="imgContract" src="resources/images/logo.png"><h5 class="contractHeader">'+sellerNickname+"X"+spacerNickname+'</h5><span class="closeContract">&times;</span>';
+							$('#modal-contractHeader').html(data);
+							
+							$('.closeContract').on('click',function(){
+								$('#modal-contractDetail').css('display','none');
+							});
+							
+							content += '<table class="contractDetailTable">';
+							content += '<tr>';
+							content += '<td class="td-contractDetail1">공간이름 : '+spacerNickname+'</td>';
+							content += '<td class="td-contractDetail2">공간분류 : '+serverData.spaceType+'</td>';
+							content += '</tr>';
+							content += '<tr>';
+							content += '<td class="td-contractDetail1" colspan="2">상세주소 : '+serverData.spaceaddr1+' '+serverData.spaceaddr2+'</td>'
+							content += '</tr>';
+							content += '<tr>';
+							content += '<td class="td-contractDetail1">셀러이름 : '+sellerNickname+'</td>';
+							content += '<td class="td-contractDetail2">셀러분류 : '+serverData.sellerType+'</td>';
+							content += '</tr>';
+							content += '<tr>';
+							content += '<td class="td-contractDetail1">계약기간 : '+serverData.contractPeriod+'<input type="hidden" id="contractPeriod" value="'+serverData.contractPeriod+'"></td>';
+							content += '</tr>';
+							content += '<tr>';
+							content += '<td class="td-contractDetail1">현재 재고수 : '+serverData.stockCount+'개';
+							if(sessionId==sellerId){
+								content += '<button type="button" class="btnInsertStock" data-sno="'+serverData.contractnum+'">입고</button>';
+								content += '<div class="insertDiv" id="insertDivStock"><input type="number" class="insertAmount" id="insertAmountStock"><button type="button" id="insertBtnStock">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+							}
+							content += '</td>';
+							content += '<td class="td-contractDetail2">추가 요청수 : '+serverData.orderCount+'개';
+							if(sessionId==spacerId){
+								content += '<button type="button" class="btnInsertOrder" data-sno="'+serverData.contractnum+'">요청</button>';
+								content += '<div class="insertDiv" id="insertDivOrder"><input type="number" class="insertAmount" id="insertAmountOrder"><button type="button" id="insertBtnOrder">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+							}
+							content += '</td>';
+							content += '</tr>';
+							content += '<tr>';
+							content += '<td class="td-contractDetail1">판매수 : '+serverData.soldCount+'개';
+							if(sessionId==spacerId){
+								content += '<button type="button" class="btnInsertSold" data-sno="'+serverData.contractnum+'">입력</button>';
+								content += '<div class="insertDiv" id="insertDivSold"><input type="number" class="insertAmount" id="insertAmountSold"><button type="button" id="insertBtnSold">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+							}
+							content += '</td>';
+							content += '<td class="td-contractDetail2">판매액 : '+serverData.sales+'원';
+							if(sessionId==spacerId){
+								content += '<button type="button" class="btnInsertSales" data-sno="'+serverData.contractnum+'">입력</button>';
+								content += '<div class="insertDiv" id="insertDivSales"><input type="number" class="insertAmount" id="insertAmountSales"><button type="button" id="insertBtnSales">입력</button><table class="insertTable"><tr><td><button class="7">7</button></td><td><button class="8">8</button><td><td><button class="9">9</button></td></tr><tr><td><button class="4">4</button></td><td><button class="5">5</button><td><td><button class="6">6</button></td></tr><tr><td><button class="1">1</button></td><td><button class="2">2</button><td><td><button class="3">3</button></td></tr><tr><td><button class="jum">.</button></td><td><button class="0">0</button><td><td><button class="C">C</button></td></tr></table></div>';
+							}
+							content += '</td>';
+							content += '</tr>';
+							content += '<tr>';
+							if(serverData.startDate==null){
+								content += '<td class="td-contractDetail1">시작일 : 공간제공자가 시작버튼을 누르면 계약이 진행됩니다.';
+								if(sessionId=spacerId){
+									content += '<button type="button" class="startContract" data-sno="'+serverData.contractnum+'">판매 시작</button>';
+								}
+								content += '</td>';
+								content += '<td class="td-contractDetail2">종료일 : 시작버튼을 누르면 계약 기간만큼 계약이 진행됩니다.</td>';
+							} else {
+								content += '<td class="td-contractDetail1">시작일 : '+serverData.startDate+'</td>';
+								content += '<td class="td-contractDetail2">종료일 : '+serverData.endDate+'</td>';
+							}
+							content += '</tr>';
+							content += '</table>';
+							
+							$('#modal-contractContent').html(content);
+							
+							insertDiv();
+						}
+					});
+				}
+			});
+		});
+	}
+	
+	
+	$('.goHanasi').on('click',function(){
+		var contractnum = $(this).attr('data-sno');
+		var spacerNickname = $('#spacerNickname'+contractnum).val();
+		var sellerNickname = $('#sellerNickname'+contractnum).val();
+		var spacerId = $('#spacerId'+contractnum).val();
+		var sellerId = $('#sellerId'+contractnum).val();
+		var memberType = $('#sessionMemberType').val();
+		var data = "";
+		var content = "";
+		$.ajax({
+			url:"listHanasi",
+			data:{contractnum:contractnum},
+			type:"get",
+			success:function(serverData){
+				content="";
+				if(memberType=='셀러'){
+					$.each(serverData,function(index,item){
+						if(item.sendId==spacerId){
+							content += '<table class="hanasiTable">';
+							content += '<tr>';
+							content += '<td class="hanasiProfile" rowspan="2"><img class="receiveProfile" src="resources/images/spacer.png"></td>';
+							content += '<td class="hanasiMessage"><span class="span-message">'+item.message+'</span></td>';
+							content += '</tr>';
+							content += '<tr>';
+							content += '<td class="hanasiDate">'+item.indate+'</td>';
+							content += '</tr>';
+							content += '<tr>';
+							content += '<td class="hanasiNickname" colspan="2">'+spacerNickname+'</td>';
+							content += '</tr>';
+							content += '</table>';
+						} else if(item.sendId==sellerId){
+							content += '<table class="hanasiTable">';
+							content += '<tr>';
+							content += '<td class="hanasiMessage2"><span class="span-message2">'+item.message+'</span></td>';
+							content += '<td class="hanasiProfile2" rowspan="2"><img class="receiveProfile" src="resources/images/seller.png"></td>';
+							content += '</tr>';
+							content += '<tr>';
+							content += '<td class="hanasiDate2">'+item.indate+'</td>';
+							content += '</tr>';
+							content += '<tr>';
+							content += '<td class="hanasiNickname2" colspan="2">'+sellerNickname+'</td>';
+							content += '</tr>';
+							content += '</table>';
+						}
+					});
+				} else {
+					$.each(serverData,function(index,item){
+						if(item.sendId==sellerId){
+							content += '<table class="hanasiTable">';
+							content += '<tr>';
+							content += '<td class="hanasiProfile" rowspan="2"><img class="receiveProfile" src="resources/images/seller.png"></td>';
+							content += '<td class="hanasiMessage"><span class="span-message">'+item.message+'</span></td>';
+							content += '</tr>';
+							content += '<tr>';
+							content += '<td class="hanasiDate">'+item.indate+'</td>';
+							content += '</tr>';
+							content += '<tr>';
+							content += '<td class="hanasiNickname" colspan="2">'+sellerNickname+'</td>';
+							content += '</tr>';
+							content += '</table>';
+						} else if(item.sendId==spacerId){
+							content += '<table class="hanasiTable">';
+							content += '<tr>';
+							content += '<td class="hanasiMessage2"><span class="span-message2">'+item.message+'</span></td>';
+							content += '<td class="hanasiProfile2" rowspan="2"><img class="receiveProfile" src="resources/images/spacer.png"></td>';
+							content += '</tr>';
+							content += '<tr>';
+							content += '<td class="hanasiDate2">'+item.indate+'</td>';
+							content += '</tr>';
+							content += '<tr>';
+							content += '<td class="hanasiNickname2" colspan="2">'+spacerNickname+'</td>';
+							content += '</tr>';
+							content += '</table>';
+						}
+					});
+				}
+				$("#modal-hanasiContent").scrollTop($("#modal-hanasiContent")[0].scrollHeight);
+				$('#modal-hanasiContent').html(content);
+			}
+		});
+		$('#modal-contractHanasi').css('display','block');
+		
+		if(memberType=='셀러'){
+			data += '<img class="imgContract" src="resources/images/logo.png"><h5 class="contractHeader">'+spacerNickname+'님과의 대화</h5><span class="closeHanasi">&times;</span>';
+		} else {
+			data += '<img class="imgContract" src="resources/images/logo.png"><h5 class="contractHeader">'+sellerNickname+'님과의 대화</h5><span class="closeHanasi">&times;</span>';
+		}
+		$('#modal-hanasiHeader').html(data);
+		
+		
+		$('#btnHanasiInput').off('click');
+		$('#btnHanasiInput').on('click',function(){
+			var message = $('#hanasiInputText').val();
+			var sendId, receiveId, sendNickname, receiveNickname;
+			if(memberType=='셀러'){
+				sendId = sellerId;
+				receiveId = spacerId;
+				sendNickname = sellerNickname;
+				receiveNickname = spacerNickname;
+			} else {
+				sendId = spacerId;
+				receiveId = sellerId;
+				sendNickname = spacerNickname;
+				receiveNickname = sellerNickname;
+			}
+			$.ajax({
+				url:"insertHanasi",
+				data:{contractnum:contractnum,
+					  sendId:sendId,
+					  receiveId:receiveId,
+					  sendNickname:sendNickname,
+					  receiveNickname:receiveNickname,
+					  message:message},
+				type:"get",
+				success:function(serverData){
+					$('#hanasiInputText').val("");
+					content="";
+					if(memberType=='셀러'){
+						$.each(serverData,function(index,item){
+							if(item.sendId==spacerId){
+								content += '<table class="hanasiTable">';
+								content += '<tr>';
+								content += '<td class="hanasiProfile" rowspan="2"><img class="receiveProfile" src="resources/images/spacer.png"></td>';
+								content += '<td class="hanasiMessage"><span class="span-message">'+item.message+'</span></td>';
+								content += '</tr>';
+								content += '<tr>';
+								content += '<td class="hanasiMessage">'+item.indate+'</td>';
+								content += '</tr>';
+								content += '<tr>';
+								content += '<td class="hanasiNickname" colspan="2">'+spacerNickname+'</td>';
+								content += '</tr>';
+								content += '</table>';
+							} else if(item.sendId==sellerId){
+								content += '<table class="hanasiTable">';
+								content += '<tr>';
+								content += '<td class="hanasiMessage2"><span class="span-message2">'+item.message+'</span></td>';
+								content += '<td class="hanasiProfile2" rowspan="2"><img class="receiveProfile" src="resources/images/seller.png"></td>';
+								content += '</tr>';
+								content += '<tr>';
+								content += '<td class="hanasiMessage2">'+item.indate+'</td>';
+								content += '</tr>';
+								content += '<tr>';
+								content += '<td class="hanasiNickname2" colspan="2">'+sellerNickname+'</td>';
+								content += '</tr>';
+								content += '</table>';
+							}
+						});
+					} else {
+						$.each(serverData,function(index,item){
+							if(item.sendId==sellerId){
+								content += '<table class="hanasiTable">';
+								content += '<tr>';
+								content += '<td class="hanasiProfile" rowspan="2"><img class="receiveProfile" src="resources/images/seller.png"></td>';
+								content += '<td class="hanasiMessage"><span class="span-message">'+item.message+'</span></td>';
+								content += '</tr>';
+								content += '<tr>';
+								content += '<td class="hanasiMessage">'+item.indate+'</td>';
+								content += '</tr>';
+								content += '<tr>';
+								content += '<td class="hanasiNickname" colspan="2">'+sellerNickname+'</td>';
+								content += '</tr>';
+								content += '</table>';
+							} else if(item.sendId==spacerId){
+								content += '<table class="hanasiTable">';
+								content += '<tr>';
+								content += '<td class="hanasiMessage2"><span class="span-message2">'+item.message+'</span></td>';
+								content += '<td class="hanasiProfile2" rowspan="2"><img class="receiveProfile" src="resources/images/spacer.png"></td>';
+								content += '</tr>';
+								content += '<tr>';
+								content += '<td class="hanasiMessage2">'+item.indate+'</td>';
+								content += '</tr>';
+								content += '<tr>';
+								content += '<td class="hanasiNickname2" colspan="2">'+spacerNickname+'</td>';
+								content += '</tr>';
+								content += '</table>';
+							}
+						});
+					}
+					$("#modal-hanasiContent").scrollTop($("#modal-hanasiContent")[0].scrollHeight);
+					$('#modal-hanasiContent').html(content);
+				}
+			});
+		});
+		
+		$('#hanasiInputText').keydown(function(key) {
+			if (key.keyCode == 13) {
+				var message = $('#hanasiInputText').val();
+				var sendId, receiveId, sendNickname, receiveNickname;
+				if(memberType=='셀러'){
+					sendId = sellerId;
+					receiveId = spacerId;
+					sendNickname = sellerNickname;
+					receiveNickname = spacerNickname;
+				} else {
+					sendId = spacerId;
+					receiveId = sellerId;
+					sendNickname = spacerNickname;
+					receiveNickname = sellerNickname;
+				}
+				$.ajax({
+					url:"insertHanasi",
+					data:{contractnum:contractnum,
+						  sendId:sendId,
+						  receiveId:receiveId,
+						  sendNickname:sendNickname,
+						  receiveNickname:receiveNickname,
+						  message:message},
+					type:"get",
+					success:function(serverData){
+						$('#hanasiInputText').val("");
+						content="";
+						if(memberType=='셀러'){
+							$.each(serverData,function(index,item){
+								if(item.sendId==spacerId){
+									content += '<table class="hanasiTable">';
+									content += '<tr>';
+									content += '<td class="hanasiProfile" rowspan="2"><img class="receiveProfile" src="resources/images/spacer.png"></td>';
+									content += '<td class="hanasiMessage"><span class="span-message">'+item.message+'</span></td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="hanasiMessage">'+item.indate+'</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="hanasiNickname" colspan="2">'+spacerNickname+'</td>';
+									content += '</tr>';
+									content += '</table>';
+								} else if(item.sendId==sellerId){
+									content += '<table class="hanasiTable">';
+									content += '<tr>';
+									content += '<td class="hanasiMessage2"><span class="span-message2">'+item.message+'</span></td>';
+									content += '<td class="hanasiProfile2" rowspan="2"><img class="receiveProfile" src="resources/images/seller.png"></td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="hanasiMessage2">'+item.indate+'</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="hanasiNickname2" colspan="2">'+sellerNickname+'</td>';
+									content += '</tr>';
+									content += '</table>';
+								}
+							});
+						} else {
+							$.each(serverData,function(index,item){
+								if(item.sendId==sellerId){
+									content += '<table class="hanasiTable">';
+									content += '<tr>';
+									content += '<td class="hanasiProfile" rowspan="2"><img class="receiveProfile" src="resources/images/seller.png"></td>';
+									content += '<td class="hanasiMessage"><span class="span-message">'+item.message+'</span></td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="hanasiMessage">'+item.indate+'</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="hanasiNickname" colspan="2">'+sellerNickname+'</td>';
+									content += '</tr>';
+									content += '</table>';
+								} else if(item.sendId==spacerId){
+									content += '<table class="hanasiTable">';
+									content += '<tr>';
+									content += '<td class="hanasiMessage2"><span class="span-message2">'+item.message+'</span></td>';
+									content += '<td class="hanasiProfile2" rowspan="2"><img class="receiveProfile" src="resources/images/spacer.png"></td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="hanasiMessage2">'+item.indate+'</td>';
+									content += '</tr>';
+									content += '<tr>';
+									content += '<td class="hanasiNickname2" colspan="2">'+spacerNickname+'</td>';
+									content += '</tr>';
+									content += '</table>';
+								}
+							});
+						}
+						$("#modal-hanasiContent").scrollTop($("#modal-hanasiContent")[0].scrollHeight);
+						$('#modal-hanasiContent').html(content);
+					}
+				});
+			}
+		});
+		
+		$('.closeHanasi').on('click',function(){
+			$('#modal-contractHanasi').css('display','none');
+			$('#hanasiInputText').val("");
+		});
+	});
 }
 
 

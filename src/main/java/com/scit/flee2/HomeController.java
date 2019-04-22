@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.scit.flee2.dao.BoardDAO;
 import com.scit.flee2.vo.Board;
+import com.scit.flee2.vo.Request;
 
 @Controller
 public class HomeController {
@@ -132,15 +133,20 @@ public class HomeController {
 				recommendMap.put("image"+(j+1), image.substring(0, cnt));
 				image = image.substring(cnt+1);
 			}
+			
+			recommendMap.put("cntZzim", Integer.toString(listSeller.get(i).getZzimCount()));
+			recommendMap.put("cntQna", Integer.toString(listSeller.get(i).getQnaCount()));
+			recommendMap.put("count",Integer.toString(listSeller.get(i).getCount()));
 			recommendMap.put("recommendNum","rs"+Integer.toString(i+1));
 			recommendMap.put("id",listSeller.get(i).getId());
 			recommendMap.put("title",listSeller.get(i).getTitle());
 			recommendMap.put("boardnum",Integer.toString(listSeller.get(i).getBoardnum()));
 			recommendSellerList.add(recommendMap);
+			
 		}
 		
 		
-		//셀러 추천리스트
+		//공간 추천리스트
 		for(int i=0; i<listSpace.size(); i++) {		// keyword 자르는 구문
 			HashMap<String,String> recommendMap = new HashMap<String,String>();
 			String keyword = listSpace.get(i).getKeyword();
@@ -166,6 +172,10 @@ public class HomeController {
 				recommendMap.put("image"+(j+1), image.substring(0, cnt));
 				image = image.substring(cnt+1);
 			}
+			
+			recommendMap.put("cntZzim", Integer.toString(listSpace.get(i).getZzimCount()));
+			recommendMap.put("cntQna", Integer.toString(listSpace.get(i).getQnaCount()));
+			recommendMap.put("count",Integer.toString(listSpace.get(i).getCount()));			
 			recommendMap.put("recommendNum","rsp"+Integer.toString(i+1));
 			recommendMap.put("id",listSpace.get(i).getId());
 			recommendMap.put("title",listSpace.get(i).getTitle());

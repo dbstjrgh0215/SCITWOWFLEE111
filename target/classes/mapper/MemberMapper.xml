@@ -80,4 +80,42 @@
 	SELECT PW FROM WOW_MEMBERINFO
 	WHERE ID=#{id} AND NAME=#{name} AND email=#{email}
 	</select>
+	
+	<select id="listNewNotice" parameterType="String" resultType="Notice">
+	SELECT * FROM WOW_NOTICE
+	WHERE RECEIVEID=#{id} AND CONFIRM = '0'
+	ORDER BY NOTICENUM DESC
+	</select>
+	
+	<select id="listOldNotice" parameterType="String" resultType="Notice">
+	SELECT * FROM WOW_NOTICE
+	WHERE RECEIVEID=#{id} AND CONFIRM = '1'
+	ORDER BY NOTICENUM DESC
+	</select>
+	
+	<select id="noticeNickname" parameterType="String" resultType="String">
+	SELECT NICKNAME FROM WOW_MEMBERINFO
+	WHERE ID=#{id}
+	</select>
+	
+	<update id="goAllConfirm" parameterType="String">
+	UPDATE WOW_NOTICE
+	SET CONFIRM='1'
+	WHERE RECEIVEID=#{id}
+	</update>
+	
+	<update id="updateConfirm" parameterType="Integer">
+	UPDATE WOW_NOTICE
+	SET CONFIRM='1'
+	WHERE NOTICENUM=#{noticenum}
+	</update>
+	
+	<delete id="deleteNotice" parameterType="Integer">
+	DELETE FROM WOW_NOTICE
+	WHERE NOTICENUM=#{noticenum}
+	</delete>
+	
+	<select id="countNewNotice" parameterType="String" resultType="Integer">
+	select count(*) from wow_notice where receiveid=#{id} and confirm='0'
+	</select>
 </mapper>

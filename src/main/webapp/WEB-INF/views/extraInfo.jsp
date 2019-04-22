@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
+	<link rel="icon" href="resources/images/favicon.ico" type="image/x-icon">
 	<link rel="stylesheet" href="resources/css/wow-css.css"> 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
@@ -25,31 +26,111 @@
 	
 	<div id="sidenav" class="sidenav">
 		<div class="side-login">
-			<i class="fas fa-user-circle"></i><br>
-			<c:if test="${sessionMember==null}">
+			<c:if test="${sessionMember.membertype=='셀러'}">
+				<div class="profileIcon" style="background-color:darkslateblue;">
+					<img src="resources/images/seller.png">
+				</div>
+			</c:if>
+			<c:if test="${sessionMember.membertype=='공간제공자'}">
+				<div class="profileIcon" style="background-color:lightcoral;">
+					<img src="resources/images/spacer.png">
+				</div>
+			</c:if>
+			<c:if test="${sessionMember.membertype=='일반사용자'}">
+				<div class="profileIcon" style="background-color:indigo;">
+					<img src="resources/images/user.png">
+				</div>
+			</c:if>
+			<c:if test="${sessionMember.membertype==null}">
+				<div class="profileIcon" style="background-color:indigo;">
+					<img src="resources/images/user.png">
+				</div>
 				<a class="login-btn" href="goLogin">로그인해주세요!</a>
-			</c:if>   
+			</c:if>
 			<c:if test="${sessionMember!=null}">
 				${sessionMember.nickname}님
 				<button class="logout-btn" id="btnLogout">로그아웃</button>
 			</c:if>
 		</div>
-		<div class="sidenav-btn">
-			<a class="slide-btn" href="#">계약관리</a>
-			<a class="slide-btn" href="#">지원관리</a>
-			<a class="slide-btn" href="goProposal">제안서관리</a>
-			<a class="slide-btn" href="goUserBoard">내가쓴글</a>
-		</div>
 		<div class="sidenav-menu">
-			<a href="#">이용후기</a>
-			<a href="#">찜목록</a>
-			<a href="#">1:1문의</a>
-			<a href="#">FAQ</a>
-			<a href="#">공지사항</a>
-			<a href="#">서비스정보</a>
+			<a class="slide-btn" href="goZzimList">찜목록<i class="fas fa-chevron-right"></i></a>
+			<a class="slide-btn" href="goContract">계약관리<i class="fas fa-chevron-right"></i></a>
+			<a class="slide-btn" href="goRequest">지원관리<i class="fas fa-chevron-right"></i></a>
+			<a class="slide-btn" href="goProposal">제안서관리<i class="fas fa-chevron-right"></i></a>
+			<a class="slide-btn" href="goUserBoard">내가쓴글<i class="fas fa-chevron-right"></i></a>
 		</div>
 	</div>
-	<div id="searchFilter" class="search">
+	
+	<div id="notice" class="notice">
+		<div class="notice-header">
+			<h5 class="notice-headerName">알림</h5>
+		</div>
+		<div class="newNotice">
+			<div class="newNotice-header">
+				<h5 class="notice-headerName2">새로운 알림</h5>
+			</div>
+			<div class="newNotice-content">
+				<ul>
+					<c:forEach var="notice" items="${listNewNotice}" varStatus="status">
+					<li>
+						<a class="checkNotice" data-sno="${notice.noticenum}" go="${notice.go}">
+							<div class="newNoticeContent" id="checkNotice${notice.noticenum}">
+								<table class="noticeContentTable">
+									<tr>
+										<td rowspan="2">
+										<div class="noticeProfile">
+											<img src="resources/images/seller.png">
+										</div></td>
+										<td><b>${listNewNickname[status.index]}</b>${notice.message}</td>
+									</tr>
+									<tr>
+										<td>${notice.indate}</td>
+									</tr>
+								</table>
+							</div>
+						</a>
+						<a class="updateConfirm" data-sno="${notice.noticenum}"><i class="far fa-circle"></i></a>
+					</li>
+					</c:forEach>
+				</ul>
+			</div>
+		</div>
+		<div class="oldNotice">
+			<div class="oldNotice-header">
+				<h5 class="notice-headerName2">이전 알림</h5>
+				<a class="updateConfirm" data-sno="${notice.noticenum}"></a>
+			</div>
+			<div class="newNotice-content">
+				<ul>
+					<c:forEach var="notice" items="${listOldNotice}" varStatus="status">
+					<li>
+						<a class="checkNotice" data-sno="${notice.noticenum}" href="${notice.go}">
+							<div class="oldNoticeContent" id="checkNotice${notice.noticenum}">
+								<table class="noticeContentTable">
+									<tr>
+										<td rowspan="2">
+										<div class="noticeProfile">
+											<img src="resources/images/seller.png">
+										</div></td>
+										<td><b>${listOldNickname[status.index]}</b>${notice.message}</td>
+									</tr>
+									<tr>
+										<td>${notice.indate}</td>
+									</tr>
+								</table>
+							</div>
+						</a>
+						<a class="deleteNotice" data-sno="${notice.noticenum}"><i class="far fa-trash-alt"></i></a>
+						<a class="noConfirm" data-sno="${notice.noticenum}"><i class="fas fa-circle"></i></a>
+					</li>
+					</c:forEach>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="searchModal" class="search">
+	<span class="closeSearch">&times;</span> 
+		<div id="searchFilter" class="search">
 			<div class="searchSection">
 				<div class="searchWrap">
 					<form class="searchForm">
@@ -62,40 +143,25 @@
 					<div class="searchKeywordDiv">
 					<ul class="ul-searchKeyword">
 						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=1><a href="javascript:void(0);" data-sno=1 id="keyword-a1"><i data-sno=1 id="keyword-icon1" class="fas fa-check"></i>　카페</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=2><a href="javascript:void(0);" data-sno=2 id="keyword-a2"><i data-sno=2 id="keyword-icon2" class="fas fa-check"></i>　애견카페</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=3><a href="javascript:void(0);" data-sno=3 id="keyword-a3"><i data-sno=3 id="keyword-icon3" class="fas fa-check"></i>　헤어밴드</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=4><a href="javascript:void(0);" data-sno=4 id="keyword-a4"><i data-sno=4 id="keyword-icon4" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=5><a href="javascript:void(0);" data-sno=5 id="keyword-a5"><i data-sno=5 id="keyword-icon5" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=6><a href="javascript:void(0);" data-sno=6 id="keyword-a6"><i data-sno=6 id="keyword-icon6" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=7><a href="javascript:void(0);" data-sno=7 id="keyword-a7"><i data-sno=7 id="keyword-icon7" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=8><a href="javascript:void(0);" data-sno=8 id="keyword-a8"><i data-sno=8 id="keyword-icon8" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=9><a href="javascript:void(0);" data-sno=9 id="keyword-a9"><i data-sno=9 id="keyword-icon9" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=10><a href="javascript:void(0);" data-sno=10 id="keyword-a10"><i data-sno=10 id="keyword-icon10" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=11><a href="javascript:void(0);" data-sno=11 id="keyword-a11"><i data-sno=11 id="keyword-icon11" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=12><a href="javascript:void(0);" data-sno=12 id="keyword-a12"><i data-sno=12 id="keyword-icon12" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=13><a href="javascript:void(0);" data-sno=13 id="keyword-a13"><i data-sno=13 id="keyword-icon13" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=14><a href="javascript:void(0);" data-sno=14 id="keyword-a14"><i data-sno=14 id="keyword-icon14" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=15><a href="javascript:void(0);" data-sno=15 id="keyword-a15"><i data-sno=15 id="keyword-icon15" class="fas fa-check"></i>　악세서리</a></span></li>
-					</ul>
-					</div>
-					<h4>추천검색장소</h4>
-					<div class="searchLocationDiv">
-					<ul class="ul-searchKeyword">
-						<li class="li-searchKeyword"><span class="span-searchKeyword"><a href="javascript:void(0);"><i data-sno=1 id="keyword-icon1" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword"><a href="javascript:void(0);"><i data-sno=1 id="keyword-icon1" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword"><a href="javascript:void(0);"><i data-sno=1 id="keyword-icon1" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword"><a href="javascript:void(0);"><i data-sno=1 id="keyword-icon1" class="fas fa-check"></i>　악세서리</a></span></li>
-						<li class="li-searchKeyword"><span class="span-searchKeyword"><a href="javascript:void(0);"><i data-sno=1 id="keyword-icon1" class="fas fa-check"></i>　악세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=2><a href="javascript:void(0);" data-sno=2 id="keyword-a2"><i data-sno=2 id="keyword-icon2" class="fas fa-check"></i>　서점</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=3><a href="javascript:void(0);" data-sno=3 id="keyword-a3"><i data-sno=3 id="keyword-icon3" class="fas fa-check"></i>　바</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=4><a href="javascript:void(0);" data-sno=4 id="keyword-a4"><i data-sno=4 id="keyword-icon4" class="fas fa-check"></i>　레스토랑</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=5><a href="javascript:void(0);" data-sno=5 id="keyword-a5"><i data-sno=5 id="keyword-icon5" class="fas fa-check"></i>　복합문화공간</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=6><a href="javascript:void(0);" data-sno=6 id="keyword-a6"><i data-sno=6 id="keyword-icon6" class="fas fa-check"></i>　코스메틱</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=7><a href="javascript:void(0);" data-sno=7 id="keyword-a7"><i data-sno=7 id="keyword-icon7" class="fas fa-check"></i>　디저트</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=8><a href="javascript:void(0);" data-sno=8 id="keyword-a8"><i data-sno=8 id="keyword-icon8" class="fas fa-check"></i>　액세서리</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=9><a href="javascript:void(0);" data-sno=9 id="keyword-a9"><i data-sno=9 id="keyword-icon9" class="fas fa-check"></i>　옷</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=10><a href="javascript:void(0);" data-sno=10 id="keyword-a10"><i data-sno=10 id="keyword-icon10" class="fas fa-check"></i>　DIY</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=11><a href="javascript:void(0);" data-sno=11 id="keyword-a11"><i data-sno=11 id="keyword-icon11" class="fas fa-check"></i>　소품</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=12><a href="javascript:void(0);" data-sno=12 id="keyword-a12"><i data-sno=12 id="keyword-icon12" class="fas fa-check"></i>　종로</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=13><a href="javascript:void(0);" data-sno=13 id="keyword-a13"><i data-sno=13 id="keyword-icon13" class="fas fa-check"></i>　홍대</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=14><a href="javascript:void(0);" data-sno=14 id="keyword-a14"><i data-sno=14 id="keyword-icon14" class="fas fa-check"></i>　강남</a></span></li>
+						<li class="li-searchKeyword"><span class="span-searchKeyword" data-sno=15><a href="javascript:void(0);" data-sno=15 id="keyword-a15"><i data-sno=15 id="keyword-icon15" class="fas fa-check"></i>　대학로</a></span></li>
 					</ul>
 					</div>
 				</div>
 			</div>
 		</div>
-	<div id="notice" class="notice">
-		<div class="notice-header">
-			<font class="notice-name">알림</font>
-		</div>
-		
 	</div>
 </header>
 <div class="wrap">     
@@ -138,7 +204,8 @@
 					</tr>
 					<tr>
 						<td class="td-1"><h4>TEL</h4></td>
-						<td class="td-2"><span class="inputNorm"><input type="text" name="tel"></span></td>
+						<td class="td-tel"><input type="hidden" id="tel" name="tel">
+						<span class="inputCen"><input type="text" id="signPhone1">―<input type="text" id="signPhone2">―<input type="text" id="signPhone3"></span></td>
 					</tr>
 					<tr>
 						<td class="td-1"><h4>제품이름</h4></td>
@@ -173,7 +240,7 @@
    					</tr>
 					<tr>
 						<td class="td-1"><h4>간략한 소개</h4></td>
-						<td class="td-2"><textarea rows="10" cols="50" name="comments"></textarea></td>
+						<td class="td-2"><textarea rows="10" cols="47" name="comments"></textarea></td>
 					</tr>
 				</c:if>
 				<c:if test="${memtype=='space'}">
@@ -183,7 +250,8 @@
 					</tr>
 					<tr>
 						<td class="td-1"><h4>TEL</h4></td>
-						<td class="td-2"><span class="inputNorm"><input type="text" name="tel"></span></td>
+						<td class="td-tel"><input type="hidden" id="tel" name="tel">
+						<span class="inputCen"><input type="text" id="signPhone1">―<input type="text" id="signPhone2">―<input type="text" id="signPhone3"></span></td>
 					</tr>
 					<tr>
 						<td class="td-1"><h4>공간분류</h4></td>
@@ -214,7 +282,7 @@
    					</tr>
    					<tr>
 						<td class="td-1"><h4>공간주소</h4></td>
-						<td class="td-2"><span class="inputNorm"><input type="text" id="address" name="spaceaddr1" placeholder="주소"></span><button type="button" onclick="execDaumPostcode()">주소검색</button></td>
+						<td class="td-2"><span class="inputNorm"><input type="text" id="address" name="spaceaddr1" placeholder="주소"></span><button type="button" onclick="execDaumPostcode()" class="btnSearchAddress">주소검색</button></td>
 					</tr>
 					<tr>
 						<td class="td-1"><h4>상세주소</h4></td>
@@ -222,7 +290,7 @@
 					</tr>
 					<tr>
 						<td class="td-1"><h4>간략한 소개</h4></td>
-						<td class="td-2"><textarea rows="10" cols="50" name="comments"></textarea></td>
+						<td class="td-2"><textarea rows="10" cols="47" name="comments"></textarea></td>
 					</tr>
 				</c:if>
 				</table>
@@ -235,8 +303,15 @@
    		</div>
 	<footer class="site-footer">
 		<div class="main-footer">
-			<div class="footer-logo">
-				<img src="resources/images/logo.png"><br>
+			<div class="footerDiv">
+				<img src="resources/images/logo.png">
+				<span>WOWFLEE는 모든 상업관계자 분들을 응원합니다.</span>
+				<div class="footerNav">
+					<a>공지사항</a>
+					<a>1:1문의</a>
+					<a>이용약관</a>
+					<a>서비스정보</a>
+				</div>
 			</div>
 		</div>
 	</footer>

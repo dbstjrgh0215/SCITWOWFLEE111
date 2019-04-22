@@ -23,11 +23,15 @@ public class Board {
 	private double latitude;
 	private double longitude;
 	private int recommend;
+	private int currents;
+	private int count;
+	private int zzimCount;
+	private int qnaCount;
 
 	public Board(int boardnum, String id, String title, String image, String indate, String membertype, String keyword,
 			String comments, String precaution, String name, String type, String contractperiod, int price, int stock,
 			String optime, String offday, double scale, String spaceaddr1, String spaceaddr2, double latitude,
-			double longitude, int recommend) {
+			double longitude, int recommend, int currents, int count, int zzimCount, int qnaCount) {
 		super();
 		this.boardnum = boardnum;
 		this.id = id;
@@ -51,6 +55,10 @@ public class Board {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.recommend = recommend;
+		this.currents = currents;
+		this.count = count;
+		this.zzimCount = zzimCount;
+		this.qnaCount = qnaCount;
 	}
 
 	public Board() {
@@ -233,6 +241,38 @@ public class Board {
 		this.recommend = recommend;
 	}
 
+	public int getCurrents() {
+		return currents;
+	}
+
+	public void setCurrents(int currents) {
+		this.currents = currents;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public int getZzimCount() {
+		return zzimCount;
+	}
+
+	public void setZzimCount(int zzimCount) {
+		this.zzimCount = zzimCount;
+	}
+
+	public int getQnaCount() {
+		return qnaCount;
+	}
+
+	public void setQnaCount(int qnaCount) {
+		this.qnaCount = qnaCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Board [boardnum=" + boardnum + ", id=" + id + ", title=" + title + ", image=" + image + ", indate="
@@ -240,7 +280,8 @@ public class Board {
 				+ ", precaution=" + precaution + ", name=" + name + ", type=" + type + ", contractperiod="
 				+ contractperiod + ", price=" + price + ", stock=" + stock + ", optime=" + optime + ", offday=" + offday
 				+ ", scale=" + scale + ", spaceaddr1=" + spaceaddr1 + ", spaceaddr2=" + spaceaddr2 + ", latitude="
-				+ latitude + ", longitude=" + longitude + ", recommend=" + recommend + "]";
+				+ latitude + ", longitude=" + longitude + ", recommend=" + recommend + ", currents=" + currents
+				+ ", count=" + count + ", zzimCount=" + zzimCount + ", qnaCount=" + qnaCount + "]";
 	}
 
 }

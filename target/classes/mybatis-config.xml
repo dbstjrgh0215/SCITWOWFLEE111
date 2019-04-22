@@ -11,6 +11,11 @@
 		<typeAlias type="com.scit.flee2.vo.Proposal" alias="Proposal" />
 		<typeAlias type="com.scit.flee2.vo.Board" alias="Board" />
 		<typeAlias type="com.scit.flee2.vo.Qna" alias="Qna" />
+		<typeAlias type="com.scit.flee2.vo.Request" alias="Request"/>
+		<typeAlias type="com.scit.flee2.vo.Zzim" alias="Zzim"/>
+		<typeAlias type="com.scit.flee2.vo.Notice" alias="Notice"/>
+		<typeAlias type="com.scit.flee2.vo.Contract" alias="Contract"/>
+		<typeAlias type="com.scit.flee2.vo.ContractHanasi" alias="Hanasi"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mapper/MemberMapper.xml" />

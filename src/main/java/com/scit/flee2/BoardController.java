@@ -2,10 +2,8 @@ package com.scit.flee2;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,12 +23,17 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.scit.flee2.dao.BoardDAO;
 import com.scit.flee2.vo.Board;
+import com.scit.flee2.vo.Contract;
+import com.scit.flee2.vo.ContractHanasi;
 import com.scit.flee2.vo.Member;
+import com.scit.flee2.vo.Notice;
 import com.scit.flee2.vo.Product;
 import com.scit.flee2.vo.Proposal;
 import com.scit.flee2.vo.Qna;
+import com.scit.flee2.vo.Request;
 import com.scit.flee2.vo.Seller;
 import com.scit.flee2.vo.Space;
+import com.scit.flee2.vo.Zzim;
 
 @Controller
 public class BoardController {
@@ -192,9 +195,9 @@ public class BoardController {
 				MultipartFile file = (MultipartFile) it.next();
 				originalFileName = file.getOriginalFilename();
 				if(originalFileName.equals("")) {
-					fileDelete(mem.getId(), prop.getTitle(), "prop");
 					break;
 				}
+				fileDelete(mem.getId(), prop.getTitle(), "prop");
 				fileName = mem.getId()+"_prop_"+prop.getTitle()+"_image"+index+originalFileName.substring(originalFileName.indexOf("."));
 				File f = new File(UPLOADPATH+mem.getId()+"\\prop\\"+prop.getTitle()+"\\"+fileName);
 				if(!f.exists()) { //폴더가 없으면 생성
@@ -768,8 +771,23 @@ public class BoardController {
 				offday = offday.substring(cnt);
 			}
 		}
+		String precaution = result.getPrecaution();
+		if(precaution!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				precaution = precaution.substring(cnt+1);
+				cnt = precaution.indexOf("&");
+				if(cnt==-1) {
+					map.put("precaution"+(j+1), precaution);
+					break;
+				}
+				map.put("precaution"+(j+1), precaution.substring(0, cnt));
+				precaution = precaution.substring(cnt);
+			}
+		}
 		
 		contentDetail.add(map);
+		model.addAttribute("clickNo",clickNo);
 		model.addAttribute("contentDetail", contentDetail);
 		model.addAttribute("selectBoard", result);
 		return "boardWrite";
@@ -793,9 +811,9 @@ public class BoardController {
 				MultipartFile file = (MultipartFile) it.next();
 				originalFileName = file.getOriginalFilename();
 				if(originalFileName.equals("")) {
-					fileDelete(mem.getId(), board.getTitle(), "board");
 					break;
 				}
+				fileDelete(mem.getId(), board.getTitle(), "board");
 				fileName = mem.getId()+"_board_"+board.getTitle()+"_image"+index+originalFileName.substring(originalFileName.indexOf("."));
 				File f = new File(UPLOADPATH+mem.getId()+"\\board\\"+board.getTitle()+"\\"+fileName);
 				if(!f.exists()) { //폴더가 없으면 생성
@@ -873,6 +891,10 @@ public class BoardController {
 				recommendMap.put("image"+(j+1), image.substring(0, cnt));
 				image = image.substring(cnt+1);
 			}
+			
+			recommendMap.put("cntZzim", Integer.toString(list.get(i).getZzimCount()));
+			recommendMap.put("cntQna", Integer.toString(list.get(i).getQnaCount()));
+			recommendMap.put("count",Integer.toString(list.get(i).getCount()));
 			recommendMap.put("recommendNum","rs"+Integer.toString(i+1));
 			recommendMap.put("id",list.get(i).getId());
 			recommendMap.put("title",list.get(i).getTitle());
@@ -905,6 +927,9 @@ public class BoardController {
 				sellerMap.put("image"+(j+1), image.substring(0, cnt));
 				image = image.substring(cnt+1);
 			}
+			sellerMap.put("cntZzim", Integer.toString(seller.get(i).getZzimCount()));
+			sellerMap.put("cntQna", Integer.toString(seller.get(i).getQnaCount()));
+			sellerMap.put("count", Integer.toString(seller.get(i).getCount()));
 			sellerMap.put("sellerNum","s"+Integer.toString(i+1));
 			sellerMap.put("id",seller.get(i).getId());
 			sellerMap.put("title",seller.get(i).getTitle());
@@ -950,6 +975,10 @@ public class BoardController {
 				recommendMap.put("image"+(j+1), image.substring(0, cnt));
 				image = image.substring(cnt+1);
 			}
+			recommendMap.put("cntZzim", Integer.toString(list.get(i).getZzimCount()));
+			recommendMap.put("cntQna", Integer.toString(list.get(i).getQnaCount()));
+			recommendMap.put("count", Integer.toString(list.get(i).getCount()));
+			
 			recommendMap.put("recommendNum","rs"+Integer.toString(i+1));
 			recommendMap.put("id",list.get(i).getId());
 			recommendMap.put("title",list.get(i).getTitle());
@@ -982,6 +1011,9 @@ public class BoardController {
 				spaceMap.put("image"+(j+1), image.substring(0, cnt));
 				image = image.substring(cnt+1);
 			}
+			spaceMap.put("cntZzim", Integer.toString(space.get(i).getZzimCount()));
+			spaceMap.put("cntQna", Integer.toString(space.get(i).getQnaCount()));
+			spaceMap.put("count", Integer.toString(space.get(i).getCount()));
 			spaceMap.put("spaceNum","s"+Integer.toString(i+1));
 			spaceMap.put("id",space.get(i).getId());
 			spaceMap.put("title",space.get(i).getTitle());
@@ -1084,7 +1116,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/goSellerDetail", method=RequestMethod.GET)
-	public String goSellerDetail(int boardnum, Model model) {
+	public String goSellerDetail(int boardnum, Model model, HttpSession hs) {
 		Board board = boardDAO.selectBoard(boardnum);
 		ArrayList<HashMap<String,String>> boardDetail = new ArrayList<HashMap<String,String>>();
 		
@@ -1240,6 +1272,11 @@ public class BoardController {
 				recommendMap.put("similarImage"+(j+1), similarImage.substring(0, cnt));
 				similarImage = similarImage.substring(cnt+1);
 			}
+			
+			recommendMap.put("cntZzim", Integer.toString(list.get(i).getZzimCount()));
+			recommendMap.put("cntQna", Integer.toString(list.get(i).getQnaCount()));
+			recommendMap.put("count", Integer.toString(list.get(i).getCount()));
+			
 			recommendMap.put("recommendNum","rs"+Integer.toString(i+1));
 			recommendMap.put("id",list.get(i).getId());
 			recommendMap.put("title",list.get(i).getTitle());
@@ -1288,17 +1325,31 @@ public class BoardController {
 		
 		model.addAttribute("recommendSellerList", recommendSellerList);
 		
+		//찜 카운트
+		Zzim zzim = new Zzim();
+		zzim.setBoardnum(board.getBoardnum());
+		Member mem = (Member)hs.getAttribute("sessionMember");
+		zzim.setId(mem.getId());
+		Zzim zzimCheck = boardDAO.checkZzim(zzim);
+		
 		boardDetail.add(sellerMap);
 		ArrayList<Qna> qnaList = boardDAO.listQna(boardnum);
 		
+		ArrayList<Proposal> listProposal = boardDAO.listProposal(mem);
+		model.addAttribute("listProposal", listProposal);
+		
+		model.addAttribute("zzimCheck", zzimCheck);
 		model.addAttribute("qnaList", qnaList);
 		model.addAttribute("board",board);
 		model.addAttribute("boardDetail", boardDetail);
+		
+		boardDAO.updateCnt(boardnum);
+		
 		return "seller";
 	}
 	
 	@RequestMapping(value="/goSpaceDetail", method=RequestMethod.GET)
-	public String goSpaceDetail(int boardnum, Model model) {
+	public String goSpaceDetail(int boardnum, Model model, HttpSession hs) {
 		Board board = boardDAO.selectBoard(boardnum);
 		ArrayList<HashMap<String,String>> boardDetail = new ArrayList<HashMap<String,String>>();
 		
@@ -1470,6 +1521,10 @@ public class BoardController {
 				recommendMap.put("similarImage"+(j+1), similarImage.substring(0, cnt));
 				similarImage = similarImage.substring(cnt+1);
 			}
+			
+			recommendMap.put("cntZzim", Integer.toString(list.get(i).getZzimCount()));
+			recommendMap.put("cntQna", Integer.toString(list.get(i).getQnaCount()));
+			recommendMap.put("count", Integer.toString(list.get(i).getCount()));
 			recommendMap.put("recommendNum","rs"+Integer.toString(i+1));
 			recommendMap.put("id",list.get(i).getId());
 			recommendMap.put("title",list.get(i).getTitle());
@@ -1480,12 +1535,25 @@ public class BoardController {
 		
 		model.addAttribute("recommendSpaceList", recommendSpaceList);
 		
+		//찜 카운트
+		Zzim zzim = new Zzim();
+		zzim.setBoardnum(board.getBoardnum());
+		Member mem = (Member)hs.getAttribute("sessionMember");
+		zzim.setId(mem.getId());
+		Zzim zzimCheck = boardDAO.checkZzim(zzim);
+		model.addAttribute("zzimCheck", zzimCheck);
+		
 		boardDetail.add(spaceMap);
 		ArrayList<Qna> qnaList = boardDAO.listQna(boardnum);
+		
+		ArrayList<Proposal> listProposal = boardDAO.listProposal(mem);
+		model.addAttribute("listProposal", listProposal);
 		
 		model.addAttribute("qnaList", qnaList);
 		model.addAttribute("board",board);
 		model.addAttribute("boardDetail", boardDetail);
+		
+		boardDAO.updateCnt(boardnum);
 		
 		return "space";
 	}
@@ -1510,16 +1578,43 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/insertQna", method=RequestMethod.GET)
-	public @ResponseBody ArrayList<Qna> insertQna(Qna qna) {
+	public @ResponseBody ArrayList<Qna> insertQna(Qna qna, String go, String receiveId, HttpSession hs) {
 		boardDAO.insertQna(qna);
+		HashMap<String,Integer> map = new HashMap<String,Integer>();
+		map.put("boardnum", qna.getBoardnum());
+		map.put("updown",1);
+		boardDAO.updateCntQna(map);
 		ArrayList<Qna> qnaList = boardDAO.listQna(qna.getBoardnum());
+		
+		//알림메세지 만들기
+		Member mem = (Member)hs.getAttribute("sessionMember");
+		String id = mem.getId();
+		Notice notice = new Notice();
+		notice.setId(id);
+		notice.setGo(go);
+		notice.setConfirm("0");
+		notice.setReceiveid(receiveId);
+		notice.setMessage("님이 Q&A를 작성하였습니다.");
+		boardDAO.insertNotice(notice);
+				
 		return qnaList;
 	}
 	
 	@RequestMapping(value="/insertReply", method=RequestMethod.GET)
-	public @ResponseBody ArrayList<Qna> insertReply(Qna qna){
+	public @ResponseBody ArrayList<Qna> insertReply(Qna qna, String go, String receiveId, HttpSession hs){
 		boardDAO.insertReply(qna);
 		ArrayList<Qna> qnaList = boardDAO.listQna(qna.getBoardnum());
+		
+		//알림메세지 만들기
+		Member mem = (Member)hs.getAttribute("sessionMember");
+		String id = mem.getId();
+		Notice notice = new Notice();
+		notice.setId(id);
+		notice.setGo(go);
+		notice.setConfirm("0");
+		notice.setReceiveid(receiveId);
+		notice.setMessage("님이 답글을 작성하였습니다.");
+		boardDAO.insertNotice(notice);
 		return qnaList;
 	}
 	
@@ -1584,14 +1679,20 @@ public class BoardController {
 	
 	@RequestMapping(value="/searchMap", method=RequestMethod.GET)
 	public @ResponseBody ArrayList<Board> searchMap(String text) {
-		ArrayList<Board> result = boardDAO.searchBoard(text);
+		ArrayList<Board> result = boardDAO.searchSpace(text);
+		return result; 
+	}
+	
+	@RequestMapping(value="/searchPopular", method=RequestMethod.GET)
+	public @ResponseBody ArrayList<Board> searchPopular(String type){
+		ArrayList<Board> result = boardDAO.searchPopular();
 		return result; 
 	}
 	
 	@RequestMapping(value="/searchMapDetail", method=RequestMethod.GET)
 	public @ResponseBody ArrayList<HashMap<String,String>> searchMapDetail(String text){
 		ArrayList<Board> search = new ArrayList<Board>();
-		search = boardDAO.searchBoard(text);
+		search = boardDAO.searchSpace(text);
 		
 		ArrayList<HashMap<String,String>> searchList = new ArrayList<HashMap<String,String>>();
 		
@@ -1644,5 +1745,422 @@ public class BoardController {
 		}
 		
 		return searchList;
+	}
+	
+	@RequestMapping(value="/goRequest", method=RequestMethod.GET)
+	public String goRequest(HttpSession hs, Model model) {
+		Member mem = (Member) hs.getAttribute("sessionMember");
+		ArrayList<Board> result = boardDAO.listUserBoard(mem);
+		ArrayList<HashMap<String,String>> resultDetail = new ArrayList<HashMap<String,String>>();
+		ArrayList<Board> myResult = new ArrayList<Board>();
+		ArrayList<Request> list = new ArrayList<Request>();
+		list = boardDAO.myRequest(mem.getId());
+		for(int i=0;i<list.size();i++) {
+			int boardnum = list.get(i).getBoardnum();
+			myResult.add(boardDAO.selectBoard(boardnum));
+		}
+		HashMap<String,String> searchMap = new HashMap<String,String>();
+		if(result.size()!=0) {
+			String type = result.get(0).getType();
+			if(type!=null) {
+				for(int j=0; j<5; j++) {
+					int cnt = 0;
+					type = type.substring(cnt+1);
+					cnt = type.indexOf("&");
+					if(cnt==-1) {
+						searchMap.put("type"+(j+1), type);
+						break;
+					}
+					searchMap.put("type"+(j+1), type.substring(0, cnt));
+					type = type.substring(cnt);
+				}
+			}
+			int boardnum = result.get(0).getBoardnum();
+			int cnt = 0;
+			if(boardnum!=0) {
+				cnt = boardDAO.countApproval(boardnum);
+			}
+			//찜개수 요청개수
+			ArrayList<Request> list2 = new ArrayList<Request>();
+			ArrayList<Integer> listCnt = new ArrayList<Integer>();
+			ArrayList<Integer> listZzim = new ArrayList<Integer>();
+			int cntZzim = 0;
+			for(int j=0;j<result.size();j++) {
+				int clickNo = result.get(j).getBoardnum();
+				cntZzim = boardDAO.countZzim(clickNo);
+				listZzim.add(cntZzim);
+				list2 = boardDAO.listRequest(clickNo);
+				listCnt.add(list2.size());
+			}
+			searchMap.put("countApproval",Integer.toString(cnt));
+			searchMap.put("indate",result.get(0).getIndate());
+			resultDetail.add(searchMap);
+			
+			model.addAttribute("listZzim", listZzim);
+			model.addAttribute("listCnt", listCnt);
+		}
+		model.addAttribute("resultDetail",resultDetail);
+		model.addAttribute("listUserBoard", result);
+		model.addAttribute("listRequestBoard", myResult);
+		
+		return "request";
+	}
+	
+	@RequestMapping(value="/listMyRequest", method=RequestMethod.GET)
+	public @ResponseBody ArrayList<Request> listMyRequest(String clickNo, HttpSession hs) {
+		Member mem = (Member) hs.getAttribute("sessionMember");
+		ArrayList<Request> list = new ArrayList<Request>();
+		list = boardDAO.listRequest(Integer.parseInt(clickNo));
+		for(int i=0;i<list.size();i++) {
+			if(!list.get(i).getId().equals(mem.getId())) {
+				list.remove(i);
+			}
+		}
+		return list; 
+	}
+	
+	@RequestMapping(value="/listRequest", method=RequestMethod.GET)
+	public @ResponseBody ArrayList<Request> listRequest(String clickNo) {
+		ArrayList<Request> list = new ArrayList<Request>();
+		list = boardDAO.listRequest(Integer.parseInt(clickNo));
+		
+		return list; 
+	}
+	
+	@RequestMapping(value="/goContract", method=RequestMethod.GET)
+	public String goContract(HttpSession hs, Model model) {
+		Member mem = (Member)hs.getAttribute("sessionMember");
+		String id = mem.getId();
+		ArrayList<Contract> list = boardDAO.listContract(id);
+		ArrayList<String> listSellerNickname = new ArrayList<String>();
+		ArrayList<String> listSpacerNickname = new ArrayList<String>();
+		for(int i=0; i<list.size(); i++) {
+			String sellerId = list.get(i).getSellerId();
+			String spacerId = list.get(i).getSpacerId();
+			String sellerNickname = boardDAO.searchNickName(sellerId);
+			String spacerNickname = boardDAO.searchNickName(spacerId);
+			listSellerNickname.add(sellerNickname);
+			listSpacerNickname.add(spacerNickname);
+		}
+		int cntContract = 0;
+		try{
+			cntContract = boardDAO.countContract(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("cntContract", cntContract);
+		model.addAttribute("listSellerNickname", listSellerNickname);
+		model.addAttribute("listSpacerNickname", listSpacerNickname);
+		model.addAttribute("listContract", list);
+		
+		return "contract";
+	}
+	
+	@RequestMapping(value="/selectContract", method=RequestMethod.GET)
+	public @ResponseBody Contract selectContract(String contractnum) {
+		Contract contract = new Contract();
+		contract = boardDAO.selectContract(Integer.parseInt(contractnum));
+		String sellerType=contract.getSellerType();
+		if(sellerType!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				sellerType = sellerType.substring(cnt+1);
+				cnt = sellerType.indexOf("&");
+				if(cnt==-1) {
+					contract.setSellerType(sellerType);
+					break;
+				}
+				contract.setSellerType(sellerType.substring(0,cnt));
+				break;
+			}
+		}
+		String spaceType=contract.getSpaceType();
+		if(spaceType!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				spaceType = spaceType.substring(cnt+1);
+				cnt = spaceType.indexOf("&");
+				if(cnt==-1) {
+					contract.setSpaceType(spaceType);
+					break;
+				}
+				contract.setSpaceType(spaceType.substring(0,cnt));
+				break;
+			}
+		}
+		return contract;
+	}
+	
+	@RequestMapping(value="/searchNickname", method=RequestMethod.GET)
+	public @ResponseBody ArrayList<String> searchNickname(String sellerId, String spacerId){
+		ArrayList<String> searchNickname = new ArrayList<String>();
+		String sellerNickname = boardDAO.searchNickName(sellerId);
+		String spacerNickname = boardDAO.searchNickName(spacerId);
+		searchNickname.add(sellerNickname);
+		searchNickname.add(spacerNickname);
+		
+		return searchNickname;
+	}
+	
+	@RequestMapping(value="/insertRequest", method=RequestMethod.GET)
+	public @ResponseBody String insertRequest(Request req, String boardId) {
+		boardDAO.insertRequest(req);
+		Notice notice = new Notice();
+		notice.setId(req.getId());
+		notice.setGo("goRequest");
+		notice.setConfirm("0");
+		notice.setReceiveid(boardId);
+		notice.setMessage("님이 계약신청을 하였습니다.");
+		boardDAO.insertNotice(notice);
+		return "success";
+	}
+	
+	@RequestMapping(value="/clickApproval", method=RequestMethod.GET)
+	public @ResponseBody String clickApproval(String requestnum, String select, HttpSession hs, String go, String receiveId, String contractPeriod) {
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("requestnum", requestnum);
+		map.put("select",select);
+		boardDAO.clickApproval(map);
+		Contract contract = new Contract();
+		//알림메세지 만들기
+		Member mem = (Member)hs.getAttribute("sessionMember");
+		String id = mem.getId();
+		Notice notice = new Notice();
+		notice.setId(id);
+		notice.setGo(go);
+		notice.setConfirm("0");
+		notice.setReceiveid(receiveId);
+		if(select.equals("승인")) {
+			notice.setMessage("님과의 계약요청이 승인되었습니다.");
+			if(mem.getMembertype().equals("셀러")) {
+				contract.setSellerId(id);
+				contract.setSpacerId(receiveId);
+				Seller seller = boardDAO.selectSellerInfo(id);
+				Product product = boardDAO.selectProductInfo(seller.getSellernum());
+				contract.setSellerType(product.getProd_type());
+				Space space = boardDAO.selectSpaceInfo(receiveId);
+				contract.setLatitude(space.getLatitude());
+				contract.setLongitude(space.getLongitude());
+				contract.setSpaceaddr1(space.getSpaceaddr1());
+				contract.setSpaceaddr2(space.getSpaceaddr2());
+				contract.setSpaceType(space.getSpace_type());
+			} else {
+				contract.setSellerId(receiveId);
+				contract.setSpacerId(id);
+				Seller seller = boardDAO.selectSellerInfo(receiveId);
+				Product product = boardDAO.selectProductInfo(seller.getSellernum());
+				contract.setSellerType(product.getProd_type());
+				Space space = boardDAO.selectSpaceInfo(id);
+				contract.setLatitude(space.getLatitude());
+				contract.setLongitude(space.getLongitude());
+				contract.setSpaceaddr1(space.getSpaceaddr1());
+				contract.setSpaceaddr2(space.getSpaceaddr2());
+				contract.setSpaceType(space.getSpace_type());
+			}
+			contract.setContractPeriod(contractPeriod);
+			boardDAO.insertContract(contract);
+		} else {
+			notice.setMessage("님과의 계약요청이 거절되었습니다.");
+		}
+		boardDAO.insertNotice(notice);
+		return "success";
+	}
+	
+	@RequestMapping(value="/updateContract", method=RequestMethod.GET)
+	public @ResponseBody Contract updateContract(Contract contract) {
+		Contract updateContract = new Contract();
+		boardDAO.updateContract(contract);
+		updateContract = boardDAO.selectContract(contract.getContractnum());
+		String sellerType=updateContract.getSellerType();
+		if(sellerType!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				sellerType = sellerType.substring(cnt+1);
+				cnt = sellerType.indexOf("&");
+				if(cnt==-1) {
+					updateContract.setSellerType(sellerType);
+					break;
+				}
+				updateContract.setSellerType(sellerType.substring(0,cnt));
+				break;
+			}
+		}
+		String spaceType=updateContract.getSpaceType();
+		if(spaceType!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				spaceType = spaceType.substring(cnt+1);
+				cnt = spaceType.indexOf("&");
+				if(cnt==-1) {
+					updateContract.setSpaceType(spaceType);
+					break;
+				}
+				updateContract.setSpaceType(spaceType.substring(0,cnt));
+				break;
+			}
+		}
+		
+		return updateContract;
+	}
+	
+	@RequestMapping(value="/startContract", method=RequestMethod.GET)
+	public @ResponseBody Contract startContract(Contract contract) {
+		Contract updateContract = new Contract();
+		boardDAO.startContract(contract);
+		updateContract = boardDAO.selectContract(contract.getContractnum());
+		String sellerType=updateContract.getSellerType();
+		if(sellerType!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				sellerType = sellerType.substring(cnt+1);
+				cnt = sellerType.indexOf("&");
+				if(cnt==-1) {
+					updateContract.setSellerType(sellerType);
+					break;
+				}
+				updateContract.setSellerType(sellerType.substring(0,cnt));
+				break;
+			}
+		}
+		String spaceType=updateContract.getSpaceType();
+		if(spaceType!=null) {
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				spaceType = spaceType.substring(cnt+1);
+				cnt = spaceType.indexOf("&");
+				if(cnt==-1) {
+					updateContract.setSpaceType(spaceType);
+					break;
+				}
+				updateContract.setSpaceType(spaceType.substring(0,cnt));
+				break;
+			}
+		}
+		return updateContract;
+	}
+	
+	@RequestMapping(value="/insertZzim", method=RequestMethod.GET)
+	public @ResponseBody int insertZzim(Zzim zzim, String go, String boardId, HttpSession hs) {
+		boardDAO.insertZzim(zzim);
+		HashMap<String,Integer> map = new HashMap<String,Integer>();
+		map.put("boardnum", zzim.getBoardnum());
+		map.put("updown",1);
+		boardDAO.updateCntZzim(map);
+		//알림메세지 만들기
+		Member mem = (Member)hs.getAttribute("sessionMember");
+		String id = mem.getId();
+		Notice notice = new Notice();
+		notice.setId(id);
+		notice.setGo(go);
+		notice.setConfirm("0");
+		notice.setReceiveid(boardId);
+		notice.setMessage("님이 게시물을 찜하였습니다.");
+		boardDAO.insertNotice(notice);
+		int zzimCount = boardDAO.countZzim(zzim.getBoardnum());
+		return zzimCount;
+	}
+	
+	@RequestMapping(value="/deleteZzim", method=RequestMethod.GET)
+	public @ResponseBody int delteZzim(Zzim zzim) {
+		boardDAO.deleteZzim(zzim);
+		HashMap<String,Integer> map = new HashMap<String,Integer>();
+		map.put("boardnum", zzim.getBoardnum());
+		map.put("updown",-1);
+		boardDAO.updateCntZzim(map);
+		int zzimCount = boardDAO.countZzim(zzim.getBoardnum());
+		return zzimCount;
+	}
+	
+	@RequestMapping(value="/goZzimList", method=RequestMethod.GET)
+	public String goZzimList(HttpSession hs, Model model) {
+		Member mem = (Member)hs.getAttribute("sessionMember");
+		String id = mem.getId();
+		ArrayList<Integer> list = boardDAO.zzimList(id);
+		ArrayList<Board> listBoard = new ArrayList<Board>();
+		for(int i=0; i<list.size(); i++) {
+			int boardnum = list.get(i);
+			Board board = new Board();
+			board = boardDAO.selectBoard(boardnum);
+			listBoard.add(board);
+		}
+		
+		ArrayList<HashMap<String,String>> zzimList = new ArrayList<HashMap<String,String>>();
+		
+		for(int i=0; i<listBoard.size(); i++) {		// keyword 자르는 구문
+			HashMap<String,String> recommendMap = new HashMap<String,String>();
+			String keyword = listBoard.get(i).getKeyword();
+			for(int j=0; j<5; j++) {
+				int cnt = 0;
+				keyword = keyword.substring(cnt+1);
+				cnt = keyword.indexOf("&");
+				if(cnt==-1) {
+					break;
+				}
+				recommendMap.put("keyword"+(j+1), keyword.substring(0, cnt));
+				keyword = keyword.substring(cnt);
+			}
+			
+			String image = listBoard.get(i).getImage();
+			for(int j=0; j<3; j++) {		// image 자르는 구문
+				int cnt = 0;
+				cnt = image.indexOf("&");
+				if(cnt==-1) {
+					recommendMap.put("image"+(j+1), image);
+					break;
+				}
+				recommendMap.put("image"+(j+1), image.substring(0, cnt));
+				image = image.substring(cnt+1);
+			}
+			
+			recommendMap.put("cntZzim", Integer.toString(listBoard.get(i).getZzimCount()));
+			recommendMap.put("cntQna", Integer.toString(listBoard.get(i).getQnaCount()));
+			recommendMap.put("count",Integer.toString(listBoard.get(i).getCount()));
+			recommendMap.put("recommendNum","rs"+Integer.toString(i+1));
+			recommendMap.put("id",listBoard.get(i).getId());
+			recommendMap.put("title",listBoard.get(i).getTitle());
+			recommendMap.put("boardnum",Integer.toString(listBoard.get(i).getBoardnum()));
+			zzimList.add(recommendMap);
+		}
+		
+		model.addAttribute("zzimList", zzimList);
+		
+		return "zzimList";
+	}
+	
+	@RequestMapping(value="/insertHanasi", method=RequestMethod.GET)
+	public @ResponseBody ArrayList<ContractHanasi> insertHanasi(ContractHanasi hanasi){
+		boardDAO.insertHanasi(hanasi);
+		
+		ArrayList<ContractHanasi> list = new ArrayList<ContractHanasi>();
+		
+		try {
+			list = boardDAO.listHanasi(hanasi.getContractnum());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		Notice notice = new Notice();
+		notice.setId(hanasi.getSendId());
+		notice.setGo("goContract");
+		notice.setConfirm("0");
+		notice.setReceiveid(hanasi.getReceiveId());
+		notice.setMessage("님이 메세지를 보냈습니다.");
+		boardDAO.insertNotice(notice);
+		
+		return list;
+	}
+	
+	@RequestMapping(value="/listHanasi", method=RequestMethod.GET)
+	public @ResponseBody ArrayList<ContractHanasi> listHanasi(int contractnum){
+		ArrayList<ContractHanasi> list = new ArrayList<ContractHanasi>();
+		
+		try {
+			list = boardDAO.listHanasi(contractnum);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 }
