@@ -2506,7 +2506,6 @@ function boardDetail(){
     	var id = $('#sessionId').val();
     	var boardId = $('#boardId').val();
     	var contractperiod = $('#contractPeriod').val();
-    	
     	$(".close2").on('click',function(){
     		location.href="goSpaceDetail?boardnum="+boardnum;
     	});
@@ -2545,6 +2544,7 @@ function boardDetail(){
         			type:"get",
         			success:function(serverData){
         				$('#modal-userBoard-proposalList').css('display','none');
+        				alert("계약신청이 완료되었습니다.");
         			}
         		});
     		});
@@ -2558,6 +2558,7 @@ function boardDetail(){
     			type:"get",
     			success:function(serverData){
     				$('#modal-userBoard-proposalList').css('display','none');
+    				alert("계약신청이 완료되었습니다.");
     			}
     		});
     	}
@@ -2722,7 +2723,7 @@ function request(){
 				
 				$('.btnApproval').on('click',function(){
 					var clickNo = $(this).attr('data-sno');
-					var go = "goRequest";
+					var go = "goContract";
 					var receiveId = $('#requestId'+clickNo).val();
 					var contractPeriod = $('#contractPeriod'+clickNo).val();
 					$.ajax({
@@ -3590,7 +3591,7 @@ function contract(){
 		});
 	}
 	
-	
+	$('.goHanasi').off('click');
 	$('.goHanasi').on('click',function(){
 		var contractnum = $(this).attr('data-sno');
 		var spacerNickname = $('#spacerNickname'+contractnum).val();
@@ -3598,6 +3599,7 @@ function contract(){
 		var spacerId = $('#spacerId'+contractnum).val();
 		var sellerId = $('#sellerId'+contractnum).val();
 		var memberType = $('#sessionMemberType').val();
+		$('#hanasiInputText').val("");
 		var data = "";
 		var content = "";
 		$.ajax({

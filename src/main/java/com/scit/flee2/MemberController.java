@@ -195,6 +195,8 @@ public class MemberController {
 			} else {
 					memberDAO.insertSeller(seller);
 					try {
+						Seller seller3 = memberDAO.sessionSeller(prod.getId());
+						prod.setSellernum(seller3.getSellernum());
 						memberDAO.insertProduct(prod);
 					}catch(Exception e) {
 						e.printStackTrace();
@@ -211,6 +213,17 @@ public class MemberController {
 		Member member = login(mem);
 		if(member!=null) {
 			hs.setAttribute("sessionMember", member);
+		}
+		String id2 = member.getId();
+		if(member.getMembertype().equals("셀러")) {
+			Seller seller2 = memberDAO.sessionSeller(id2);
+			Product product2 = memberDAO.sessionProduct(id2);
+			hs.setAttribute("sessionType", seller2);
+			hs.setAttribute("sessionProd", product2);
+			
+		} else if(member.getMembertype().equals("공간제공자")) {
+			Space space2 = memberDAO.sessionSpace(id2);
+			hs.setAttribute("sessionType", space2);
 		}
 		
 		return "signEnd";

@@ -98,14 +98,14 @@
 	<insert id="insertBoard" parameterType="Board">
 	INSERT INTO WOW_BOARD
 	<if test="membertype=='셀러'">
-	(BOARDNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, CONTRACTPERIOD, PRICE, STOCK, CURRENTS)
+	(BOARDNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, CONTRACTPERIOD, PRICE, STOCK, CURRENTS, COUNT, ZZIMCOUNT, QNACOUNT)
 	VALUES
-	(WOW_BOARD_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{precaution}, #{name}, #{type}, #{contractperiod}, #{price}, #{stock}, 1)
+	(WOW_BOARD_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{precaution}, #{name}, #{type}, #{contractperiod}, #{price}, #{stock}, 1, 0, 0, 0)
 	</if>
 	<if test="membertype=='공간제공자'">
-	(BOARDNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, OPTIME, OFFDAY, CONTRACTPERIOD, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE, CURRENTS)
+	(BOARDNUM, ID, TITLE, IMAGE, INDATE, MEMBERTYPE, KEYWORD, COMMENTS, PRECAUTION, NAME, TYPE, OPTIME, OFFDAY, CONTRACTPERIOD, SCALE, SPACEADDR1, SPACEADDR2, LATITUDE, LONGITUDE, CURRENTS, COUNT, ZZIMCOUNT, QNACOUNT)
 	VALUES
-	(WOW_BOARD_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{precaution}, #{name}, #{type}, #{optime}, #{offday}, #{contractperiod}, #{scale}, #{spaceaddr1}, #{spaceaddr2}, #{latitude}, #{longitude}, 1)
+	(WOW_BOARD_SEQ.NEXTVAL, #{id}, #{title}, #{image}, SYSDATE, #{membertype}, #{keyword}, #{comments}, #{precaution}, #{name}, #{type}, #{optime}, #{offday}, #{contractperiod}, #{scale}, #{spaceaddr1}, #{spaceaddr2}, #{latitude}, #{longitude}, 1, 0, 0, 0)
 	</if>
 	</insert>
 	

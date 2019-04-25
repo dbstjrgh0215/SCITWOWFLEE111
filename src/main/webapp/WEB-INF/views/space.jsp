@@ -407,34 +407,34 @@
 		</div>
 	</div>
 	<div id="modal-userBoard-proposalList" class="modal">
-    		<div class="modal-content">
-			<span class="close2">&times;</span> 
-				<div id="modal-userBoard-proposalListContent" class="modal-userBoard-proposalListContent">
-					<div class="userBoard-proposalListDiv" id="userBoard-proposalListDiv">
-						<table id="proposalTable" class="proposalTable2"> 
-							<tr>
-								<th></th>
-								<th class="proposal-td-1">제안서 제목</th>
-								<th class="proposal-td-2">최종 수정일</th>
-								<th class="proposal-td-3">관리</th>
+   		<div class="modal-content">
+		<span class="close2">&times;</span> 
+			<div id="modal-userBoard-proposalListContent" class="modal-userBoard-proposalListContent">
+				<div class="userBoard-proposalListDiv" id="userBoard-proposalListDiv">
+					<table id="proposalTable" class="proposalTable2"> 
+						<tr>
+							<th></th>
+							<th class="proposal-td-1">제안서 제목</th>
+							<th class="proposal-td-2">최종 수정일</th>
+							<th class="proposal-td-3">관리</th>
+						</tr>
+						<c:forEach var="list" items="${listProposal}">
+							<tr class="proposal-tr">
+								<td><input type="radio" name="selectProposal" value="${list.proposalnum}"></td>
+								<td class="proposal-td-1"><a data-sno="${list.proposalnum}" id="proposal${list.proposalnum}" class="proposalDetail2" href="goProposalDetail?clickNo=${list.proposalnum}">${list.title}</a></td>
+								<td class="proposal-td-1">${list.indate}</td>
+								<td class="td-control"><button data-sno="${list.proposalnum}" class="udtProposal" id="udtProposal${list.proposalnum}">수정</button><button data-sno="${list.proposalnum}" class="delProposal" id="deleteProposal${list.proposalnum}">삭제</button></td>
 							</tr>
-							<c:forEach var="list" items="${listProposal}">
-								<tr class="proposal-tr">
-									<td><input type="radio" name="selectProposal" value="${list.proposalnum}"></td>
-									<td class="proposal-td-1"><a data-sno="${list.proposalnum}" id="proposal${list.proposalnum}" class="proposalDetail" href="goProposalDetail?clickNo=${list.proposalnum}">${list.title}</a></td>
-									<td class="proposal-td-1">${list.indate}</td>
-									<td class="td-control"><button data-sno="${list.proposalnum}" class="udtProposal" id="udtProposal${list.proposalnum}">수정</button><button data-sno="${list.proposalnum}" class="delProposal" id="deleteProposal${list.proposalnum}">삭제</button></td>
-								</tr>
-							</c:forEach>
-							<tr class="userBoardWrite">
-								<td colspan="3" id="userBoardWrite">첨부할 제안서를 먼저 선택해주세요!</td>
-								<td class="td-control"><button id="btnGoRequest">확인</button></td>
-							</tr>
-						</table>
-			 		</div>
-				</div>
+						</c:forEach>
+						<tr class="userBoardWrite">
+							<td colspan="3" id="userBoardWrite">첨부할 제안서를 먼저 선택해주세요!</td>
+							<td class="td-control"><button id="btnGoRequest">확인</button></td>
+						</tr>
+					</table>
+		 		</div>
 			</div>
 		</div>
+	</div>
    	<footer class="site-footer">
 		<div class="main-footer">
 			<div class="footerDiv">

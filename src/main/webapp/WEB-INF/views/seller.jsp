@@ -214,41 +214,42 @@
     			</div>
     			<div class="boardInfo">
     				<h3 class="board-h">셀러정보</h3><hr class="board-hr">
-    				<div class="boardInfo-table"></div>
-	    			<table>
-	    				<tr>
-	    					<td>물품분류</td>
-	    					<td>
-	    					<c:if test="${!empty boardDetail[0].type1}">${boardDetail[0].type1}</c:if>
-	    					<c:if test="${!empty boardDetail[0].type2}">${boardDetail[0].type2}</c:if>
-	    					<c:if test="${!empty boardDetail[0].type3}">${boardDetail[0].type3}</c:if>
-	    					<c:if test="${!empty boardDetail[0].type4}">${boardDetail[0].type4}</c:if>
-	    					<c:if test="${!empty boardDetail[0].type5}">${boardDetail[0].type5}</c:if>
-	    					<c:if test="${!empty boardDetail[0].type6}">${boardDetail[0].type6}</c:if>
-	    					<c:if test="${!empty boardDetail[0].type7}">${boardDetail[0].type7}</c:if>
-	    					</td>
-	    				</tr>
-	    				<tr>
-	    					<td>희망판매가격</td>
-	    					<td>${board.price}원</td>
-	    				</tr>
-	    				<tr>
-	    					<td>현재재고</td>
-	    					<td>${board.stock}개</td>
-	    				</tr>
-	    				<tr>
-	    					<td>계약기간</td>
-	    					<td>
-	    					<c:if test="${!empty boardDetail[0].contractPeriod1}">${boardDetail[0].contractPeriod1}</c:if>
-	    					<c:if test="${!empty boardDetail[0].contractPeriod2}">${boardDetail[0].contractPeriod2}</c:if>
-	    					<c:if test="${!empty boardDetail[0].contractPeriod3}">${boardDetail[0].contractPeriod3}</c:if>
-	    					<c:if test="${!empty boardDetail[0].contractPeriod4}">${boardDetail[0].contractPeriod4}</c:if>
-	    					<c:if test="${!empty boardDetail[0].contractPeriod5}">${boardDetail[0].contractPeriod5}</c:if>
-	    					<c:if test="${!empty boardDetail[0].contractPeriod6}">${boardDetail[0].contractPeriod6}</c:if>
-	    					<c:if test="${!empty boardDetail[0].contractPeriod7}">${boardDetail[0].contractPeriod7}</c:if>
-	    					</td>
-	    				</tr>
-	    			</table>
+    				<div class="boardInfo-table">
+		    			<table class="boardInfoTable">
+		    				<tr>
+		    					<td>물품분류</td>
+		    					<td>
+		    					<c:if test="${!empty boardDetail[0].type1}">${boardDetail[0].type1}</c:if>
+		    					<c:if test="${!empty boardDetail[0].type2}">${boardDetail[0].type2}</c:if>
+		    					<c:if test="${!empty boardDetail[0].type3}">${boardDetail[0].type3}</c:if>
+		    					<c:if test="${!empty boardDetail[0].type4}">${boardDetail[0].type4}</c:if>
+		    					<c:if test="${!empty boardDetail[0].type5}">${boardDetail[0].type5}</c:if>
+		    					<c:if test="${!empty boardDetail[0].type6}">${boardDetail[0].type6}</c:if>
+		    					<c:if test="${!empty boardDetail[0].type7}">${boardDetail[0].type7}</c:if>
+		    					</td>
+		    				</tr>
+		    				<tr>
+		    					<td>희망판매가격</td>
+		    					<td>${board.price}원</td>
+		    				</tr>
+		    				<tr>
+		    					<td>현재재고</td>
+		    					<td>${board.stock}개</td>
+		    				</tr>
+		    				<tr>
+		    					<td>계약기간</td>
+		    					<td>
+		    					<c:if test="${!empty boardDetail[0].contractPeriod1}">${boardDetail[0].contractPeriod1}</c:if>
+		    					<c:if test="${!empty boardDetail[0].contractPeriod2}">${boardDetail[0].contractPeriod2}</c:if>
+		    					<c:if test="${!empty boardDetail[0].contractPeriod3}">${boardDetail[0].contractPeriod3}</c:if>
+		    					<c:if test="${!empty boardDetail[0].contractPeriod4}">${boardDetail[0].contractPeriod4}</c:if>
+		    					<c:if test="${!empty boardDetail[0].contractPeriod5}">${boardDetail[0].contractPeriod5}</c:if>
+		    					<c:if test="${!empty boardDetail[0].contractPeriod6}">${boardDetail[0].contractPeriod6}</c:if>
+		    					<c:if test="${!empty boardDetail[0].contractPeriod7}">${boardDetail[0].contractPeriod7}</c:if>
+		    					</td>
+		    				</tr>
+		    			</table>
+    				</div>
     			</div>
     			<div class="boardImage">
     				<h3 class="board-h">셀러사진</h3><hr class="board-hr">
@@ -260,7 +261,7 @@
     			</div>
     			<div class="board-precaution">
     				<h3 class="board-h">계약시 주의사항</h3><hr class="board-hr">
-	    			<table>
+	    			<table class="boardPrecautionTable">
 	    				<c:if test="${!empty boardDetail[0].precaution1}"><tr>
 	    					<td>1. </td>
 	    					<td>${boardDetail[0].precaution1}</td>
@@ -378,7 +379,7 @@
 					<li class="contract-selectType-li" id="contract-offline"><h5>오프라인 신청을 하면 제안서를 첨부하지않고 계약요청이 있음을 상대방에게 전달합니다.</h5></li>
 					<li class="contract-selected-li">내가 선택한 방식 : <span class="selectedContractType"></span></li>
 					<li class="contract-selected-li">계약기간 : 
-					<select>
+					<select id="contractPeriod">
 						<c:if test="${!empty boardDetail[0].contractPeriod1}"><option>${boardDetail[0].contractPeriod1}</option></c:if>
 	   					<c:if test="${!empty boardDetail[0].contractPeriod2}"><option>${boardDetail[0].contractPeriod2}</option></c:if>
 	   					<c:if test="${!empty boardDetail[0].contractPeriod3}"><option>${boardDetail[0].contractPeriod3}</option></c:if>
@@ -387,8 +388,37 @@
 	   					<c:if test="${!empty boardDetail[0].contractPeriod6}"><option>${boardDetail[0].contractPeriod6}</option></c:if>
 	   					<c:if test="${!empty boardDetail[0].contractPeriod7}"><option>${boardDetail[0].contractPeriod7}</option></c:if>
 					</select></li>
-					<button class="goContract">계약 요청</button>
+					<button class="goContractRequest" id="goContractRequest">계약 요청</button>
 				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="modal-userBoard-proposalList" class="modal">
+   		<div class="modal-content">
+		<span class="close2">&times;</span> 
+			<div id="modal-userBoard-proposalListContent" class="modal-userBoard-proposalListContent">
+				<div class="userBoard-proposalListDiv" id="userBoard-proposalListDiv">
+					<table id="proposalTable" class="proposalTable2"> 
+						<tr>
+							<th></th>
+							<th class="proposal-td-1">제안서 제목</th>
+							<th class="proposal-td-2">최종 수정일</th>
+							<th class="proposal-td-3">관리</th>
+						</tr>
+						<c:forEach var="list" items="${listProposal}">
+							<tr class="proposal-tr">
+								<td><input type="radio" name="selectProposal" value="${list.proposalnum}"></td>
+								<td class="proposal-td-1"><a data-sno="${list.proposalnum}" id="proposal${list.proposalnum}" class="proposalDetail2" href="goProposalDetail?clickNo=${list.proposalnum}">${list.title}</a></td>
+								<td class="proposal-td-1">${list.indate}</td>
+								<td class="td-control"><button data-sno="${list.proposalnum}" class="udtProposal" id="udtProposal${list.proposalnum}">수정</button><button data-sno="${list.proposalnum}" class="delProposal" id="deleteProposal${list.proposalnum}">삭제</button></td>
+							</tr>
+						</c:forEach>
+						<tr class="userBoardWrite">
+							<td colspan="3" id="userBoardWrite">첨부할 제안서를 먼저 선택해주세요!</td>
+							<td class="td-control"><button id="btnGoRequest">확인</button></td>
+						</tr>
+					</table>
+		 		</div>
 			</div>
 		</div>
 	</div>

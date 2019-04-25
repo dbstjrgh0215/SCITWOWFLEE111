@@ -196,7 +196,7 @@
 				<h4>회원가입이 완료되었습니다!</h4>
 				<h4>WOWFLEE를 통해 계약을 진행하려면 제안서가 필요합니다!</h4>
 				<h4>지금 제안서를 쓰러가시겠습니까?</h4>
-				<button id="btnGoProposal">제안서쓰러가기</button>
+				<button id="btnGoProposal" type="button">제안서쓰러가기</button>
 			</div>
 			<div>
 				<img class="signEndLogo" src="resources/images/logo.png">

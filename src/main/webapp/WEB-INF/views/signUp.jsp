@@ -234,7 +234,7 @@
 					</tr>
 					<tr>
 						<td class="td-1"><h4>성별</h4></td>
-						<td class="td-2"><span class="inputNorm"><select id="signGender"><option value="men">남</option><option value="woman">녀</option></select></span></td>
+						<td class="td-2"><span class="inputNorm"><select id="signGender"><option value="man">남</option><option value="woman">여</option></select></span></td>
 					</tr>
 					<tr>
 						<td class="td-1"><h4>주소</h4></td>

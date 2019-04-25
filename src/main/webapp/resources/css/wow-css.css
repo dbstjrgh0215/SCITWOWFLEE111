@@ -299,6 +299,7 @@ html, body {
         font-size: 3em;
 	    top: 5px;
 	    left: 20px;
+	    outline:none;
 	}
 	.searchTable{
 		width:90%;
@@ -397,7 +398,10 @@ html, body {
 		background-color: inherit;
 	}
 	.checkNotice{
-		
+		color:#2a3f52;
+	}
+	.checkNotice:hover{
+		color:#8c8c8c;
 	}
 	.noticeProfile{
 	    border-radius: 70px;

@@ -197,7 +197,7 @@ public class BoardController {
 				if(originalFileName.equals("")) {
 					break;
 				}
-				fileDelete(mem.getId(), prop.getTitle(), "prop");
+				/*fileDelete(mem.getId(), prop.getTitle(), "prop");*/
 				fileName = mem.getId()+"_prop_"+prop.getTitle()+"_image"+index+originalFileName.substring(originalFileName.indexOf("."));
 				File f = new File(UPLOADPATH+mem.getId()+"\\prop\\"+prop.getTitle()+"\\"+fileName);
 				if(!f.exists()) { //폴더가 없으면 생성
@@ -813,7 +813,7 @@ public class BoardController {
 				if(originalFileName.equals("")) {
 					break;
 				}
-				fileDelete(mem.getId(), board.getTitle(), "board");
+				/*fileDelete(mem.getId(), board.getTitle(), "board");*/
 				fileName = mem.getId()+"_board_"+board.getTitle()+"_image"+index+originalFileName.substring(originalFileName.indexOf("."));
 				File f = new File(UPLOADPATH+mem.getId()+"\\board\\"+board.getTitle()+"\\"+fileName);
 				if(!f.exists()) { //폴더가 없으면 생성
